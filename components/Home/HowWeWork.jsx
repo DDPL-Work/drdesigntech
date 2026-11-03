@@ -292,7 +292,7 @@ export default function HowWeWork() {
             </h2>
           </div>
           <div className="row flex flex-wrap items-center gap-3.5">
-            <a href="#/contact" className="btn btn-blue group">
+            <a href="/get-your-audit" className="btn btn-blue group">
               Get an audit report <span className="arr transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
             </a>
             <b className="text-[15px] font-bold text-[#3B4B60]">Free. No obligation.</b>

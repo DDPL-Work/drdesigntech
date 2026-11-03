@@ -1,7 +1,18 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import CaseStudyMetaAds from "./CaseStudies/CaseStudyMetaAds";
+import CaseStudyAIMetaGoogleAds from "./CaseStudies/CaseStudyAIMetaGoogleAds";
+import CaseStudyBlackCar from "./CaseStudies/CaseStudyBlackCar";
+import CaseStudyCoaching from "./CaseStudies/CaseStudyCoaching";
+import CaseStudyHairClinic from "./CaseStudies/CaseStudyHairClinic";
+import CaseStudyPetBrand from "./CaseStudies/CaseStudyPetBrand";
+import CaseStudyEcommerceSEO from "./CaseStudies/CaseStudyEcommerceSEO";
+import CaseStudyFinanceCourses from "./CaseStudies/CaseStudyFinanceCourses";
+import CaseStudyTravelFunnel from "./CaseStudies/CaseStudyTravelFunnel";
+import CaseStudySportingGoods from "./CaseStudies/CaseStudySportingGoods";
+import ReelsAndContent from "./ReelsAndContent";
 
 const slideitImg = '/assets/work/slideit.jpg';
 const traveamerImg = '/assets/work/traveamer.jpg';
@@ -13,9 +24,6 @@ const gmsHealingImg = '/assets/work/gms-healing.jpg';
 const subhashIyerImg = '/assets/work/subhash-iyer.jpg';
 const toolWebMvpsImg = '/assets/work/tool-web-mvps.jpg';
 
-const rejoyToursImg = '/assets/work/rejoy-tours.jpg';
-const rejoyLogoImg = '/assets/work/rejoy-logo.png';
-const rejoyProofImg = '/assets/work/rejoy-proof.jpg';
 
 const statusConfigMap = {
   Live: { c: '#1E9E52', bg: '#DDF5E6' },
@@ -66,8 +74,8 @@ const projectsData = [
       'A comprehensive platform built to manage IoT devices, automate invoicing, and detect real-time temperature fluctuations.',
     stack: ['Three.js', 'React', 'Framer Motion'],
     status: 'Live',
-    url: 'https://mugafi.co/',
-    domain: 'mugafi.co',
+    url: 'https://mugafi.com/',
+    domain: 'mugafi.com',
     image: mugafiImg,
     sym: 'chart',
     bg: '#2A0B14',
@@ -171,63 +179,6 @@ const projectsData = [
     featured: true,
   },
 ];
-
-const caseStudyCampaigns = [
-  { name: 'Bhutan · Instant Form · India', result: 198, unit: 'leads', cost: 61.63 },
-  { name: 'Bhutan Travel Package · Instant Form', result: 162, unit: 'leads', cost: 54.26 },
-  { name: 'Bhutan Travel Package · Messaging', result: 25, unit: 'chats', cost: 27.11 },
-];
-
-function AnimatedNumber({ to, prefix = '', suffix = '', decimals = 0 }) {
-  const [val, setVal] = useState(0);
-  const ref = useRef(null);
-  const animatedRef = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !animatedRef.current) {
-          animatedRef.current = true;
-          let startTime = performance.now();
-          const duration = 1600;
-
-          const tick = (now) => {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            // Ease out cubic
-            const ease = 1 - Math.pow(1 - progress, 3);
-            const current = ease * to;
-            setVal(current);
-            if (progress < 1) {
-              requestAnimationFrame(tick);
-            } else {
-              setVal(to);
-            }
-          };
-          requestAnimationFrame(tick);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [to]);
-
-  return (
-    <span ref={ref}>
-      {prefix}
-      {val.toLocaleString('en-IN', {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals,
-      })}
-      {suffix}
-    </span>
-  );
-}
 
 function StatusBadge({ status }) {
   const cfg = statusConfigMap[status] || statusConfigMap.Completed;
@@ -353,214 +304,6 @@ function WorkCard({ project, index, featured = true }) {
   );
 }
 
-function CaseStudySection() {
-  const [inView, setInView] = useState(false);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={sectionRef} className="cs flex flex-col gap-[26px] mt-10" id="work-case-study">
-      {/* Case Study Header */}
-      <div className="head center text-center flex flex-col items-center gap-2 mb-2">
-        <span className="eyebrow center self-center inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]">
-          Case study · Meta Ads
-        </span>
-        <h2 className="h2 m-0 font-sans text-[clamp(28px,3.8vw,48px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
-          <span className="hl text-[#0b4db5]">360 travel leads</span> in 15 days for Rejoy Tours
-        </h2>
-        <p className="lead m-0 text-base sm:text-[17px] leading-[1.7] text-[#44546a] max-w-[760px]">
-          Facebook & Instagram lead-generation campaigns for Rejoy Tours’ Bhutan travel packages — instant forms and messaging ads, set up and managed by Dr. Design.
-        </p>
-      </div>
-
-      {/* Case Study Panel */}
-      <div className="cs__panel neu grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-6 lg:gap-[34px] p-4 sm:p-7 rounded-[30px] bg-[#eaf6f8] shadow-[10px_10px_24px_rgba(20,84,120,0.14),-10px_-10px_24px_rgba(255,255,255,0.92)]">
-        {/* Left Column: Media & Info */}
-        <div className="cs__media flex flex-col gap-[18px]">
-          {/* Rejoy Tours Browser Mockup */}
-          <div className="wk-browser cs__frame w-full max-w-none rounded-[14px] bg-white overflow-hidden shadow-[0_24px_40px_-18px_rgba(0,0,0,0.55)]">
-            <div className="wk-browser__bar flex items-center gap-1.5 px-3 py-2 bg-[#eaf3f7] text-xs font-semibold text-[#5b6b80]">
-              <i className="inline-block w-[9px] h-[9px] rounded-full bg-[#e0393a]" />
-              <i className="inline-block w-[9px] h-[9px] rounded-full bg-[#f5b82e]" />
-              <i className="inline-block w-[9px] h-[9px] rounded-full bg-[#25aa5a]" />
-              <span className="ml-2 px-3 py-0.5 rounded-full bg-white truncate">
-                rejoytours.com
-              </span>
-            </div>
-            <img
-              className="cs__shot block w-full aspect-[2.15/1] object-cover object-left-top"
-              src={rejoyToursImg}
-              alt="Rejoy Tours homepage"
-              loading="lazy"
-            />
-          </div>
-
-          {/* Client Info */}
-          <div className="cs__client flex items-center gap-3.5">
-            <img
-              src={rejoyLogoImg}
-              alt="Rejoy Tours"
-              className="w-[120px] h-auto rounded-xl bg-white p-2 shadow-[0_8px_18px_-10px_rgba(14,27,46,0.35)] object-contain"
-            />
-            <div>
-              <b className="block text-lg font-extrabold text-[#0e1b2e]">
-                Rejoy Tours
-              </b>
-              <small className="text-[#5b6b80] text-[13.5px] font-medium">
-                Travel agency · International & domestic tours
-              </small>
-            </div>
-          </div>
-
-          {/* Facts Grid */}
-          <ul className="cs__facts list-none m-0 p-0 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <li className="bg-white rounded-[14px] p-3 sm:px-3.5 sm:py-3 text-sm font-semibold leading-snug text-[#0e1b2e] shadow-[0_6px_16px_-10px_rgba(14,27,46,0.25)]">
-              <span className="block text-[11px] font-extrabold tracking-[0.12em] uppercase text-[#0b4db5] mb-1">
-                Platform
-              </span>
-              Meta Ads (Facebook + Instagram)
-            </li>
-            <li className="bg-white rounded-[14px] p-3 sm:px-3.5 sm:py-3 text-sm font-semibold leading-snug text-[#0e1b2e] shadow-[0_6px_16px_-10px_rgba(14,27,46,0.25)]">
-              <span className="block text-[11px] font-extrabold tracking-[0.12em] uppercase text-[#0b4db5] mb-1">
-                Objective
-              </span>
-              Leads via instant forms & messaging
-            </li>
-            <li className="bg-white rounded-[14px] p-3 sm:px-3.5 sm:py-3 text-sm font-semibold leading-snug text-[#0e1b2e] shadow-[0_6px_16px_-10px_rgba(14,27,46,0.25)]">
-              <span className="block text-[11px] font-extrabold tracking-[0.12em] uppercase text-[#0b4db5] mb-1">
-                Offer
-              </span>
-              Bhutan travel packages
-            </li>
-            <li className="bg-white rounded-[14px] p-3 sm:px-3.5 sm:py-3 text-sm font-semibold leading-snug text-[#0e1b2e] shadow-[0_6px_16px_-10px_rgba(14,27,46,0.25)]">
-              <span className="block text-[11px] font-extrabold tracking-[0.12em] uppercase text-[#0b4db5] mb-1">
-                Duration
-              </span>
-              15 days · 21 Sep – 6 Oct 2026
-            </li>
-          </ul>
-        </div>
-
-        {/* Right Column: KPIs, Progress Bars, Proof & CTA */}
-        <div className="cs__data flex flex-col gap-5 min-w-0">
-          {/* 4 KPIs grid */}
-          <div className="cs__kpis grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="cs__kpi cs__kpi--hero rounded-[18px] p-4 bg-gradient-to-br from-[#0b4db5] to-[#1565c0] shadow-[0_10px_22px_-14px_rgba(14,27,46,0.35)]">
-              <b className="block text-[clamp(24px,2.6vw,34px)] font-extrabold tracking-[-0.02em] text-[#f5b82e] leading-tight">
-                <AnimatedNumber to={360} />
-              </b>
-              <span className="block mt-1.5 text-[12.5px] font-semibold text-white leading-tight">
-                form leads
-              </span>
-            </div>
-            <div className="cs__kpi rounded-[18px] p-4 bg-white shadow-[0_10px_22px_-14px_rgba(14,27,46,0.35)]">
-              <b className="block text-[clamp(24px,2.6vw,34px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
-                <AnimatedNumber to={54.26} prefix="₹" decimals={2} />
-              </b>
-              <span className="block mt-1.5 text-[12.5px] font-semibold text-[#5b6b80] leading-tight">
-                best cost per lead
-              </span>
-            </div>
-            <div className="cs__kpi rounded-[18px] p-4 bg-white shadow-[0_10px_22px_-14px_rgba(14,27,46,0.35)]">
-              <b className="block text-[clamp(24px,2.6vw,34px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
-                <AnimatedNumber to={25} />
-              </b>
-              <span className="block mt-1.5 text-[12.5px] font-semibold text-[#5b6b80] leading-tight">
-                messaging conversations
-              </span>
-            </div>
-            <div className="cs__kpi rounded-[18px] p-4 bg-white shadow-[0_10px_22px_-14px_rgba(14,27,46,0.35)]">
-              <b className="block text-[clamp(24px,2.6vw,34px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
-                <AnimatedNumber to={15} />
-              </b>
-              <span className="block mt-1.5 text-[12.5px] font-semibold text-[#5b6b80] leading-tight">
-                days live
-              </span>
-            </div>
-          </div>
-
-          {/* Results by Campaign Progress Bars */}
-          <div className="cs__bars flex flex-col gap-3.5" aria-label="Results by campaign">
-            {caseStudyCampaigns.map((camp, idx) => (
-              <div key={camp.name} className="cs__bar">
-                <div className="cs__barhead flex flex-col sm:flex-row justify-between gap-1 sm:gap-3 text-[13.5px] mb-1.5">
-                  <span className="font-semibold text-[#34465c]">
-                    {camp.name}
-                  </span>
-                  <b className="font-extrabold text-[#0e1b2e] whitespace-nowrap">
-                    {camp.result} {camp.unit} · ₹{camp.cost.toFixed(2)}/{camp.unit === "chats" ? "chat" : "lead"}
-                  </b>
-                </div>
-                <div className="cs__track h-3 rounded-full bg-[#dfeaf1] shadow-[inset_2px_2px_5px_rgba(14,27,46,0.12)] overflow-hidden">
-                  <i
-                    className={`block h-full rounded-full transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                      idx === 2
-                        ? 'is-chat bg-gradient-to-r from-[#1e9e52] to-[#4fd187]'
-                        : 'bg-gradient-to-r from-[#0b4db5] to-[#3f8cff]'
-                    }`}
-                    style={{
-                      width: inView ? `${(camp.result / 198) * 100}%` : '0%',
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Live Proof Figure */}
-          <figure className="cs__proof m-0 bg-white rounded-2xl p-2.5 shadow-[0_10px_22px_-14px_rgba(14,27,46,0.35)]">
-            <img
-              src={rejoyProofImg}
-              alt="Meta Ads Manager results for the Rejoy Tours campaigns, 21 Sep – 6 Oct 2026"
-              loading="lazy"
-              className="block w-full rounded-[10px]"
-            />
-            <figcaption className="text-[12.5px] text-[#5b6b80] mt-2 mb-0.5 px-1 font-medium">
-              Live results from Meta Ads Manager, 21 Sep – 6 Oct 2026. One campaign earned a “high performing” tag.
-            </figcaption>
-          </figure>
-
-          {/* CTAs */}
-          <div className="cs__cta flex flex-wrap gap-3">
-            <Link
-              href="/contact-with-us"
-              className="btn btn-blue btn-glow group inline-flex items-center justify-center gap-2.5 min-h-[48px] px-6 rounded-full font-bold text-[15px] text-white bg-[#0b4db5] shadow-[0_14px_24px_-12px_rgba(11,77,181,0.85)] hover:bg-[#083a8a] hover:-translate-y-0.5 transition-all duration-200 no-underline"
-            >
-              <span>Get leads like this</span>
-              <span className="arr inline-block transition-transform duration-250 group-hover:translate-x-1" aria-hidden="true">→</span>
-            </Link>
-            <a
-              href="https://www.rejoytours.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-neu inline-flex items-center justify-center gap-2.5 min-h-[48px] px-6 rounded-full font-bold text-[15px] bg-[#eaf6f8] text-[#0e1b2e] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:text-[#0b4db5] hover:-translate-y-0.5 transition-all duration-200 no-underline"
-            >
-              <span>Visit rejoytours.com</span>
-              <span className="arr inline-block transition-transform duration-250 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function OurWork({ bare = false }) {
   return (
     <section id="work" className="sec relative w-full py-7 sm:py-10 md:pb-[88px]" aria-label="Our work">
@@ -580,7 +323,7 @@ export default function OurWork({ bare = false }) {
             </div>
             <div>
               <Link
-                href="/contact-with-us"
+                href="/reach-to-us"
                 className="btn btn-neu group inline-flex items-center justify-center gap-2.5 min-h-[48px] px-6 rounded-full font-bold text-[15px] no-underline cursor-pointer bg-[#eaf6f8] text-[#0e1b2e] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:text-[#0b4db5] hover:-translate-y-0.5 hover:shadow-[8px_8px_18px_rgba(20,84,120,0.18),-8px_-8px_18px_rgba(255,255,255,0.96)] transition-all duration-200 border-0"
               >
                 Start your project <span className="arr inline-block transition-transform duration-250 group-hover:translate-x-1" aria-hidden="true">→</span>
@@ -601,8 +344,18 @@ export default function OurWork({ bare = false }) {
           ))}
         </div>
 
-        {/* Case Study Section UU */}
-        <CaseStudySection />
+        {/* 10 Case Studies & Reels Section matching 1:1 with design */}
+        <CaseStudyMetaAds />
+        <CaseStudyAIMetaGoogleAds />
+        <CaseStudyBlackCar />
+        <CaseStudyCoaching />
+        <CaseStudyHairClinic />
+        <CaseStudyPetBrand />
+        <CaseStudyEcommerceSEO />
+        <CaseStudyFinanceCourses />
+        <CaseStudyTravelFunnel />
+        <CaseStudySportingGoods />
+        <ReelsAndContent />
       </div>
     </section>
   );

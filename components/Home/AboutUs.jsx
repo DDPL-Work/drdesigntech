@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import Link from 'next/link';
 
 const webIcon = '/assets/icons/web.svg';
 const appIcon = '/assets/icons/app.svg';
@@ -448,12 +449,12 @@ export default function AboutUs() {
 
           {/* Action Row */}
           <div className="row">
-            <a href="#/contact" className="btn btn-blue">
+            <Link href="/reach-to-us" className="btn btn-blue">
               Talk to our team <span className="arr" aria-hidden="true">→</span>
-            </a>
-            <a href="#/work" className="btn btn-neu">
+            </Link>
+            <Link href="/work-we-have-done" className="btn btn-neu">
               See our work
-            </a>
+            </Link>
           </div>
         </div>
       </div>

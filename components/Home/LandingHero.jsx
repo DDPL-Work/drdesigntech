@@ -74,6 +74,7 @@ function GlobeVisual() {
   const containerRef = useRef(null);
   const dashedRingRef = useRef(null);
   const stageSphereRef = useRef(null);
+  const coreMapRef = useRef(null);
   const orbitLayerRef = useRef(null);
   const orbitPillRefs = useRef([]);
 
@@ -101,6 +102,10 @@ function GlobeVisual() {
 
       if (dashedRingRef.current) {
         dashedRingRef.current.style.transform = `rotate(${rotDashedRing}deg)`;
+      }
+      if (coreMapRef.current) {
+        const mapOffset = -50 + ((((totalRotY % 360) + 360) % 360) / 360) * 50;
+        coreMapRef.current.style.transform = `translateX(${mapOffset}%)`;
       }
       if (stageSphereRef.current) {
         stageSphereRef.current.style.transform = `rotateX(${rotXRef.current}deg) rotateY(${totalRotY}deg)`;
@@ -193,7 +198,14 @@ function GlobeVisual() {
 
       <div className="hg__stage" aria-hidden="true">
         <div className="p3 float">
-          <div className="core" />
+          <div className="core">
+            <div
+              ref={coreMapRef}
+              className="core__map"
+              style={{ backgroundImage: 'url("/assets/icons/world-map.svg")' }}
+            />
+            <div className="core__shade" />
+          </div>
           <div ref={stageSphereRef} className="p3">
             <div className="p3" style={{ animation: 'spinY 22s linear infinite' }}>
               {PM.map((m) => (
@@ -272,11 +284,11 @@ const LandingHero = () => {
         <div className="max-w-[1240px] mx-auto px-6 max-sm:px-[18px] flex flex-wrap items-center gap-10 max-sm:gap-[18px] pt-12 pb-20 max-sm:pb-10">
           {/* Left Copy */}
           <div className="flex-1 basis-[520px] min-w-0 flex flex-col gap-6">
-            <span className="eyebrow">
-              Technology & consulting company
-            </span>
+            <h1 className="eyebrow hero__kicker inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]">
+              Website, App &amp; Digital Marketing Company in Dehradun, India
+            </h1>
 
-            <h1 className="m-0 font-extrabold text-[clamp(36px,4.8vw,62px)] max-sm:text-[36px] leading-[1.06] tracking-[-0.025em] text-[#0e1b2e]">
+            <p className="m-0 font-extrabold text-[clamp(36px,4.8vw,62px)] max-sm:text-[36px] leading-[1.06] tracking-[-0.025em] text-[#0e1b2e]">
               Build smarter. Scale faster.{' '}
               <span className="relative whitespace-nowrap text-[#0b4db5]">
                 Succeed digitally.
@@ -298,14 +310,16 @@ const LandingHero = () => {
                   />
                 </svg>
               </span>
-            </h1>
+            </p>
 
             <p className="text-[18px] max-w-[600px] text-[#3b4b60] leading-[1.75] m-0">
-              IT Services, Digital Transformation and Geospatial Solutions for startups, SMEs and growing businesses across India — built on deep technical expertise and government-backed credibility.
+              We design high-converting websites, build mobile apps, ERP systems and AI chatbots, and run SEO and paid ads that bring in real enquiries — for startups, SMEs and government bodies across India and abroad.{' '}
+              <b className="whitespace-nowrap">6+ years</b>,{' '}
+              <b className="whitespace-nowrap">300+ projects</b> delivered.
             </p>
 
             <div className="flex flex-col gap-3.5">
-              <span className="eyebrow">
+              <span className="text-[13px] font-bold text-[#5b6b80] uppercase tracking-wider">
                 What&apos;s holding your business back?
               </span>
               <div className="chips">
@@ -338,20 +352,20 @@ const LandingHero = () => {
                 <span>Book a free strategy call</span>
                 <span className="arr" aria-hidden="true">→</span>
               </button>
-              <Link href="/our-services" className="btn btn-neu max-sm:w-full">
+              <Link href="/know-that-what-work-we-do" className="btn btn-neu max-sm:w-full">
                 Our services
               </Link>
             </div>
 
-            <div className="trust">
+            <div className="trust flex flex-wrap items-center gap-4 text-[13.5px] text-[#5b6b80]">
               <span>
-                <b>5+ years</b> in software engineering
+                <b className="font-bold text-[#0e1b2e]">6+ years</b> in software engineering
               </span>
               <span>
-                <b>300+ projects</b> completed
+                <b className="font-bold text-[#0e1b2e]">300+ projects</b> completed
               </span>
               <span>
-                <b>HQ in Dehradun</b> · Delhi office
+                <b className="font-bold text-[#f5b82e]">★★★★★</b> Google reviews
               </span>
             </div>
           </div>

@@ -15,7 +15,7 @@ const projects = [
   },
   {
     name: "Mugafi",
-    domain: "mugafi.co",
+    domain: "mugafi.com",
     image: "/assets/work/mugafi.jpg",
   },
   {
@@ -65,7 +65,7 @@ export default function LiveWorkStrip() {
         {[...items, ...items, ...items, ...items].map((s, c) => (
           <Link
             key={c}
-            href="/our-work"
+            href="/work-we-have-done"
             className="fx-shot group/shot relative flex-none w-[250px] sm:w-[360px] rounded-[14px] overflow-hidden bg-white no-underline shadow-[0_26px_40px_-22px_rgba(14,27,46,0.55)] transition-[transform,box-shadow] duration-450 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:-translate-y-2.5 hover:scale-[1.04] hover:shadow-[0_36px_54px_-24px_rgba(11,77,181,0.55)] cursor-pointer"
             aria-hidden={c >= items.length}
             tabIndex={c >= items.length ? -1 : undefined}

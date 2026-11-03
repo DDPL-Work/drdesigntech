@@ -30,15 +30,29 @@ const clientsRow2 = [
   ['hpk', 'HPK'],
 ];
 
+const clientsRow3 = [
+  ['rejoy-tours', 'Rejoy Tours'],
+  ['karoflight', 'KaroFlight'],
+  ['cccwale', 'CCCwale.com'],
+  ['reborn-secrets', 'Reborn Secrets'],
+  ['oroos', 'Oroos Confectionery'],
+  ['ontario-hardware', 'Ontario Hardware'],
+  ['oracle-solutions', 'Oracle Solutions'],
+  ['ship-emblem', 'Client logo'],
+  ['thegiftsconnect', 'TheGiftsConnect'],
+  ['intexso', 'intexSo'],
+  ['kann', 'KANN'],
+];
+
 function LogoRow({ items, reverse = false, speed = 46 }) {
-  const doubled = [...items, ...items];
+  const quadrupled = [...items, ...items, ...items, ...items];
   return (
     <div className="logos__row">
       <div
         className={`logos__track${reverse ? ' is-rev' : ''}`}
         style={{ animationDuration: `${speed}s` }}
       >
-        {doubled.map(([id, name], idx) => (
+        {quadrupled.map(([id, name], idx) => (
           <div
             key={idx}
             className="logo-card"
@@ -60,24 +74,23 @@ function LogoRow({ items, reverse = false, speed = 46 }) {
 export default function TrustedClients() {
   return (
     <section className="sec clients" aria-labelledby="clients-title">
-      <div className="wrap flex flex-col gap-[18px]">
+      <div className="wrap" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
         <div className="head center">
           <span className="eyebrow center">Our trusted clients</span>
           <h2 id="clients-title" className="h2">
-            Trusted by <span className="hl">government bodies</span>
-            <br className="max-md:hidden" /> and growing brands
+            Trusted by <span className="hl">government bodies</span> and growing brands
           </h2>
-          <p className="lead max-w-[640px]">
-            From Uttarakhand government departments and NHPC to startups and global brands — 300+ projects delivered.
+          <p className="lead">
+            From Uttarakhand government departments and NHPC to startups and global brands — websites, apps and campaigns across 300+ projects.
           </p>
         </div>
       </div>
 
       <div className="logos">
-        <LogoRow items={clientsRow1} speed={46} />
-        <LogoRow items={clientsRow2} speed={52} reverse />
+        <LogoRow items={clientsRow1} speed={92} />
+        <LogoRow items={clientsRow2} speed={100} reverse />
+        <LogoRow items={clientsRow3} speed={84} />
       </div>
     </section>
   );
 }
-

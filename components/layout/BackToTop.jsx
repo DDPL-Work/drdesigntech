@@ -42,7 +42,7 @@ export default function BackToTop() {
       type="button"
       onClick={scrollToTop}
       aria-label="Back to top"
-      className="fixed right-6.5 bottom-[176px] z-[61] max-sm:bottom-[150px] max-sm:right-4 w-12 h-12 p-0 border-0 rounded-full cursor-pointer bg-[#e6f0f5] text-[#0b4db5] grid place-items-center shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:-translate-y-1 active:scale-95 transition-all duration-200"
+      className="fixed right-6.5 bottom-[248px] z-[61] max-sm:bottom-[228px] max-sm:right-4 w-12 h-12 p-0 border-0 rounded-full cursor-pointer bg-[#e6f0f5] text-[#0b4db5] grid place-items-center shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:-translate-y-1 active:scale-95 transition-all duration-200"
     >
       <svg
         width="48"

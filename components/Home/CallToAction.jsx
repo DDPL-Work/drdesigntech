@@ -54,7 +54,7 @@ const CallToAction = () => {
   return (
     <section className="pb-[70px] sm:pb-[110px]">
       <div className="wrap">
-        <div className="relative overflow-hidden isolate rounded-[28px] sm:rounded-[36px] bg-[#0b3e9e] text-white p-[28px_22px] sm:p-12 md:p-14 lg:p-16 flex flex-wrap gap-8 items-center justify-between min-h-0 sm:min-h-[420px] shadow-[0_40px_70px_-40px_rgba(11,77,181,0.9)]">
+        <div className="cta cta2 relative overflow-hidden isolate rounded-[28px] sm:rounded-[36px] bg-[#0b3e9e] text-white p-[28px_22px] sm:p-12 md:p-14 lg:p-16 flex flex-wrap gap-8 items-center justify-between min-h-0 sm:min-h-[420px] shadow-[0_40px_70px_-40px_rgba(11,77,181,0.9)]">
           {/* Animated Background Mesh */}
           <div
             className="absolute -top-[20%] -right-[20%] -bottom-[20%] -left-[20%] -z-20 pointer-events-none [background:radial-gradient(40%_50%_at_15%_20%,rgba(91,196,208,0.55),transparent_70%),radial-gradient(35%_45%_at_85%_80%,rgba(245,184,46,0.35),transparent_70%),radial-gradient(50%_60%_at_70%_10%,rgba(26,95,208,0.9),transparent_70%),linear-gradient(135deg,#0b4db5,#082f78)] [animation:ctaMesh_14s_ease-in-out_infinite_alternate]"
@@ -124,7 +124,7 @@ const CallToAction = () => {
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5 text-[13px] sm:text-sm text-[#dce8fa] pt-1">
               <span>
-                <b className="text-white font-bold">5+ years</b> in software
+                <b className="text-white font-bold">6+ years</b> in software
               </span>
               <i className="w-1 h-1 rounded-full bg-white/50 not-italic" />
               <span>

@@ -1,118 +1,445 @@
 'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { openLeadModal } from "@/utils/events";
-import { useState } from "react";
-import { FaWhatsapp } from "react-icons/fa";
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const logoImg = '/assets/logo.png';
 
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/about-us", label: "About" },
-  { href: "/our-services", label: "Services" },
-  { href: "/our-work", label: "Our Work" },
-  { href: "/faq", label: "FAQs" },
-  { href: "/contact-with-us", label: "Contact" },
-  { href: "/audit", label: "Free Audit", highlight: true },
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/know-about-us-more', label: 'About' },
+  { href: '/know-that-what-work-we-do', label: 'Services', isServices: true },
+  { href: '/work-we-have-done', label: 'Our Work' },
+  { href: '/know-answers-of-your-questions', label: 'FAQs' },
+  { href: '/reach-to-us', label: 'Contact' }
+];
+
+const servicesData = [
+  {
+    id: 'web',
+    title: 'Website Development',
+    sub: 'Fast, SEO-ready business websites',
+    icon: '/assets/icons/web.svg',
+    href: '/know-that-what-work-we-do#web'
+  },
+  {
+    id: 'app',
+    title: 'Mobile App Development',
+    sub: 'Android & iOS apps with admin panel',
+    icon: '/assets/icons/app.svg',
+    href: '/know-that-what-work-we-do#app'
+  },
+  {
+    id: 'chat',
+    title: 'AI Chatbots & Agents',
+    sub: 'AI chatbots for WhatsApp & web',
+    icon: '/assets/icons/chat.svg',
+    href: '/know-that-what-work-we-do#chat'
+  },
+  {
+    id: 'erp',
+    title: 'ERP & CRM Software',
+    sub: 'ERP & CRM built around your workflow',
+    icon: '/assets/icons/erp.svg',
+    href: '/know-that-what-work-we-do#erp'
+  },
+  {
+    id: 'seo',
+    title: 'SEO & Google Ads',
+    sub: 'Rank on Google & run search ads',
+    icon: '/assets/icons/seo.svg',
+    href: '/know-that-what-work-we-do#seo'
+  },
+  {
+    id: 'social',
+    title: 'Social Media Management',
+    sub: 'Instagram, Meta & LinkedIn growth',
+    icon: '/assets/icons/social.svg',
+    href: '/know-that-what-work-we-do#social'
+  },
+  {
+    id: 'geo',
+    title: 'GIS & Remote Sensing',
+    sub: 'GIS mapping & survey digitisation',
+    icon: '/assets/icons/geo.svg',
+    href: '/know-that-what-work-we-do#geo'
+  }
 ];
 
 export function Brand({ dark = false }) {
   return (
-    <Link href="/" className="flex items-center gap-3 no-underline">
-      <span className="w-[50px] h-[50px] md:w-[54px] md:h-[54px] rounded-full bg-white grid place-items-center shadow-[inset_2px_2px_5px_rgba(20,84,120,0.12)] shrink-0">
-        <img src={logoImg} alt="Dr. Design Pvt. Ltd. logo" className="w-9 h-10 md:w-10 md:h-11 object-contain" />
+    <Link href="/" className="brand">
+      <span className="brand__logo">
+        <img src={logoImg} alt="Dr. Design Pvt. Ltd. logo" />
       </span>
-      <span className="flex flex-col leading-none">
-        <b className={`font-['Poppins'] font-extrabold text-[18px] md:text-[20px] ${dark ? "text-white" : "text-[#0b4db5]"}`}>
-          DR. DESIGN
-        </b>
-        <small className={`font-['Poppins'] font-bold text-[10px] md:text-[11px] tracking-[0.26em] mt-1 ${dark ? "text-[#F5B82E]" : "text-[#0e1b2e]"}`}>
-          TECHNOLOGY
-        </small>
+      <span className="brand__name">
+        <b style={dark ? { color: '#fff' } : undefined}>DR. DESIGN</b>
+        <small style={dark ? { color: '#F5B82E' } : undefined}>TECHNOLOGY</small>
       </span>
     </Link>
   );
 }
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [hoveredHref, setHoveredHref] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const leaveTimerRef = useRef(null);
+
+  useEffect(() => {
+    setMenuOpen(false);
+    setServicesOpen(false);
+    setHoveredHref(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 60);
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        setServicesOpen(false);
+      }
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  const openMega = () => {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    setServicesOpen(true);
+  };
+
+  const closeMega = () => {
+    leaveTimerRef.current = setTimeout(() => {
+      setServicesOpen(false);
+    }, 160);
+  };
+
+  const handleOpenLead = () => {
+    window.dispatchEvent(new CustomEvent('open-lead', { detail: 'quote' }));
+  };
+
+  // Determine active route & active indicator target
+  const activeLink = navLinks.find(
+    (link) => pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+  );
+  const currentPill = hoveredHref ?? activeLink?.href;
 
   return (
     <>
       {/* Top Notification Bar */}
-      <div className="bg-[#0e1b2e] text-[#c9d6e8] text-[13px]">
-        <div className="max-w-[1240px] mx-auto px-6 flex flex-wrap justify-between items-center gap-2 min-h-[40px] py-1.5">
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#25aa5a] inline-block animate-[blink_1.4s_infinite]" />
-            Support desk open 10 AM – 6 PM IST · Monday to Saturday
+      <div className="topbar">
+        <div className="wrap">
+          <span className="topbar__l">
+            <span className="live" />
+            <span>
+              Support desk open <b>10 AM – 6 PM IST</b> · Mon–Sat
+            </span>
+            <span className="topbar__sep" aria-hidden="true" />
+            <span className="topbar__loc">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" />
+                <circle cx="12" cy="10" r="2.5" />
+              </svg>
+              Dehradun · Delhi
+            </span>
           </span>
-          <span className="flex gap-5 flex-wrap">
-            <a href="tel:+917217052558" className="text-white no-underline hover:text-[#f5b82e] transition-colors">
+
+          <span className="topbar__r">
+            <Link href="/get-your-audit" className="topbar__audit">
+              <span className="topbar__badge">Free</span>
+              Website audit →
+            </Link>
+            <a href="tel:+917217052558">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+              </svg>
               +91 7217052558
             </a>
-            <a href="mailto:contact@drdesigntech.com" className="text-white no-underline hover:text-[#f5b82e] transition-colors">
+            <a href="mailto:contact@drdesigntech.com">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
               contact@drdesigntech.com
             </a>
+            <span className="topbar__soc">
+              <a
+                href="https://www.instagram.com/drdesigntechnology/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Dr. Design on Instagram"
+              >
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/drdesignpvtltd/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Dr. Design on LinkedIn"
+              >
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="3" />
+                  <path d="M8 10.5V17M8 7.2v.1M12 17v-6.5M12 13.2a2.7 2.7 0 0 1 5 0V17" />
+                </svg>
+              </a>
+            </span>
           </span>
         </div>
       </div>
 
-      {/* Main Header */}
-      <header className="sticky top-0 z-50 py-3.5 bg-[#e6f3f6]/80 backdrop-blur-[14px]">
-        <div className="max-w-[1240px] mx-auto px-6">
-          <div className="flex items-center justify-between gap-4 min-h-[74px] py-2 pl-4 pr-2.5 rounded-full bg-[#eaf6f8] shadow-[14px_14px_32px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.92)]">
+      {/* Main Glassmorphic Header */}
+      <header className={`header${isScrolled ? ' is-scrolled' : ''}`}>
+        <div className="wrap">
+          <div className="header__bar neu">
             <Brand />
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1" aria-label="Main">
-              {navItems.map((item) => {
-                const isActive = pathname === item.href;
+            {/* Desktop Navigation Links with Spring Hover Glider */}
+            <nav
+              className="nav"
+              aria-label="Main"
+              onMouseLeave={() => setHoveredHref(null)}
+            >
+              {navLinks.map((item) => {
+                const isCurrent =
+                  pathname === item.href ||
+                  (item.href !== '/' && pathname.startsWith(item.href));
+                const showPill = currentPill === item.href;
+
                 return (
-                  <Link
+                  <div
                     key={item.href}
-                    href={item.href}
-                    className={`no-underline font-semibold text-[14.5px] px-3.5 py-2 rounded-full transition-all duration-200 ${
-                      item.highlight
-                        ? "bg-[#f5b82e]/20 text-[#b07a00] font-extrabold hover:bg-[#f5b82e]/30 shadow-sm"
-                        : isActive
-                        ? "text-[#0b4db5] font-extrabold bg-[#eaf6f8] shadow-[inset_2px_2px_5px_rgba(20,84,120,0.12),inset_-2px_-2px_5px_#ffffff]"
-                        : "text-[#0e1b2e] hover:text-[#0b4db5] hover:bg-[#eaf6f8] hover:shadow-[inset_2px_2px_5px_rgba(20,84,120,0.08),inset_-2px_-2px_5px_#ffffff]"
-                    }`}
+                    className="nav__item"
+                    onMouseEnter={() => {
+                      setHoveredHref(item.href);
+                      if (item.isServices) openMega();
+                    }}
+                    onMouseLeave={() => {
+                      if (item.isServices) closeMega();
+                    }}
                   >
-                    {item.label}
-                  </Link>
+                    <Link
+                      href={item.href}
+                      className={isCurrent ? 'on' : undefined}
+                      aria-current={isCurrent ? 'page' : undefined}
+                      aria-haspopup={item.isServices ? 'menu' : undefined}
+                      aria-expanded={item.isServices ? servicesOpen : undefined}
+                      onFocus={() => {
+                        setHoveredHref(item.href);
+                        if (item.isServices) openMega();
+                      }}
+                    >
+                      {showPill && (
+                        <motion.span
+                          layoutId="navpill"
+                          className="nav__pill"
+                          transition={{
+                            type: 'spring',
+                            stiffness: 420,
+                            damping: 34
+                          }}
+                        />
+                      )}
+                      <span className="nav__txt">{item.label}</span>
+                      {item.isServices && (
+                        <motion.span
+                          className="nav__chev"
+                          animate={{ rotate: servicesOpen ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </motion.span>
+                      )}
+                    </Link>
+
+                    {/* Mega Menu Dropdown */}
+                    {item.isServices && (
+                      <AnimatePresence>
+                        {servicesOpen && (
+                          <div
+                            className="mega__wrap"
+                            onMouseEnter={openMega}
+                            onMouseLeave={closeMega}
+                          >
+                            <motion.div
+                              className="mega neu"
+                              role="menu"
+                              initial={{ opacity: 0, y: 14, rotateX: -8, scale: 0.98 }}
+                              animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                              transition={{
+                                type: 'spring',
+                                stiffness: 320,
+                                damping: 26
+                              }}
+                            >
+                              <div className="mega__grid">
+                                {servicesData.map((svc, sIdx) => (
+                                  <motion.div
+                                    key={svc.id}
+                                    initial={{ opacity: 0, y: 8 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.03 * sIdx }}
+                                  >
+                                    <Link
+                                      href={svc.href}
+                                      role="menuitem"
+                                      className="mega__item"
+                                      onClick={() => setServicesOpen(false)}
+                                    >
+                                      <span className="mega__ic">
+                                        <img src={svc.icon} alt="" />
+                                      </span>
+                                      <span>
+                                        <b>{svc.title}</b>
+                                        <small>{svc.sub}</small>
+                                      </span>
+                                    </Link>
+                                  </motion.div>
+                                ))}
+                              </div>
+
+                              <Link
+                                href="/get-your-audit"
+                                className="mega__cta"
+                                onClick={() => setServicesOpen(false)}
+                              >
+                                <span className="mega__cta-ic">
+                                  <svg
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    aria-hidden="true"
+                                  >
+                                    <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2" />
+                                    <path d="M7 12h10" />
+                                  </svg>
+                                </span>
+                                <b>Free website audit</b>
+                                <small>
+                                  Scan any site for speed, SEO and issues — report in 60 seconds.
+                                </small>
+                                <span className="mega__cta-go">Run free audit →</span>
+                              </Link>
+                            </motion.div>
+                          </div>
+                        )}
+                      </AnimatePresence>
+                    )}
+                  </div>
                 );
               })}
             </nav>
 
             {/* Header Right Actions */}
-            <div className="flex items-center gap-2.5">
-              <a
-                href="https://wa.me/917217052558"
-                aria-label="Chat on WhatsApp"
-                className="w-[50px] h-[50px] rounded-full grid place-items-center text-[#1e9e52] bg-[#eaf6f8] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:scale-[1.07] transition-transform duration-200 cursor-pointer border-0 max-sm:hidden"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaWhatsapp size={22} />
-              </a>
-
+            <div className="header__actions">
               <button
                 type="button"
-                onClick={() => openLeadModal("quote")}
-                className="btn btn-blue shine"
+                className="btn btn-blue shine hcta"
+                onClick={handleOpenLead}
               >
-                Get a free proposal
+                <span>Get a free proposal</span>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
               </button>
 
-              {/* Mobile Menu Toggle Button */}
               <button
                 type="button"
-                className="lg:hidden w-[50px] h-[50px] rounded-full grid place-items-center text-[#0e1b2e] bg-[#eaf6f8] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:scale-[1.07] transition-transform duration-200 cursor-pointer border-0"
-                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                className="round neu-s menu-btn"
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={menuOpen}
                 onClick={() => setMenuOpen((prev) => !prev)}
               >
@@ -136,45 +463,168 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Dropdown Navigation */}
-          {menuOpen && (
-            <nav
-              className="mt-2.5 p-4 rounded-[26px] flex flex-col gap-1.5 overflow-hidden bg-[#eaf6f8] shadow-[14px_14px_32px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.92)] lg:hidden animate-[fadeIn_0.2s_ease-out]"
-              aria-label="Mobile"
-            >
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
+          {/* Mobile Drawer Navigation */}
+          <AnimatePresence>
+            {menuOpen && (
+              <>
+                <motion.div
+                  className="mnav__scrim"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   onClick={() => setMenuOpen(false)}
-                  className={`p-3 rounded-xl font-bold text-[15px] no-underline transition-colors flex items-center justify-between ${
-                    item.highlight
-                      ? "bg-[#f5b82e]/20 text-[#b07a00]"
-                      : pathname === item.href
-                      ? "bg-[#e6f3f6] text-[#0b4db5]"
-                      : "text-[#0e1b2e] hover:bg-[#e6f3f6] hover:text-[#0b4db5]"
-                  }`}
+                  aria-hidden="true"
+                />
+                <motion.nav
+                  className="mnav neu"
+                  aria-label="Mobile"
+                  initial={{ opacity: 0, y: -10, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: 'auto' }}
+                  exit={{ opacity: 0, y: -10, height: 0 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <span>{item.label}</span>
-                  {item.highlight && (
-                    <span className="text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-[#f5b82e] text-[#0e1b2e]">
-                      HOT
-                    </span>
-                  )}
-                </Link>
-              ))}
-              <button
-                type="button"
-                className="btn btn-blue w-full mt-2"
-                onClick={() => {
-                  setMenuOpen(false);
-                  openLeadModal("quote");
-                }}
-              >
-                Get a free proposal
-              </button>
-            </nav>
-          )}
+                  {navLinks.map((item, v) => {
+                    const isCurrent =
+                      pathname === item.href ||
+                      (item.href !== '/' && pathname.startsWith(item.href));
+                    return (
+                      <motion.div
+                        key={item.href}
+                        initial={{ opacity: 0, x: -14 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.04 * v }}
+                      >
+                        <Link
+                          href={item.href}
+                          className={isCurrent ? 'on' : undefined}
+                          aria-current={isCurrent ? 'page' : undefined}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+
+                  {/* Mobile Services Grid */}
+                  <div className="mnav__svc">
+                    {servicesData.map((svc) => (
+                      <Link
+                        key={svc.id}
+                        href={svc.href}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        <img src={svc.icon} alt="" />
+                        <span>{svc.title.replace(' Development', '').replace(' Management', '')}</span>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* Mobile Quick Action Buttons */}
+                  <div className="mnav__row">
+                    <a href="tel:+917217052558" className="btn btn-neu">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+                      </svg>
+                      Call
+                    </a>
+                    <a
+                      href="https://wa.me/917217052558?text=Hi%20Dr.%20Design%2C%20I%20would%20like%20to%20discuss%20a%20project."
+                      className="btn btn-neu"
+                      style={{ color: '#1E7A43' }}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.4L3 21z" />
+                        <path d="M9 9.5c.3 1.8 1.7 3.6 3.6 4.6l1.3-1.1 2 .9c-.2 1-1.1 1.6-2.1 1.6-3 0-6.4-3.4-6.4-6.4 0-1 .6-1.9 1.6-2.1l.9 2-1 1z" />
+                      </svg>
+                      WhatsApp
+                    </a>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="btn btn-blue"
+                    style={{ marginTop: 8, color: '#fff' }}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      handleOpenLead();
+                    }}
+                  >
+                    Get a free proposal
+                  </button>
+
+                  {/* Mobile Socials */}
+                  <div className="mnav__soc">
+                    <a
+                      href="https://www.instagram.com/drdesigntechnology/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram"
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <rect x="3" y="3" width="18" height="18" rx="5" />
+                        <circle cx="12" cy="12" r="4" />
+                        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                      </svg>
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/company/drdesignpvtltd/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn"
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <rect x="3" y="3" width="18" height="18" rx="3" />
+                        <path d="M8 10.5V17M8 7.2v.1M12 17v-6.5M12 13.2a2.7 2.7 0 0 1 5 0V17" />
+                      </svg>
+                    </a>
+                  </div>
+                </motion.nav>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </header>
     </>

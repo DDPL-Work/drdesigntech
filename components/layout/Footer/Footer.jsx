@@ -1,159 +1,216 @@
-import Link from "next/link";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaWhatsapp,
-} from "react-icons/fa";
-import { FiMapPin, FiMail, FiPhone, FiClock } from "react-icons/fi";
-import { Brand } from "../Navbar/Navbar";
+import Link from 'next/link';
+import { Brand } from '../Navbar/Navbar';
 
-const services = [
-  { name: "Web Design & Development", href: "/our-services#web" },
-  { name: "Mobile App Development", href: "/our-services#app" },
-  { name: "AI Chatbots & Automation", href: "/our-services#chat" },
-  { name: "ERP & CRM Solutions", href: "/our-services#erp" },
-  { name: "Digital Marketing & SEO", href: "/our-services#seo" },
-  { name: "Geospatial & GIS Solutions", href: "/our-services#geo" },
+const servicesList = [
+  { name: 'Web Design & Development', href: '/know-that-what-work-we-do#web' },
+  { name: 'Mobile App Development', href: '/know-that-what-work-we-do#app' },
+  { name: 'ERP & CRM Solutions', href: '/know-that-what-work-we-do#erp' },
+  { name: 'SEO & Google Ads', href: '/know-that-what-work-we-do#seo' },
+  { name: 'Social Media & Ads', href: '/know-that-what-work-we-do#social' },
+  { name: 'Digital Transformation', href: '/know-that-what-work-we-do#chat' },
+  { name: 'Geospatial Solutions', href: '/know-that-what-work-we-do#geo' }
 ];
 
 const companyLinks = [
-  { name: "About us", href: "/about-us" },
-  { name: "Case studies", href: "/our-work" },
-  { name: "FAQs", href: "/faq" },
-  { name: "Contact us", href: "/contact-with-us" },
-  { name: "Free Website Audit", href: "/audit" },
+  { name: 'About us', href: '/know-about-us-more' },
+  { name: 'Case studies', href: '/work-we-have-done' },
+  { name: 'FAQs', href: '/know-answers-of-your-questions' },
+  { name: 'Free website audit', href: '/get-your-audit' },
+  { name: 'Contact', href: '/reach-to-us' },
+  { name: 'Privacy policy', href: '/#' },
+  { name: 'Terms & conditions', href: '/#' }
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0e1b2e] text-[#c9d6e8] rounded-t-[40px]">
-      <div className="max-w-[1240px] mx-auto px-6 pt-[72px] pb-8 flex flex-col gap-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-9">
+    <footer className="footer">
+      <div className="wrap">
+        <div className="footer__cols">
           {/* Brand & Socials Column */}
-          <div className="flex flex-col gap-4 text-[14px] leading-[1.6]">
+          <div className="footer__col" style={{ gap: 16 }}>
             <Brand dark={true} />
-            <p className="m-0 text-[#c9d6e8]">
-              IT Services, Digital Transformation and Geospatial Solutions for
-              startups, SMEs and growing businesses across India and worldwide.
+            <p style={{ margin: 0 }}>
+              Website design, app development, ERP, AI chatbots, SEO and digital marketing company
+              in Dehradun, serving businesses across India and worldwide.
             </p>
-            <div className="flex gap-2.5 mt-1">
+            <div style={{ display: 'flex', gap: 10 }}>
               <a
-                href="https://facebook.com"
+                href="https://www.instagram.com/drdesigntechnology/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full border border-[#2c3d57] grid place-items-center text-white hover:bg-[#f5b82e] hover:border-[#f5b82e] hover:text-[#0e1b2e] transition-all duration-200 no-underline"
-                aria-label="Facebook"
+                className="soc soc--instagram"
+                aria-label="Dr. Design on Instagram"
+                title="Instagram"
               >
-                <FaFacebookF size={18} />
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                </svg>
               </a>
               <a
-                href="https://instagram.com/drdesigntechnology"
+                href="https://www.linkedin.com/company/drdesignpvtltd/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full border border-[#2c3d57] grid place-items-center text-white hover:bg-[#f5b82e] hover:border-[#f5b82e] hover:text-[#0e1b2e] transition-all duration-200 no-underline"
-                aria-label="Instagram"
+                className="soc soc--linkedin"
+                aria-label="Dr. Design on LinkedIn"
+                title="LinkedIn"
               >
-                <FaInstagram size={18} />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full border border-[#2c3d57] grid place-items-center text-white hover:bg-[#f5b82e] hover:border-[#f5b82e] hover:text-[#0e1b2e] transition-all duration-200 no-underline"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedinIn size={18} />
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="3" />
+                  <path d="M8 10.5V17M8 7.2v.1M12 17v-6.5M12 13.2a2.7 2.7 0 0 1 5 0V17" />
+                </svg>
               </a>
             </div>
           </div>
 
           {/* Services Column */}
-          <div className="flex flex-col gap-2.5 text-[14px] leading-[1.6]">
-            <h3 className="m-0 mb-1.5 text-white text-[16px] font-bold font-['Poppins']">
-              Services
-            </h3>
-            {services.map((service) => (
-              <Link
-                key={service.name}
-                href={service.href}
-                className="text-[#c9d6e8] no-underline text-[14px] hover:text-[#f5b82e] transition-colors duration-200"
-              >
+          <div className="footer__col">
+            <h3>Services</h3>
+            {servicesList.map((service) => (
+              <Link key={service.name} href={service.href}>
                 {service.name}
               </Link>
             ))}
           </div>
 
           {/* Company Column */}
-          <div className="flex flex-col gap-2.5 text-[14px] leading-[1.6]">
-            <h3 className="m-0 mb-1.5 text-white text-[16px] font-bold font-['Poppins']">
-              Company
-            </h3>
+          <div className="footer__col">
+            <h3>Company</h3>
             {companyLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-[#c9d6e8] no-underline text-[14px] hover:text-[#f5b82e] transition-colors duration-200"
-              >
+              <Link key={link.name} href={link.href}>
                 {link.name}
               </Link>
             ))}
           </div>
 
           {/* Get In Touch Column */}
-          <div className="flex flex-col gap-2.5 text-[14px] leading-[1.6]">
-            <h3 className="m-0 mb-1.5 text-white text-[16px] font-bold font-['Poppins']">
-              Get in touch
-            </h3>
-            <ul className="list-none m-0 p-0 flex flex-col gap-3">
-              <li className="flex items-start gap-3 text-[#c9d6e8]">
-                <FiMapPin size={18} className="shrink-0 mt-1 text-[#f5b82e]" />
+          <div className="footer__col">
+            <h3>Get in touch</h3>
+            <ul className="contact-list">
+              <li>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" />
+                  <circle cx="12" cy="9" r="2.5" />
+                </svg>
                 <span>
-                  Near Survey Chowk, 11 East Canal Road, Dehradun, Uttarakhand,
-                  248001.
+                  Near Survey Chowk, 11 East Canal Road, Dehradun, Uttarakhand, 248001.
                   <br />
-                  <small className="text-[#8899aa]">Offices in Dehradun (HQ) &amp; Delhi</small>
+                  <small>Offices in Dehradun (HQ) &amp; Delhi</small>
                 </span>
               </li>
-              <li className="flex items-center gap-3">
-                <FiMail size={18} className="shrink-0 text-[#f5b82e]" />
-                <a
-                  href="mailto:contact@drdesigntech.com"
-                  className="text-[#c9d6e8] no-underline hover:text-[#f5b82e] transition-colors duration-200"
+
+              <li>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
                 >
-                  contact@drdesigntech.com
-                </a>
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="M3 7l9 6 9-6" />
+                </svg>
+                <a href="mailto:contact@drdesigntech.com">contact@drdesigntech.com</a>
               </li>
-              <li className="flex items-center gap-3">
-                <FiPhone size={18} className="shrink-0 text-[#f5b82e]" />
-                <a
-                  href="tel:+917217052558"
-                  className="text-[#c9d6e8] no-underline hover:text-[#f5b82e] transition-colors duration-200"
+
+              <li>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
                 >
-                  +91 7217052558
-                </a>
+                  <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+                </svg>
+                <a href="tel:+917217052558">+91 7217052558</a>
               </li>
-              <li className="flex items-center gap-3">
-                <FaWhatsapp size={18} className="shrink-0 text-[#25d366]" />
+
+              <li>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.4L3 21z" />
+                  <path d="M9 9.5c.3 1.8 1.7 3.6 3.6 4.6l1.3-1.1 2 .9c-.2 1-1.1 1.6-2.1 1.6-3 0-6.4-3.4-6.4-6.4 0-1 .6-1.9 1.6-2.1l.9 2-1 1z" />
+                </svg>
                 <a
                   href="https://wa.me/917217052558"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#c9d6e8] no-underline hover:text-[#f5b82e] transition-colors duration-200"
                 >
-                  +91 7217052558 (WhatsApp)
+                  +91 7217052558
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-[#c9d6e8]">
-                <FiClock size={18} className="shrink-0 text-[#f5b82e]" />
+
+              <li>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" />
+                </svg>
                 <span>Mon – Sat · 10 AM – 6 PM IST</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="flex flex-wrap justify-between gap-3 pt-6 border-t border-[#2c3d57] text-[13px] text-[#c9d6e8]">
+        <div className="footer__bottom">
           <span>© 2026 DR. DESIGN PVT. LTD. All rights reserved.</span>
           <span>Crafted with care in Dehradun, India.</span>
         </div>

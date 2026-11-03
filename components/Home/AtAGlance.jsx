@@ -437,19 +437,6 @@ function StatCard({ icon, children, tone = 'light', href, fill = 0.7 }) {
   );
 }
 
-// Continents path fragment for Orbit Globe
-const continents = (
-  <>
-    <path d="M10 38c8-10 22-12 30-6s6 16-2 20-10 14-18 12S2 48 10 38z" />
-    <path d="M44 66c6-4 14-2 16 6s-2 22-8 26-12-6-12-14 0-14 4-18z" />
-    <path d="M70 30c10-8 30-8 40 0s4 18-6 20-14 8-24 4-18-16-10-24z" />
-    <path d="M96 62c8-4 18 0 18 8s-6 12-14 12-12-14-4-20z" />
-    <path d="M150 34c6-8 18-10 26-4s4 14-4 18-20 2-22-14z" />
-    <path d="M190 58c10-6 26-4 30 6s-6 24-18 24-22-22-12-30z" />
-    <path d="M128 86c6-2 12 2 10 8s-10 6-12 0 0-6 2-8z" />
-  </>
-);
-
 function MiniWorldGlobe() {
   return (
     <svg viewBox="0 0 120 120" className="ss-globe" aria-hidden="true">
@@ -470,9 +457,23 @@ function MiniWorldGlobe() {
       </defs>
       <circle cx="60" cy="60" r="56" fill="url(#ssOcean)" />
       <g clipPath="url(#ssClip)">
-        <g className="ss-land" fill="#A6EBC9" opacity=".92">
-          <g>{continents}</g>
-          <g transform="translate(240 0)">{continents}</g>
+        <g className="ss-land">
+          <image
+            href="/assets/icons/world-map.svg"
+            x="4"
+            y="4"
+            width="224"
+            height="112"
+            preserveAspectRatio="none"
+          />
+          <image
+            href="/assets/icons/world-map.svg"
+            x="228"
+            y="4"
+            width="224"
+            height="112"
+            preserveAspectRatio="none"
+          />
         </g>
         <g fill="none" stroke="#fff" strokeOpacity=".22" strokeWidth=".8">
           <ellipse cx="60" cy="60" rx="56" ry="18" />
@@ -481,9 +482,55 @@ function MiniWorldGlobe() {
         </g>
       </g>
       <circle cx="60" cy="60" r="56" fill="url(#ssShade)" />
-      <ellipse cx="40" cy="32" rx="16" ry="7" transform="rotate(-32 40 32)" fill="#fff" opacity=".45" />
-      <circle cx="68" cy="50" r="3" fill="#E0393A" />
-      <circle className="ss-ping" cx="68" cy="50" r="3" fill="none" stroke="#E0393A" strokeWidth="1.5" />
+      <ellipse
+        cx="40"
+        cy="32"
+        rx="16"
+        ry="7"
+        transform="rotate(-32 40 32)"
+        fill="#fff"
+        opacity=".45"
+      />
+      <circle
+        className="ss-ping"
+        cx="60"
+        cy="46"
+        r="3.5"
+        fill="none"
+        stroke="#E0393A"
+        strokeWidth="1.6"
+      />
+      <circle
+        className="ss-ping"
+        style={{ animationDelay: '.9s' }}
+        cx="60"
+        cy="46"
+        r="3.5"
+        fill="none"
+        stroke="#E0393A"
+        strokeWidth="1.6"
+      />
+      <path
+        d="M60 50s-5-4.6-5-8.3a5 5 0 0 1 10 0c0 3.7-5 8.3-5 8.3z"
+        fill="#E0393A"
+        stroke="#fff"
+        strokeWidth="1"
+      />
+      <circle cx="60" cy="41.7" r="1.8" fill="#fff" />
+      <g transform="translate(66 28)">
+        <rect width="30" height="12" rx="6" fill="#fff" />
+        <text
+          x="15"
+          y="8.6"
+          textAnchor="middle"
+          fontSize="7"
+          fontWeight="800"
+          fill="#0E1B2E"
+          fontFamily="Plus Jakarta Sans, sans-serif"
+        >
+          India
+        </text>
+      </g>
     </svg>
   );
 }

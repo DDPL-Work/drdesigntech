@@ -5,6 +5,7 @@ import LeadModal from "./LeadModal";
 import ScrollProgress from "./ScrollProgress";
 import BackToTop from "./BackToTop";
 import LiveToasts from "./LiveToasts";
+import Chatbot from "./Chatbot";
 
 export default function FloatingActions() {
   return (
@@ -18,6 +19,9 @@ export default function FloatingActions() {
       {/* Back to Top button with SVG circular progress ring */}
       <BackToTop />
 
+      {/* AI Chatbot Assistant Widget */}
+      <Chatbot />
+
       {/* Side Docked "Free quote" Tab Button */}
       <button
         type="button"
@@ -28,12 +32,12 @@ export default function FloatingActions() {
         Free quote
       </button>
 
-      {/* Floating Bottom-Right Call & WhatsApp FABs */}
-      <div className="fixed right-5 bottom-5.5 z-60 flex flex-col gap-3.5 items-end max-sm:right-3.5 max-sm:bottom-4 max-sm:gap-3" aria-label="Quick contact buttons">
+      {/* Floating Bottom-Right Call & WhatsApp FABs (positioned above chatbot) */}
+      <div className="fixed right-5 bottom-[100px] z-60 flex flex-col gap-3.5 items-end max-sm:right-3.5 max-sm:bottom-[96px] max-sm:gap-3" aria-label="Quick contact buttons">
         {/* Call Button */}
         <a
           href="tel:+917217052558"
-          className="group relative w-15 h-15 max-sm:w-[54px] max-sm:h-[54px] rounded-full grid place-items-center text-white no-underline bg-[#1a73e8] shadow-[0_12px_24px_-8px_rgba(26,115,232,0.7)] hover:scale-108 transition-transform duration-200 animate-[ring_2.4s_infinite]"
+          className="group relative w-15 h-15 max-sm:w-[54px] max-sm:h-[54px] rounded-full grid place-items-center text-white no-underline bg-[#1a73e8] shadow-[0_12px_24px_-8px_rgba(26,115,232,0.7)] hover:scale-108 transition-transform duration-200 animate-[fabCall_2.4s_ease-out_infinite]"
           aria-label="Call us on +91 7217052558"
         >
           <span className="absolute right-[72px] top-1/2 -translate-y-1/2 translate-x-2 whitespace-nowrap py-2 px-3.5 rounded-full bg-white text-[#0e1b2e] shadow-[0_10px_24px_rgba(14,27,46,0.25)] text-[13px] font-bold opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 max-sm:hidden">
@@ -54,7 +58,7 @@ export default function FloatingActions() {
         {/* WhatsApp Button */}
         <a
           href="https://wa.me/917217052558"
-          className="group relative w-15 h-15 max-sm:w-[54px] max-sm:h-[54px] rounded-full grid place-items-center text-white no-underline bg-[#25d366] shadow-[0_12px_24px_-8px_rgba(37,211,102,0.7)] hover:scale-108 transition-transform duration-200 animate-[pulse_1.8s_infinite]"
+          className="group relative w-15 h-15 max-sm:w-[54px] max-sm:h-[54px] rounded-full grid place-items-center text-white no-underline bg-[#25d366] shadow-[0_12px_24px_-8px_rgba(37,211,102,0.7)] hover:scale-108 transition-transform duration-200 animate-[fabWa_2.4s_ease-out_1.2s_infinite]"
           aria-label="Chat on WhatsApp +91 7217052558"
           target="_blank"
           rel="noopener noreferrer"
