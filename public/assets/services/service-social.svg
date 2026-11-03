@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520"><defs>
+<linearGradient id="lgBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6FA2FF"/><stop offset=".45" stop-color="#1A5FD0"/><stop offset="1" stop-color="#07357F"/></linearGradient>
+<linearGradient id="lgTeal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D2F6F9"/><stop offset=".5" stop-color="#6CC7D2"/><stop offset="1" stop-color="#2A8693"/></linearGradient>
+<linearGradient id="lgSun" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE7A0"/><stop offset=".5" stop-color="#F5B82E"/><stop offset="1" stop-color="#C98600"/></linearGradient>
+<linearGradient id="lgRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9B8F"/><stop offset=".5" stop-color="#E0393A"/><stop offset="1" stop-color="#A3161C"/></linearGradient>
+<linearGradient id="lgGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DCEFF4"/></linearGradient>
+<linearGradient id="lgGreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8DF0B4"/><stop offset="1" stop-color="#1E9E52"/></linearGradient>
+<radialGradient id="rgSphere" cx=".34" cy=".28" r=".8"><stop offset="0" stop-color="#E4FCFF"/><stop offset=".22" stop-color="#7FD3E2"/><stop offset=".6" stop-color="#1E6AD0"/><stop offset="1" stop-color="#082F78"/></radialGradient>
+<radialGradient id="rgSun" cx=".34" cy=".3" r=".8"><stop offset="0" stop-color="#FFF5CC"/><stop offset=".45" stop-color="#F5B82E"/><stop offset="1" stop-color="#B57800"/></radialGradient>
+<radialGradient id="rgTeal" cx=".34" cy=".3" r=".8"><stop offset="0" stop-color="#F0FEFF"/><stop offset=".45" stop-color="#5BC4D0"/><stop offset="1" stop-color="#1D7480"/></radialGradient>
+<radialGradient id="rgBlue" cx=".34" cy=".3" r=".8"><stop offset="0" stop-color="#A9C8FF"/><stop offset=".45" stop-color="#1A5FD0"/><stop offset="1" stop-color="#062C6E"/></radialGradient>
+<filter id="sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#021433" flood-opacity=".35"/></filter>
+<filter id="shs" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#021433" flood-opacity=".3"/></filter>
+</defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7B4BD6"/><stop offset=".55" stop-color="#3B5BDB"/><stop offset="1" stop-color="#0B3E9E"/></linearGradient>
+<rect width="800" height="520" fill="url(#bg)"/>
+<g fill="none" stroke="#fff" stroke-opacity=".2"><circle cx="470" cy="265" r="240" stroke-dasharray="6 10" stroke-width="2"/><circle cx="470" cy="265" r="330" stroke-width="1.5"/></g>
+<ellipse cx="470" cy="470" rx="230" ry="20" fill="#000" opacity=".16"/>
+<g filter="url(#sh)" transform="translate(380 60) rotate(4)">
+ <rect width="190" height="370" rx="30" fill="#0E1B2E"/><rect x="10" y="12" width="170" height="346" rx="22" fill="#fff"/>
+ <circle cx="34" cy="44" r="12" fill="url(#rgSun)"/><rect x="54" y="36" width="70" height="8" rx="4" fill="#0E1B2E"/><rect x="54" y="50" width="44" height="6" rx="3" fill="#B8C7D6"/>
+ <rect x="20" y="66" width="150" height="150" rx="14" fill="url(#lgTeal)"/><circle cx="95" cy="141" r="34" fill="#fff" opacity=".85"/><path d="M84 128l26 13-26 13z" fill="#1A5FD0"/>
+ <path d="M30 236c0-6 8-9 12-3 4-6 12-3 12 3 0 7-12 14-12 14s-12-7-12-14z" fill="#E0393A"/>
+ <circle cx="76" cy="240" r="9" fill="none" stroke="#0E1B2E" stroke-width="3"/><path d="M96 232l16 8-16 8z" fill="none" stroke="#0E1B2E" stroke-width="3" stroke-linejoin="round"/>
+ <rect x="20" y="262" width="120" height="7" rx="3.5" fill="#0E1B2E"/><rect x="20" y="276" width="90" height="6" rx="3" fill="#B8C7D6"/>
+ <rect x="20" y="300" width="150" height="40" rx="12" fill="#0B4DB5"/><text x="58" y="326" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#fff">Book now</text>
+</g>
+<g filter="url(#sh)" transform="translate(150 110)"><rect width="200" height="96" rx="20" fill="#fff"/>
+ <text x="20" y="32" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5B6B80">Ad campaign</text><text x="20" y="58" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0E1B2E">Leads rising</text>
+ <path d="M20 82 50 74 80 78 110 64 140 66 176 48" stroke="#25AA5A" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g filter="url(#sh)" transform="translate(600 150)"><rect width="140" height="58" rx="29" fill="#fff"/><path d="M26 31c0-7 9-11 14-4 5-7 14-3 14 4 0 8-14 16-14 16s-14-8-14-16z" fill="#E0393A"/><text x="64" y="37" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#0E1B2E">+ likes</text></g>
+<g filter="url(#sh)" transform="translate(610 300)"><circle cx="30" cy="30" r="30" fill="#fff"/><path d="M14 30h7l13-8v16l-13-8" fill="#0B4DB5"/><path d="M40 24q5 6 0 12" stroke="#F5B82E" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+<g filter="url(#sh)" transform="translate(180 300)"><rect width="150" height="60" rx="18" fill="#fff"/>
+ <circle cx="30" cy="30" r="14" fill="url(#rgBlue)"/><circle cx="52" cy="30" r="14" fill="url(#rgTeal)"/><circle cx="74" cy="30" r="14" fill="url(#rgSun)"/><text x="96" y="36" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#0E1B2E">+ fans</text></g>
+<circle cx="700" cy="90" r="18" fill="url(#rgSun)" filter="url(#shs)"/><circle cx="130" cy="430" r="12" fill="url(#rgTeal)" filter="url(#shs)"/></svg>
