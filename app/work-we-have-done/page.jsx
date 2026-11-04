@@ -1,12 +1,25 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import PageHero from '@/components/layout/PageHero';
-import OurWork from '@/components/Home/OurWork';
-import TrustedClients from '@/components/Home/TrustedClients';
-import GoogleReviews from '@/components/Home/GoogleReviews';
-import CallToAction from '@/components/Home/CallToAction';
-import Newsletter from '@/components/Home/Newsletter';
+import Link from "next/link";
+import PageHero from "@/components/layout/PageHero";
+import OurWork from "@/components/Home/OurWork";
+import TrustedClients from "@/components/Home/TrustedClients";
+import GoogleReviews from "@/components/Home/GoogleReviews";
+import CallToAction from "@/components/Home/CallToAction";
+import Newsletter from "@/components/Home/Newsletter";
+import CaseStudySweetsBrand from "@/components/Home/CaseStudies/CaseStudySweetsBrand";
+import CaseStudyLifestyleBrand from "@/components/Home/CaseStudies/CaseStudyLifestyleBrand";
+import CaseStudySportingGoods from "@/components/Home/CaseStudies/CaseStudySportingGoods";
+import CaseStudyTravelFunnel from "@/components/Home/CaseStudies/CaseStudyTravelFunnel";
+import CaseStudyFinanceCourses from "@/components/Home/CaseStudies/CaseStudyFinanceCourses";
+import CaseStudyEcommerceSEO from "@/components/Home/CaseStudies/CaseStudyEcommerceSEO";
+import CaseStudyPetBrand from "@/components/Home/CaseStudies/CaseStudyPetBrand";
+import CaseStudyHairClinic from "@/components/Home/CaseStudies/CaseStudyHairClinic";
+import CaseStudyCoaching from "@/components/Home/CaseStudies/CaseStudyCoaching";
+import CaseStudyBlackCar from "@/components/Home/CaseStudies/CaseStudyBlackCar";
+import CaseStudyAIMetaGoogleAds from "@/components/Home/CaseStudies/CaseStudyAIMetaGoogleAds";
+import CaseStudyMetaAds from "@/components/Home/CaseStudies/CaseStudyMetaAds";
+import ReelsAndContent from "@/components/Home/ReelsAndContent";
 
 export default function OurWorkPage() {
   return (
@@ -18,26 +31,20 @@ export default function OurWorkPage() {
         title="Real clients."
         hl="Live results."
         intro="Live websites, deployed products and design work for government bodies, startups and growing brands in India and abroad."
-        icons={['web', 'app', 'chart', 'shield']}
+        icons={["web", "app", "chart", "shield"]}
       >
         <Link href="/reach-to-us" className="btn btn-sun">
-          <span>Start your project</span> <span className="arr" aria-hidden="true">→</span>
+          <span>Start your project</span>{" "}
+          <span className="arr" aria-hidden="true">
+            →
+          </span>
         </Link>
       </PageHero>
-
-      {/* 2. Full Our Work Showcase (Featured Projects + 10 Deep Case Studies + 3D Reels Carousel) N2 with bare=true */}
       <OurWork bare={true} />
-
-      {/* 3. Our Trusted Clients Marquee ku */}
+      
       <TrustedClients />
-
-      {/* 4. Google Reviews Testimonials z2 */}
       <GoogleReviews />
-
-      {/* 5. Call To Action hf */}
       <CallToAction />
-
-      {/* 6. Pre-footer Newsletter SB */}
       <Newsletter />
     </>
   );

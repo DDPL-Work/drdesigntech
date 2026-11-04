@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Reveal from '@/components/ui/Reveal';
 
 const REVIEWS = [
   {
@@ -129,8 +131,7 @@ const ReviewCard = ({ review, index }) => {
 
   return (
     <figure
-      className="neu lift rv-card relative m-0 flex flex-col gap-3.5 overflow-hidden p-7"
-      style={{ animationDelay: `${(index % 3) * 0.08}s` }}
+      className="neu lift rv-card relative m-0 flex flex-col justify-between gap-3.5 overflow-hidden p-6 sm:p-7 h-full min-h-[380px] sm:min-h-[420px]"
     >
       <span
         className="rv-quote select-none pointer-events-none"
@@ -139,54 +140,66 @@ const ReviewCard = ({ review, index }) => {
         “
       </span>
 
-      <figcaption className="rv-head flex items-center gap-3">
-        <span
-          className="rv-avatar shrink-0 select-none text-white font-bold text-[19px] grid place-items-center rounded-full"
-          style={{ backgroundColor: review.color }}
-        >
-          {review.initial}
-        </span>
-        <span className="rv-who flex flex-col gap-[3px] text-left">
-          <b className="text-[#0e1b2e] font-bold text-base leading-snug">{review.name}</b>
-          <span className="rv-src inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#5b6b80]">
-            <GoogleIcon size={14} /> Google review
+      <div className="flex flex-col gap-3.5 flex-1">
+        <figcaption className="rv-head flex items-center gap-3">
+          <span
+            className="rv-avatar shrink-0 select-none text-white font-bold text-[19px] grid place-items-center rounded-full"
+            style={{ backgroundColor: review.color }}
+          >
+            {review.initial}
           </span>
-        </span>
-      </figcaption>
+          <span className="rv-who flex flex-col gap-[3px] text-left">
+            <b className="text-[#0e1b2e] font-bold text-base leading-snug">{review.name}</b>
+            <span className="rv-src inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#5b6b80]">
+              <GoogleIcon size={14} /> Google review
+            </span>
+          </span>
+        </figcaption>
 
-      <StarRating />
+        <StarRating />
 
-      <blockquote className="rv-text m-0 text-[15.5px] leading-[1.75] text-[#24344a] whitespace-pre-line text-left">
-        <span className="transition-opacity duration-250 ease-in-out">
-          {displayText}
-        </span>
-      </blockquote>
+        <blockquote className="rv-text m-0 text-[15px] sm:text-[15.5px] leading-[1.7] text-[#24344a] whitespace-pre-line text-left flex-1">
+          <AnimatePresence initial={false} mode="wait">
+            <motion.span
+              key={expanded ? "o" : "c"}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="transition-opacity duration-250 ease-in-out"
+            >
+              {displayText}
+            </motion.span>
+          </AnimatePresence>
+        </blockquote>
+      </div>
 
-      {isLong && (
+      {isLong ? (
         <button
           type="button"
-          className="rv-more self-start mt-auto py-2 px-0 border-0 bg-transparent font-bold text-sm text-[#0b4db5] hover:text-[#083a8a] cursor-pointer underline underline-offset-[3px] transition-colors"
+          className="rv-more self-start mt-auto pt-2 pb-0 px-0 border-0 bg-transparent font-bold text-sm text-[#0b4db5] hover:text-[#083a8a] cursor-pointer underline underline-offset-[3px] transition-colors"
           aria-expanded={expanded}
           onClick={() => setExpanded((prev) => !prev)}
         >
           {expanded ? "Show less" : "Read full review"}
         </button>
+      ) : (
+        <div className="h-6 mt-auto" aria-hidden="true" />
       )}
     </figure>
   );
 };
 
 function useVisibleCount() {
-  const getCount = () => {
-    if (typeof window === "undefined") return 3;
-    if (window.innerWidth < 700) return 1;
-    if (window.innerWidth < 1080) return 2;
-    return 3;
-  };
-
-  const [vis, setVis] = useState(getCount);
+  const [vis, setVis] = useState(3);
 
   useEffect(() => {
+    const getCount = () => {
+      if (window.innerWidth < 700) return 1;
+      if (window.innerWidth < 1080) return 2;
+      return 3;
+    };
+    setVis(getCount());
     const handleResize = () => setVis(getCount());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -195,36 +208,65 @@ function useVisibleCount() {
   return vis;
 }
 
+// 3 sets of slides for seamless circular infinite looping
+const SLIDES = [...REVIEWS, ...REVIEWS, ...REVIEWS];
+const SET_SIZE = REVIEWS.length;
+const INITIAL_INDEX = SET_SIZE; // 5
+
 const ReviewSlider = () => {
   const vis = useVisibleCount();
-  const maxIdx = Math.max(0, REVIEWS.length - vis);
-  const [currentIdx, setCurrentIdx] = useState(0);
+  const [currentIdx, setCurrentIdx] = useState(INITIAL_INDEX);
+  const [enableTransition, setEnableTransition] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef(0);
 
-  useEffect(() => {
-    if (currentIdx > maxIdx) {
-      setCurrentIdx(maxIdx);
+  // Transition reset for seamless infinite loop
+  const handleTransitionEnd = (e) => {
+    if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
+
+    if (currentIdx >= SET_SIZE * 2) {
+      setEnableTransition(false);
+      setCurrentIdx((prev) => prev - SET_SIZE);
+    } else if (currentIdx < SET_SIZE) {
+      setEnableTransition(false);
+      setCurrentIdx((prev) => prev + SET_SIZE);
     }
-  }, [maxIdx, currentIdx]);
+  };
+
+  // Re-enable CSS transition after silent reset frame
+  useEffect(() => {
+    if (!enableTransition) {
+      const frame = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setEnableTransition(true);
+        });
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [enableTransition]);
 
   // Autoplay with 5200ms timer
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
-      setCurrentIdx((prev) => (prev >= maxIdx ? 0 : prev + 1));
+      setEnableTransition(true);
+      setCurrentIdx((prev) => prev + 1);
     }, 5200);
     return () => clearInterval(interval);
-  }, [isPaused, maxIdx]);
+  }, [isPaused]);
 
   const step = (delta) => {
-    setCurrentIdx((prev) => {
-      const next = prev + delta;
-      if (next < 0) return maxIdx;
-      if (next > maxIdx) return 0;
-      return next;
-    });
+    setEnableTransition(true);
+    setCurrentIdx((prev) => prev + delta);
   };
+
+  const goTo = (dotIdx) => {
+    setEnableTransition(true);
+    setCurrentIdx(SET_SIZE + dotIdx);
+  };
+
+  // Active dot mapped to the 5 reviews
+  const activeDot = ((currentIdx % SET_SIZE) + SET_SIZE) % SET_SIZE;
 
   return (
     <div
@@ -249,11 +291,15 @@ const ReviewSlider = () => {
         <div
           className="rv-track"
           style={{
-            transform: `translateX(calc(${-currentIdx} * (100% + 24px) / var(--vis)))`
+            transform: `translateX(calc(${-currentIdx} * (100% + 24px) / var(--vis)))`,
+            transition: enableTransition
+              ? "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
+              : "none",
           }}
+          onTransitionEnd={handleTransitionEnd}
         >
-          {REVIEWS.map((review, idx) => (
-            <ReviewCard key={review.name} review={review} index={idx} />
+          {SLIDES.map((review, idx) => (
+            <ReviewCard key={`${review.name}-${idx}`} review={review} index={idx} />
           ))}
         </div>
       </div>
@@ -268,13 +314,13 @@ const ReviewSlider = () => {
           ‹
         </button>
         <div className="rv-dots">
-          {Array.from({ length: maxIdx + 1 }, (_, i) => (
+          {REVIEWS.map((_, i) => (
             <button
               key={i}
               type="button"
               aria-label={`Go to review ${i + 1}`}
-              className={i === currentIdx ? "on" : ""}
-              onClick={() => setCurrentIdx(i)}
+              className={i === activeDot ? "on" : ""}
+              onClick={() => goTo(i)}
             />
           ))}
         </div>
@@ -293,28 +339,28 @@ const ReviewSlider = () => {
 
 const GoogleReviews = () => {
   return (
-    <section className="sec pt-14 pb-24" aria-labelledby="rv-title">
+    <section className="sec pt-14 pb-24 overflow-hidden" aria-labelledby="rv-title">
       <div className="wrap max-w-[1240px] mx-auto px-6 flex flex-col gap-10">
         <div className="head center max-w-[720px] mx-auto text-center flex flex-col items-center gap-4">
-          <span className="eyebrow center inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]">
+          <Reveal as="span" className="eyebrow center inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]">
             Google reviews
-          </span>
-          <h2 id="rv-title" className="h2 m-0 font-sans text-[clamp(30px,4vw,50px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
+          </Reveal>
+          <Reveal as="h2" id="rv-title" className="h2 m-0 font-sans text-[clamp(30px,4vw,50px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
             What our <span className="hl text-[#0b4db5]">clients say</span>
-          </h2>
-          <div className="rv-badge neu-s inline-flex items-center gap-2.5 sm:gap-3.5 px-4 sm:px-[22px] py-2.5 sm:py-3 rounded-full mt-1 bg-[#eaf6f8] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)]">
+          </Reveal>
+          <Reveal className="rv-badge neu-s inline-flex items-center gap-2.5 sm:gap-3.5 px-4 sm:px-[22px] py-2.5 sm:py-3 rounded-full mt-1 bg-[#eaf6f8] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)]">
             <GoogleIcon size={26} />
             <span className="rv-badge__txt flex flex-col text-left leading-[1.25] text-[13px] text-[#3b4b60]">
               <b className="text-[15px] font-bold text-[#0e1b2e]">5-star reviews</b>
               <span>from clients on Google</span>
             </span>
             <StarRating />
-          </div>
+          </Reveal>
         </div>
 
         <ReviewSlider />
 
-        <div className="flex flex-wrap justify-center gap-3 mt-2">
+        <Reveal className="flex flex-wrap justify-center gap-3 mt-2">
           <a
             href={GOOGLE_REVIEW_URL}
             target="_blank"
@@ -333,7 +379,7 @@ const GoogleReviews = () => {
             <span>Write a review</span>
             <span className="arr transition-transform duration-250">→</span>
           </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

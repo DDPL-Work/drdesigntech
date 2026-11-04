@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Reveal from '@/components/ui/Reveal';
+import { openWhatsApp } from '@/utils/whatsapp';
 
 const FAQS = [
   {
@@ -40,27 +43,28 @@ const Faqs = () => {
   };
 
   return (
-    <section id="faq" className="sec">
+    <section id="faq" className="sec overflow-hidden">
       <div className="wrap flex flex-wrap gap-12 lg:gap-14">
         {/* Left Column / Side */}
         <div className="flex-[1_1_360px] min-w-0 flex flex-col gap-[18px]">
-          <span className="eyebrow self-start">FAQs</span>
-          <h2 className="h2 text-left">
+          <Reveal as="span" className="eyebrow self-start">FAQs</Reveal>
+          <Reveal as="h2" className="h2 text-left">
             Questions, <span className="hl">answered</span>
-          </h2>
-          <p className="lead text-left text-[#5b6b80]">
+          </Reveal>
+          <Reveal as="p" className="lead text-left text-[#5b6b80]">
             Can&apos;t find what you&apos;re looking for? Our team is one message away.
-          </p>
-          <div className="pt-1">
+          </Reveal>
+          <Reveal className="pt-1">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => openWhatsApp("917217052558", "", e)}
               className="btn btn-neu inline-flex items-center"
             >
               Ask on WhatsApp
             </a>
-          </div>
+          </Reveal>
         </div>
 
         {/* Right Column / Accordion List */}
@@ -68,9 +72,12 @@ const Faqs = () => {
           {FAQS.map((item, index) => {
             const isOpen = openIndex === index;
             return (
-              <div
+              <Reveal
                 key={item.question}
-                className="neu-s rounded-[22px] transition-all duration-300 overflow-hidden"
+                className={`neu-s rounded-[22px] transition-all duration-300 overflow-hidden${
+                  isOpen ? " on" : ""
+                }`}
+                delay={index * 0.05}
               >
                 <button
                   type="button"
@@ -101,16 +108,22 @@ const Faqs = () => {
                   </span>
                 </button>
 
-                <div
-                  className={`overflow-hidden transition-all duration-350 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
-                    isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="m-0 px-[18px] sm:px-[22px] pb-[18px] sm:pb-[22px] text-[#5b6b80] leading-[1.75] text-[15px] sm:text-[15.5px]">
-                    {item.answer}
-                  </p>
-                </div>
-              </div>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      className="overflow-hidden"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: [0.2, 0.7, 0.2, 1] }}
+                    >
+                      <p className="m-0 px-[18px] sm:px-[22px] pb-[18px] sm:pb-[22px] text-[#5b6b80] leading-[1.75] text-[15px] sm:text-[15.5px]">
+                        {item.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Reveal>
             );
           })}
         </div>

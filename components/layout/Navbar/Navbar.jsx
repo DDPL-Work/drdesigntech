@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { openWhatsApp } from '@/utils/whatsapp';
 
 const logoImg = '/assets/logo.png';
 
@@ -14,6 +15,84 @@ const navLinks = [
   { href: '/work-we-have-done', label: 'Our Work' },
   { href: '/know-answers-of-your-questions', label: 'FAQs' },
   { href: '/reach-to-us', label: 'Contact' }
+];
+
+const mobileNavLinks = [
+  {
+    href: '/',
+    label: 'Home',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 0 1-1.5 1.5h-4.5a1 1 0 0 1-1-1v-4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v4a1 1 0 0 1-1 1H4.5A1.5 1.5 0 0 1 3 20v-9.5z" />
+      </svg>
+    )
+  },
+  {
+    href: '/know-about-us-more',
+    label: 'About',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
+        <circle cx="9.5" cy="7" r="4" />
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    )
+  },
+  {
+    href: '/know-that-what-work-we-do',
+    label: 'Services',
+    isServices: true,
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+        <polyline points="2 17 12 22 22 17" />
+        <polyline points="2 12 12 17 22 12" />
+      </svg>
+    )
+  },
+  {
+    href: '/work-we-have-done',
+    label: 'Our Work',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+    )
+  },
+  {
+    href: '/know-answers-of-your-questions',
+    label: 'FAQs',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
+      </svg>
+    )
+  },
+  {
+    href: '/get-your-audit',
+    label: 'Website Audit',
+    badge: 'Free',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        <path d="m8 11 2 2 4-4" />
+      </svg>
+    )
+  },
+  {
+    href: '/reach-to-us',
+    label: 'Contact',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+      </svg>
+    )
+  }
 ];
 
 const servicesData = [
@@ -88,7 +167,36 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [hoveredHref, setHoveredHref] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const leaveTimerRef = useRef(null);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 1020);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('dd-nav-toggle', { detail: { open: menuOpen } }));
+      if (menuOpen) {
+        document.body.classList.add('nav-open');
+      } else {
+        document.body.classList.remove('nav-open');
+      }
+    }
+  }, [menuOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.body.classList.remove('nav-open');
+      }
+    };
+  }, []);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -378,7 +486,7 @@ export default function Navbar() {
 
                               <Link
                                 href="/get-your-audit"
-                                className="mega__cta"
+                                className="mega__cta !rounded-[20px] !text-left !items-start !w-full !max-w-[250px] !aspect-auto"
                                 onClick={() => setServicesOpen(false)}
                               >
                                 <span className="mega__cta-ic">
@@ -415,26 +523,28 @@ export default function Navbar() {
 
             {/* Header Right Actions */}
             <div className="header__actions">
-              <button
-                type="button"
-                className="btn btn-blue shine hcta"
-                onClick={handleOpenLead}
-              >
-                <span>Get a free proposal</span>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
+              {!(isMobile && menuOpen) && (
+                <button
+                  type="button"
+                  className="btn btn-blue shine hcta"
+                  onClick={handleOpenLead}
                 >
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </button>
+                  <span>Get a free proposal</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </button>
+              )}
 
               <button
                 type="button"
@@ -483,7 +593,7 @@ export default function Navbar() {
                   exit={{ opacity: 0, y: -10, height: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {navLinks.map((item, v) => {
+                  {mobileNavLinks.map((item, v) => {
                     const isCurrent =
                       pathname === item.href ||
                       (item.href !== '/' && pathname.startsWith(item.href));
@@ -500,7 +610,18 @@ export default function Navbar() {
                           aria-current={isCurrent ? 'page' : undefined}
                           onClick={() => setMenuOpen(false)}
                         >
-                          {item.label}
+                          <span className="flex items-center gap-3 w-full">
+                            <span className="mnav__tab-ic" aria-hidden="true">
+                              {item.icon}
+                            </span>
+                            <span className="mnav__tab-label">{item.label}</span>
+                            {item.badge && (
+                              <span className="topbar__badge text-[10.5px]">
+                                {item.badge}
+                              </span>
+                            )}
+                            {isCurrent && <span className="mnav__tab-dot" aria-hidden="true" />}
+                          </span>
                         </Link>
                       </motion.div>
                     );
@@ -508,16 +629,21 @@ export default function Navbar() {
 
                   {/* Mobile Services Grid */}
                   <div className="mnav__svc">
-                    {servicesData.map((svc) => (
-                      <Link
-                        key={svc.id}
-                        href={svc.href}
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        <img src={svc.icon} alt="" />
-                        <span>{svc.title.replace(' Development', '').replace(' Management', '')}</span>
-                      </Link>
-                    ))}
+                    {servicesData.map((svc, idx) => {
+                      const isLast = idx === servicesData.length - 1;
+                      return (
+                        <Link
+                          key={svc.id}
+                          href={svc.href}
+                          onClick={() => setMenuOpen(false)}
+                          className={isLast ? 'col-span-2 mnav__svc--full' : undefined}
+                          style={isLast ? { gridColumn: '1 / -1' } : undefined}
+                        >
+                          <img src={svc.icon} alt="" />
+                          <span>{svc.title.replace(' Development', '').replace(' Management', '')}</span>
+                        </Link>
+                      );
+                    })}
                   </div>
 
                   {/* Mobile Quick Action Buttons */}
@@ -544,6 +670,10 @@ export default function Navbar() {
                       style={{ color: '#1E7A43' }}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => {
+                        setMenuOpen(false);
+                        openWhatsApp("917217052558", "Hi Dr. Design, I would like to discuss a project.", e);
+                      }}
                     >
                       <svg
                         width="18"
@@ -573,7 +703,7 @@ export default function Navbar() {
                     }}
                   >
                     Get a free proposal
-                  </button>
+                  </button> 
 
                   {/* Mobile Socials */}
                   <div className="mnav__soc">
@@ -581,6 +711,7 @@ export default function Navbar() {
                       href="https://www.instagram.com/drdesigntechnology/"
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="mnav__soc-btn"
                       aria-label="Instagram"
                     >
                       <svg
@@ -603,6 +734,7 @@ export default function Navbar() {
                       href="https://www.linkedin.com/company/drdesignpvtltd/"
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="mnav__soc-btn"
                       aria-label="LinkedIn"
                     >
                       <svg

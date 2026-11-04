@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, animate } from 'framer-motion';
+import { openWhatsApp } from '@/utils/whatsapp';
 
 const WHATSAPP_BASE = 'https://wa.me/917217052558';
 
@@ -487,6 +488,7 @@ export default function AuditPage() {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => openWhatsApp("917217052558", `Hi Dr. Design, please do a manual audit of my website: ${url}`, e)}
                     className="text-[#0b4db5] font-extrabold hover:underline"
                   >
                     Ask on WhatsApp →
@@ -848,6 +850,7 @@ export default function AuditPage() {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => openWhatsApp("917217052558", whatsappMsg, e)}
                   className="btn btn-glow btn-pulse w-full sm:w-auto"
                 >
                   <span>Send report on WhatsApp</span>{' '}

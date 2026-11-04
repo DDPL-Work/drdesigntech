@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from "react";
+import { openWhatsApp } from "@/utils/whatsapp";
 
 const globeSvg = '/assets/icons/globe.svg';
 const webSvg = '/assets/icons/web.svg';
@@ -131,22 +132,31 @@ export default function LeadModal({ delay = 9000 }) {
     return () => window.removeEventListener("open-lead", handleOpen);
   }, []);
 
-  // Handle escape key and focus
+  // Handle escape key, body scroll lock, and desktop autofocus
   useEffect(() => {
     if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     const handleKeyDown = (e) => {
       if (e.key === "Escape") closeModal();
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    const focusTimer = setTimeout(() => {
-      nameInputRef.current?.focus();
-    }, 350);
+
+    // Only autofocus on desktop (prevents virtual keyboard from jumping on mobile)
+    let focusTimer;
+    if (typeof window !== "undefined" && window.innerWidth > 768) {
+      focusTimer = setTimeout(() => {
+        nameInputRef.current?.focus();
+      }, 350);
+    }
 
     return () => {
+      document.body.style.overflow = originalOverflow;
       document.removeEventListener("keydown", handleKeyDown);
-      clearTimeout(focusTimer);
+      if (focusTimer) clearTimeout(focusTimer);
     };
   }, [isOpen, activeTab]);
 
@@ -162,8 +172,7 @@ Name: ${name}
 Phone: ${phone}
 Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
 
-    const waUrl = `https://wa.me/917217052558?text=${encodeURIComponent(message)}`;
-    window.open(waUrl, "_blank", "noopener,noreferrer");
+    openWhatsApp("917217052558", message);
     setSubmittedType("quote");
   };
 
@@ -183,14 +192,14 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
 
   return (
     <div
-      className="fixed inset-0 z-[200] grid place-items-center max-[760px]:place-items-end p-4 max-[760px]:p-0 [perspective:1200px]"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-3.5 sm:p-4 [perspective:1200px] overflow-hidden"
       role="dialog"
       aria-modal="true"
       aria-labelledby="lp-title"
     >
       {/* Backdrop */}
       <div
-        className={`absolute inset-0 bg-[#08142c]/55 backdrop-blur-[6px] ${
+        className={`absolute inset-0 bg-[#08142c]/60 backdrop-blur-[6px] ${
           isClosing
             ? "animate-[scrimOut_0.22s_ease-in_forwards]"
             : "animate-[scrimIn_0.3s_ease-out_forwards]"
@@ -198,9 +207,9 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
         onClick={closeModal}
       />
 
-      {/* Modal Dialog Card */}
+      {/* Modal Dialog Card - Centered in middle of screen for all devices */}
       <div
-        className={`relative w-[min(880px,100%)] max-h-[calc(100vh-32px)] max-[760px]:max-h-[92vh] overflow-y-auto no-scrollbar grid grid-cols-[0.9fr_1.1fr] max-[760px]:grid-cols-1 rounded-[30px] max-[760px]:rounded-b-none max-[760px]:rounded-t-[26px] bg-[#f4fafc] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.6)] ${
+        className={`relative w-[min(880px,100%)] max-h-[min(90dvh,calc(100vh-32px))] overflow-y-auto overscroll-contain no-scrollbar grid grid-cols-[0.9fr_1.1fr] max-[760px]:grid-cols-1 rounded-[24px] sm:rounded-[30px] bg-[#f4fafc] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.6)] ${
           isClosing
             ? "animate-[modalOut_0.22s_ease-in_forwards]"
             : "animate-[modalIn_0.42s_cubic-bezier(0.16,1,0.3,1)_forwards]"
@@ -209,8 +218,8 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
         {/* Close Button */}
         <button
           type="button"
-          className="absolute top-3.5 right-3.5 max-[760px]:top-3 max-[760px]:right-3 z-10 w-[42px] h-[42px] rounded-full bg-white grid place-items-center text-[#0e1b2e] shadow-[0_6px_14px_rgba(0,0,0,0.12)] cursor-pointer hover:rotate-90 transition-transform duration-250 border-0"
-          aria-label="Close"
+          className="absolute top-3.5 right-3.5 max-[760px]:top-3 max-[760px]:right-3 z-30 w-[42px] h-[42px] rounded-full bg-white grid place-items-center text-[#0e1b2e] shadow-[0_6px_14px_rgba(0,0,0,0.12)] cursor-pointer hover:rotate-90 transition-transform duration-250 border-0"
+          aria-label="Close modal"
           onClick={closeModal}
         >
           <svg
@@ -228,7 +237,7 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
 
         {/* Left Side: Animated Orbit & Visual Art */}
         <div
-          className="relative overflow-hidden isolate min-h-[460px] max-[760px]:min-h-0 text-white flex flex-col justify-end max-[760px]:flex-row max-[760px]:items-center max-[760px]:justify-start p-[26px] max-[760px]:p-[18px_20px] [--r:112px]"
+          className="relative overflow-hidden isolate min-h-[460px] max-[760px]:min-h-0 text-white flex flex-col justify-end max-[760px]:flex-row max-[760px]:items-center max-[760px]:justify-start p-[26px] max-[760px]:p-[18px_20px] max-[760px]:pr-14 [--r:112px]"
           aria-hidden="true"
         >
           {/* Background Mesh */}
@@ -269,25 +278,25 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
           </div>
 
           {/* Art Bottom Copy */}
-          <div className="relative flex flex-col gap-1">
-            <span className="self-start inline-flex items-center gap-[7px] px-3 py-1.5 mb-2 rounded-full text-[12px] font-bold bg-white/15 border border-white/25 text-white">
+          <div className="relative flex flex-col gap-1 max-[760px]:gap-0.5">
+            <span className="self-start inline-flex items-center gap-[7px] px-2.5 sm:px-3 py-1 sm:py-1.5 mb-1.5 sm:mb-2 rounded-full text-[11px] sm:text-[12px] font-bold bg-white/15 border border-white/25 text-white">
               <span className="w-2 h-2 rounded-full bg-[#25aa5a] inline-block animate-[blink_1.4s_infinite]" />
               Reply within one business day
             </span>
-            <b className="font-['Poppins'] text-[26px] max-[760px]:text-[20px] font-extrabold tracking-[-0.02em] leading-tight text-white">
+            <b className="font-['Plus_Jakarta_Sans',sans-serif] text-[26px] max-[760px]:text-[19px] sm:max-[760px]:text-[21px] font-extrabold tracking-[-0.02em] leading-tight text-white">
               Free strategy call
             </b>
-            <span className="text-[#dce8fa] text-[14.5px]">
+            <span className="text-[#dce8fa] text-[13px] sm:text-[14.5px]">
               + growth roadmap for your business
             </span>
           </div>
         </div>
 
         {/* Right Side: Interactive Forms */}
-        <div className="relative p-[28px_30px_26px] max-[760px]:p-[18px_18px_calc(18px+env(safe-area-inset-bottom))] flex flex-col gap-3.5">
+        <div className="relative p-[28px_30px_26px] max-[760px]:p-[18px_18px_22px] flex flex-col gap-3.5">
           {/* Tab Switcher */}
           <div
-            className="relative grid grid-cols-2 p-1 mr-[46px] rounded-full bg-[#e3eff3] shadow-[inset_3px_3px_7px_rgba(20,84,120,0.12),inset_-3px_-3px_7px_#ffffff]"
+            className="relative grid grid-cols-2 p-1 mr-[46px] max-[760px]:mr-0 rounded-full bg-[#e3eff3] shadow-[inset_3px_3px_7px_rgba(20,84,120,0.12),inset_-3px_-3px_7px_#ffffff]"
             role="tablist"
           >
             <button
@@ -344,7 +353,7 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
                   <path d="M5 12l5 5 9-10" />
                 </svg>
               </span>
-              <h3 id="lp-title" className="font-['Poppins'] m-0 mt-1.5 text-[26px] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
+              <h3 id="lp-title" className="font-['Plus_Jakarta_Sans',sans-serif] m-0 mt-1.5 text-[26px] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
                 {submittedType === "quote" ? "Almost done!" : "You're on the list!"}
               </h3>
               <p className="m-0 text-[#44546a] text-[14.5px] leading-[1.6]">
@@ -362,7 +371,7 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
             </div>
           ) : activeTab === "quote" ? (
             <form className="flex flex-col gap-3" onSubmit={handleQuoteSubmit}>
-              <h3 id="lp-title" className="font-['Poppins'] m-0 mt-1.5 text-[26px] max-[760px]:text-[22px] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
+              <h3 id="lp-title" className="font-['Plus_Jakarta_Sans',sans-serif] m-0 mt-1.5 text-[26px] max-[760px]:text-[22px] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
                 Get your <span className="text-[#0b4db5]">free quote</span>
               </h3>
               <p className="m-0 text-[#44546a] text-[14.5px] leading-[1.6]">
@@ -379,7 +388,7 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
                       type="button"
                       aria-pressed={isSelected}
                       onClick={() => setSelectedService(service)}
-                      className={`min-h-[36px] px-3 py-0 rounded-full border-[1.5px] font-semibold font-['Plus_Jakarta_Sans'] text-[13px] cursor-pointer inline-flex items-center justify-center transition-all duration-200 ${
+                      className={`min-h-[34px] sm:min-h-[36px] px-2.5 sm:px-3 py-1 rounded-full border-[1.5px] font-semibold font-['Plus_Jakarta_Sans'] text-[12px] sm:text-[13px] cursor-pointer inline-flex items-center justify-center transition-all duration-200 ${
                         isSelected
                           ? "bg-[#0b4db5] border-[#0b4db5] text-white"
                           : "bg-white border-[#CFE1E7] text-[#0e1b2e] hover:border-[#0b4db5]"
@@ -392,7 +401,7 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
               </div>
 
               {/* Input: Name */}
-              <label className="flex flex-col gap-1.5 text-[13.5px] font-bold text-[#0e1b2e]">
+              <label className="flex flex-col gap-1.5 text-[13px] sm:text-[13.5px] font-bold text-[#0e1b2e]">
                 Your name *
                 <input
                   ref={nameInputRef}
@@ -400,12 +409,12 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
                   required
                   placeholder="Your name"
                   autoComplete="name"
-                  className="font-['Plus_Jakarta_Sans'] font-medium text-[14.5px] px-4 py-2.5 rounded-[14px] border-0 bg-[#e6f3f6] text-[#0e1b2e] placeholder-[#5b6b80] outline-none w-full box-border shadow-[inset_4px_4px_8px_rgba(20,84,120,0.13),inset_-4px_-4px_8px_rgba(255,255,255,0.95)] "
+                  className="font-['Plus_Jakarta_Sans'] font-medium text-[16px] sm:text-[14.5px] px-3.5 sm:px-4 py-2.5 rounded-[14px] border-0 bg-[#e6f3f6] text-[#0e1b2e] placeholder-[#5b6b80] outline-none w-full box-border shadow-[inset_4px_4px_8px_rgba(20,84,120,0.13),inset_-4px_-4px_8px_rgba(255,255,255,0.95)]"
                 />
               </label>
 
               {/* Input: Phone */}
-              <label className="flex flex-col gap-1.5 text-[13.5px] font-bold text-[#0e1b2e]">
+              <label className="flex flex-col gap-1.5 text-[13px] sm:text-[13.5px] font-bold text-[#0e1b2e]">
                 Phone / WhatsApp *
                 <input
                   name="phone"
@@ -413,17 +422,17 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
                   type="tel"
                   placeholder="+91 9xxxx xxxxx"
                   autoComplete="tel"
-                  className="font-['Plus_Jakarta_Sans'] font-medium text-[14.5px] px-4 py-2.5 rounded-[14px] border-0 bg-[#e6f3f6] text-[#0e1b2e] placeholder-[#5b6b80] outline-none w-full box-border shadow-[inset_4px_4px_8px_rgba(20,84,120,0.13),inset_-4px_-4px_8px_rgba(255,255,255,0.95)] "
+                  className="font-['Plus_Jakarta_Sans'] font-medium text-[16px] sm:text-[14.5px] px-3.5 sm:px-4 py-2.5 rounded-[14px] border-0 bg-[#e6f3f6] text-[#0e1b2e] placeholder-[#5b6b80] outline-none w-full box-border shadow-[inset_4px_4px_8px_rgba(20,84,120,0.13),inset_-4px_-4px_8px_rgba(255,255,255,0.95)]"
                 />
               </label>
 
               {/* Input: Note */}
-              <label className="flex flex-col gap-1.5 text-[13.5px] font-bold text-[#0e1b2e]">
+              <label className="flex flex-col gap-1.5 text-[13px] sm:text-[13.5px] font-bold text-[#0e1b2e]">
                 Anything else? (optional)
                 <input
                   name="note"
                   placeholder="e.g. new website for my clinic"
-                  className="font-['Plus_Jakarta_Sans'] font-medium text-[14.5px] px-4 py-2.5 rounded-[14px] border-0 bg-[#e6f3f6] text-[#0e1b2e] placeholder-[#5b6b80] outline-none w-full box-border shadow-[inset_4px_4px_8px_rgba(20,84,120,0.13),inset_-4px_-4px_8px_rgba(255,255,255,0.95)] "
+                  className="font-['Plus_Jakarta_Sans'] font-medium text-[16px] sm:text-[14.5px] px-3.5 sm:px-4 py-2.5 rounded-[14px] border-0 bg-[#e6f3f6] text-[#0e1b2e] placeholder-[#5b6b80] outline-none w-full box-border shadow-[inset_4px_4px_8px_rgba(20,84,120,0.13),inset_-4px_-4px_8px_rgba(255,255,255,0.95)]"
                 />
               </label>
 
@@ -437,7 +446,7 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
             </form>
           ) : (
             <form className="flex flex-col gap-3" onSubmit={handleNewsletterSubmit}>
-              <h3 id="lp-title" className="font-['Poppins'] m-0 mt-1.5 text-[26px] max-[760px]:text-[22px] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
+              <h3 id="lp-title" className="font-['Plus_Jakarta_Sans',sans-serif] m-0 mt-1.5 text-[26px] max-[760px]:text-[22px] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
                 Grow with <span className="text-[#0b4db5]">smart tips</span>
               </h3>
               <p className="m-0 text-[#44546a] text-[14.5px] leading-[1.6]">
@@ -445,18 +454,18 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
                 growing businesses.
               </p>
               <ul className="list-none m-0 p-0 flex flex-col gap-2 my-1">
-                <li className="relative pl-7 font-semibold text-[14.5px] text-[#0e1b2e] before:content-['✓'] before:absolute before:left-0 before:top-[1px] before:w-5 before:h-5 before:rounded-full before:grid before:place-items-center before:text-[11px] before:font-extrabold before:text-white before:bg-[#25aa5a]">
+                <li className="relative pl-7 font-semibold text-[14px] sm:text-[14.5px] text-[#0e1b2e] before:content-['✓'] before:absolute before:left-0 before:top-[1px] before:w-5 before:h-5 before:rounded-full before:grid before:place-items-center before:text-[11px] before:font-extrabold before:text-white before:bg-[#25aa5a]">
                   Website &amp; SEO checklists
                 </li>
-                <li className="relative pl-7 font-semibold text-[14.5px] text-[#0e1b2e] before:content-['✓'] before:absolute before:left-0 before:top-[1px] before:w-5 before:h-5 before:rounded-full before:grid before:place-items-center before:text-[11px] before:font-extrabold before:text-white before:bg-[#25aa5a]">
+                <li className="relative pl-7 font-semibold text-[14px] sm:text-[14.5px] text-[#0e1b2e] before:content-['✓'] before:absolute before:left-0 before:top-[1px] before:w-5 before:h-5 before:rounded-full before:grid before:place-items-center before:text-[11px] before:font-extrabold before:text-white before:bg-[#25aa5a]">
                   Social media &amp; ads ideas that work
                 </li>
-                <li className="relative pl-7 font-semibold text-[14.5px] text-[#0e1b2e] before:content-['✓'] before:absolute before:left-0 before:top-[1px] before:w-5 before:h-5 before:rounded-full before:grid before:place-items-center before:text-[11px] before:font-extrabold before:text-white before:bg-[#25aa5a]">
+                <li className="relative pl-7 font-semibold text-[14px] sm:text-[14.5px] text-[#0e1b2e] before:content-['✓'] before:absolute before:left-0 before:top-[1px] before:w-5 before:h-5 before:rounded-full before:grid before:place-items-center before:text-[11px] before:font-extrabold before:text-white before:bg-[#25aa5a]">
                   New tools to automate your business
                 </li>
               </ul>
 
-              <label className="flex flex-col gap-1.5 text-[13.5px] font-bold text-[#0e1b2e]">
+              <label className="flex flex-col gap-1.5 text-[13px] sm:text-[13.5px] font-bold text-[#0e1b2e]">
                 Email address *
                 <input
                   ref={nameInputRef}
@@ -465,7 +474,7 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
                   required
                   placeholder="you@company.com"
                   autoComplete="email"
-                  className="font-['Plus_Jakarta_Sans'] font-medium text-[14.5px] px-4 py-2.5 rounded-[14px] border-0 bg-[#e6f3f6] text-[#0e1b2e] placeholder-[#5b6b80] outline-none w-full box-border shadow-[inset_4px_4px_8px_rgba(20,84,120,0.13),inset_-4px_-4px_8px_rgba(255,255,255,0.95)] "
+                  className="font-['Plus_Jakarta_Sans'] font-medium text-[16px] sm:text-[14.5px] px-3.5 sm:px-4 py-2.5 rounded-[14px] border-0 bg-[#e6f3f6] text-[#0e1b2e] placeholder-[#5b6b80] outline-none w-full box-border shadow-[inset_4px_4px_8px_rgba(20,84,120,0.13),inset_-4px_-4px_8px_rgba(255,255,255,0.95)]"
                 />
               </label>
 

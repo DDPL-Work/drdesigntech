@@ -1,4 +1,9 @@
+'use client';
+
 import { useId } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import Reveal from '@/components/ui/Reveal';
 
 function DiscoverIcon({ id }) {
   return (
@@ -281,39 +286,50 @@ export default function HowWeWork() {
   const baseId = useId().replace(/:/g, '');
 
   return (
-    <section className="sec relative" id="process" aria-label="How we work">
+    <section className="sec relative overflow-hidden" id="process" aria-label="How we work">
       <div className="wrap flex flex-col gap-11">
         {/* Header Row */}
         <div className="head-row flex flex-wrap justify-between items-end gap-5 max-sm:gap-4">
           <div className="head flex flex-col gap-4 max-w-[720px]">
-            <span className="eyebrow">How we work</span>
-            <h2 className="m-0 text-[clamp(30px,3.6vw,48px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e] font-['Plus_Jakarta_Sans',sans-serif]">
+            <Reveal as="span" className="eyebrow">How we work</Reveal>
+            <Reveal as="h2" className="m-0 text-[clamp(30px,3.6vw,48px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e] font-['Plus_Jakarta_Sans',sans-serif]">
               Four checkpoints. <span className="text-[#0b4db5]">One clear roadmap.</span>
-            </h2>
+            </Reveal>
           </div>
-          <div className="row flex flex-wrap items-center gap-3.5">
-            <a href="/get-your-audit" className="btn btn-blue group">
+          <Reveal className="row flex flex-wrap items-center gap-3.5">
+            <Link href="/get-your-audit" className="btn btn-blue group">
               Get an audit report <span className="arr transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
-            </a>
+            </Link>
             <b className="text-[15px] font-bold text-[#3B4B60]">Free. No obligation.</b>
-          </div>
+          </Reveal>
         </div>
 
         {/* Process Roadmap Track & Cards */}
         <div className="pr-wrap relative">
           {/* Animated Connecting Timeline Rail */}
           <div className="pr-rail max-[1100px]:hidden pointer-events-none" aria-hidden="true">
-            <span className="pr-rail__fill" />
+            <motion.span
+              className="pr-rail__fill"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+            />
             <span className="pr-rail__dot" />
           </div>
 
           {/* 4 Process Cards */}
-          <ol className="pr-grid list-none m-0 p-0 relative grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 max-sm:flex max-sm:overflow-x-auto max-sm:snap-x max-sm:snap-mandatory max-sm:gap-3.5 max-sm:-mx-[18px] max-sm:pt-1.5 max-sm:pb-[18px] max-sm:px-[18px] max-sm:no-scrollbar">
+          <ol className="pr-grid list-none m-0 p-0 relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4.5 max-sm:w-full">
             {stepsData.map((step, idx) => (
-              <li
+              <motion.li
                 key={step.t}
-                className="pr-card neu group relative z-[2] overflow-hidden p-[26px_26px_28px] max-sm:p-5 rounded-[28px] bg-[#eaf6f8] shadow-[14px_14px_32px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.92)] flex flex-col gap-3 transition-transform duration-400 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:-translate-y-2.5 max-sm:flex-none max-sm:w-[80%] max-sm:snap-start"
+                className="pr-card neu group relative z-[2] overflow-hidden p-[26px_26px_28px] max-sm:p-5 rounded-[28px] max-sm:rounded-[24px] bg-[#eaf6f8] shadow-[14px_14px_32px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.92)] flex flex-col gap-3 max-sm:gap-2.5 max-sm:w-full max-sm:hover:translate-y-0"
                 style={{ '--c': step.c }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ delay: idx * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -10 }}
               >
                 {/* Top Accent Line */}
                 <span
@@ -323,7 +339,7 @@ export default function HowWeWork() {
                 />
 
                 {/* Card Top: Icon Well + Step Counter */}
-                <div className="pr-card__top flex items-center justify-between mb-1">
+                <div className="pr-card__top flex items-center justify-between mb-1 max-sm:mb-0.5">
                   <span className="pr-card__icon max-sm:w-[72px] max-sm:h-[72px]">
                     <span
                       className="ss-card__ring"
@@ -335,7 +351,7 @@ export default function HowWeWork() {
                           'radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px))'
                       }}
                     />
-                    <span className="w-[60px] h-[60px] max-sm:w-[46px] max-sm:h-[46px] flex items-center justify-center">
+                    <span className="si w-[60px] h-[60px] max-sm:w-[46px] max-sm:h-[46px] flex items-center justify-center">
                       {step.iconType === 'discover' && (
                         <DiscoverIcon id={`${baseId}_discover`} />
                       )}
@@ -352,10 +368,10 @@ export default function HowWeWork() {
                   </span>
 
                   <span
-                    className="pr-card__step flex flex-col items-end font-extrabold text-[34px] leading-none opacity-90 font-['Plus_Jakarta_Sans',sans-serif]"
+                    className="pr-card__step flex flex-col items-end font-extrabold text-[34px] max-sm:text-[28px] leading-none opacity-90 font-['Plus_Jakarta_Sans',sans-serif]"
                     style={{ color: step.c }}
                   >
-                    <small className="text-[11px] tracking-[0.16em] uppercase text-[#3B4B60] font-bold mb-1">
+                    <small className="text-[11px] max-sm:text-[10px] tracking-[0.16em] uppercase text-[#3B4B60] font-bold mb-1 max-sm:mb-0.5">
                       Step
                     </small>
                     {String(idx + 1).padStart(2, '0')}
@@ -363,19 +379,19 @@ export default function HowWeWork() {
                 </div>
 
                 {/* Title & Description */}
-                <h3 className="m-0 mt-1.5 text-[22px] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-[1.25] font-['Plus_Jakarta_Sans',sans-serif]">
+                <h3 className="m-0 mt-1.5 max-sm:mt-1 text-[22px] max-sm:text-[19px] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-[1.25] font-['Plus_Jakarta_Sans',sans-serif]">
                   {step.t}
                 </h3>
-                <p className="m-0 text-[#3B4B60] text-[15px] leading-[1.7]">
+                <p className="m-0 text-[#3B4B60] text-[15px] max-sm:text-[14px] leading-[1.7] max-sm:leading-[1.6]">
                   {step.d}
                 </p>
 
                 {/* Tags */}
-                <div className="pr-tags flex gap-1.5 flex-wrap mt-auto pt-1.5">
+                <div className="pr-tags flex gap-1.5 max-sm:gap-1.5 flex-wrap mt-auto pt-1.5 max-sm:pt-1">
                   {step.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="py-1 px-[11px] rounded-full text-[12px] font-bold whitespace-nowrap"
+                      className="py-1 max-sm:py-0.5 px-[11px] max-sm:px-2.5 rounded-full text-[12px] max-sm:text-[11.5px] font-bold whitespace-nowrap"
                       style={{
                         color: step.c,
                         backgroundColor: `color-mix(in srgb, ${step.c} 10%, transparent)`
@@ -385,7 +401,7 @@ export default function HowWeWork() {
                     </span>
                   ))}
                 </div>
-              </li>
+              </motion.li>
             ))}
           </ol>
         </div>

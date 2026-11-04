@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
+import Reveal from '@/components/ui/Reveal';
 
 const webBanner = '/assets/services/service-web.jpg';
 const appBanner = '/assets/services/service-app.jpg';
@@ -112,10 +113,8 @@ export const servicesData = [
   }
 ];
 
-const ArrowIcon = () => (
+const ArrowIcon = ({ className = "w-3.5 h-3.5 sm:w-4 sm:h-4" }) => (
   <svg
-    width="16"
-    height="16"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -123,15 +122,14 @@ const ArrowIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
+    className={className}
   >
     <path d="M5 12h14M13 6l6 6-6 6" />
   </svg>
 );
 
-const PrevArrowIcon = () => (
+const PrevArrowIcon = ({ className = "w-4 h-4 sm:w-5 sm:h-5" }) => (
   <svg
-    width="20"
-    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -139,15 +137,14 @@ const PrevArrowIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
+    className={className}
   >
     <path d="M15 18l-6-6 6-6" />
   </svg>
 );
 
-const NextArrowIcon = () => (
+const NextArrowIcon = ({ className = "w-4 h-4 sm:w-5 sm:h-5" }) => (
   <svg
-    width="20"
-    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -155,6 +152,7 @@ const NextArrowIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
+    className={className}
   >
     <path d="M9 18l6-6-6-6" />
   </svg>
@@ -170,7 +168,7 @@ const RS = (idx, activeWithOffset, total) => {
 // Responsive Coverflow configuration matching wS from design
 const wS = (width) =>
   width < 560
-    ? { cardW: Math.min(width * 0.72, 330), spread: 0.62 }
+    ? { cardW: Math.min(Math.max(width * 0.78, 260), 340), spread: 0.62 }
     : width < 900
     ? { cardW: Math.min(width * 0.5, 420), spread: 0.75 }
     : { cardW: Math.min(width * 0.36, 470), spread: 0.8 };
@@ -217,51 +215,67 @@ function ServiceCard({ item, isActive, distance, reduceMotion }) {
 
   return (
     <motion.article
-      className={`cf-card${isActive ? ' is-active' : ''}`}
+      className={`cf-card relative p-2.5 sm:p-3 rounded-[24px] sm:rounded-[28px] bg-[#eef8fa] shadow-[18px_22px_40px_rgba(20,84,120,0.16),-14px_-14px_30px_rgba(255,255,255,0.95)] overflow-visible transition-[box-shadow,transform] duration-300 ${
+        isActive ? 'is-active hover:shadow-[22px_30px_54px_rgba(20,84,120,0.22),-14px_-14px_30px_rgba(255,255,255,0.95)]' : ''
+      }`}
       whileHover={isActive && !reduceMotion ? { y: -8 } : undefined}
       transition={{ type: 'spring', stiffness: 260, damping: 22 }}
     >
-      <div className="cf-card__media">
-        <img src={item.image} alt="" draggable="false" loading="lazy" />
+      <div className="cf-card__media relative aspect-[16/9.6] rounded-[18px] sm:rounded-[20px] overflow-hidden bg-[#cfe7ec] after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-[42%] after:bg-gradient-to-t after:from-[rgba(7,20,40,0.55)] after:to-transparent after:pointer-events-none">
+        <img
+          src={item.image}
+          alt=""
+          draggable="false"
+          loading="lazy"
+          className="w-full h-full object-cover block scale-[1.02] transition-transform duration-900 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
+        />
         {!item.bakedQuote && (
-          <span className="cf-card__quote">
+          <span className="cf-card__quote absolute top-2.5 sm:top-3 left-2.5 sm:left-3 z-[2] max-w-[calc(100%-20px)] sm:max-w-[calc(100%-24px)] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/95 text-[11px] sm:text-xs md:text-sm font-semibold text-[#0e1b2e] whitespace-nowrap overflow-hidden text-ellipsis shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
             “{item.quote}”
           </span>
         )}
       </div>
 
       <motion.div
-        className="cf-card__icon"
+        className="cf-card__icon absolute right-4 sm:right-6.5 top-[calc((var(--cf-card-w)-24px)*0.6+12px-36px)] sm:top-[calc((var(--cf-card-w)-24px)*0.6+12px-44px)] z-[3] w-[clamp(56px,17%,88px)] aspect-square rounded-full grid place-items-center bg-[#eef8fa] shadow-[8px_10px_20px_rgba(20,84,120,0.2),-6px_-6px_14px_rgba(255,255,255,0.95)]"
         animate={reduceMotion ? undefined : { y: [0, -7, 0], rotate: [0, -4, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       >
-        <img src={item.icon} alt="" draggable="false" />
+        <img src={item.icon} alt="" draggable="false" className="w-[58%] h-[58%] object-contain" />
       </motion.div>
 
-      <div className="cf-card__body">
-        <h3 className="cf-card__title">{item.title}</h3>
-        <p className="cf-card__desc">{item.description}</p>
-        <div className="cf-card__actions">
+      <div className="cf-card__body pt-4 sm:pt-5.5 pb-2 px-1 sm:px-2 md:px-3 flex flex-col gap-2 sm:gap-2.5">
+        <h3 className="cf-card__title m-0 pr-14 sm:pr-20 text-[clamp(17px,2vw,24px)] font-bold leading-[1.2] tracking-[-0.01em] text-[#0e1b2e]">
+          {item.title}
+        </h3>
+        <p className="cf-card__desc m-0 text-xs sm:text-[13.5px] md:text-[15px] leading-[1.6] text-[#44546a] line-clamp-3 overflow-hidden">
+          {item.description}
+        </p>
+
+        {/* Action Buttons - Arranged cleanly across mobile & desktop */}
+        <div className="cf-card__actions mt-1 sm:mt-1.5 flex items-center justify-between gap-1.5 sm:gap-2.5 w-full">
           <Link
-            className="cf-btn"
-            href="/reach-to-us"
+            className="cf-btn group/btn inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2.5 min-h-[36px] sm:min-h-[42px] md:min-h-[46px] rounded-full bg-[#0b4db5] hover:bg-[#083a8a] text-white font-bold text-xs sm:text-[13.5px] md:text-[15px] whitespace-nowrap shadow-[0_10px_20px_-10px_rgba(11,77,181,0.85),inset_0_1px_rgba(255,255,255,0.25)] transition-all duration-200 hover:-translate-y-0.5 shrink-0"
+            href={`/reach-to-us?service=${item.id}#contact`}
             tabIndex={tabIndex}
           >
-            <span>Get a free plan</span> <ArrowIcon />
+            <span>Get a free plan</span>
+            <ArrowIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 shrink-0 transition-transform duration-200 group-hover/btn:translate-x-1" />
           </Link>
           <Link
-            className="cf-link"
+            className="cf-link group/link inline-flex items-center justify-center gap-1 sm:gap-1.5 px-1.5 py-1.5 sm:px-2 sm:py-2 min-h-[34px] sm:min-h-[40px] md:min-h-[44px] text-[#0b4db5] hover:text-[#083a8a] font-bold text-xs sm:text-[13.5px] md:text-[15px] whitespace-nowrap transition-colors duration-200 shrink-0"
             href={item.href}
             tabIndex={tabIndex}
           >
-            <span>Explore</span> <ArrowIcon />
+            <span>Explore</span>
+            <ArrowIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 shrink-0 transition-transform duration-200 group-hover/link:translate-x-1" />
           </Link>
         </div>
       </div>
 
       <motion.span
-        className="cf-card__veil"
+        className="cf-card__veil absolute inset-0 rounded-[24px] sm:rounded-[28px] bg-[#eef8fa] pointer-events-none z-[4] transition-opacity duration-350"
         animate={{ opacity: veilOpacity }}
         transition={{ duration: 0.35 }}
         aria-hidden="true"
@@ -367,7 +381,7 @@ export function CoverflowCarousel({
 
   return (
     <section
-      className="cf"
+      className="cf relative w-full text-[#0e1b2e] outline-none overflow-hidden select-none font-sans"
       aria-roledescription="carousel"
       aria-label={ariaLabel}
       tabIndex={0}
@@ -379,7 +393,9 @@ export function CoverflowCarousel({
     >
       <motion.div
         ref={stageRef}
-        className={`cf__stage${isDragging ? ' is-dragging' : ''}`}
+        className={`cf__stage relative h-[calc(var(--cf-card-w)*0.6+300px)] [perspective:1500px] [perspective-origin:50%_30%] touch-pan-y select-none ${
+          isDragging ? 'is-dragging cursor-grabbing' : 'cursor-grab'
+        }`}
         style={{ '--cf-card-w': `${cardConfig.cardW}px` }}
         onPointerDownCapture={() => {
           hasDraggedRef.current = false;
@@ -388,7 +404,7 @@ export function CoverflowCarousel({
         onPan={handlePan}
         onPanEnd={handlePanEnd}
       >
-        <div className="cf__floor" aria-hidden="true" />
+        <div className="cf__floor absolute inset-x-0 bottom-0 h-28 pointer-events-none" aria-hidden="true" />
         {items.map((item, idx) => {
           const dist = RS(idx, activeIndex + dragOffset, total);
           const pos = SS(dist, cardConfig, total);
@@ -398,7 +414,7 @@ export function CoverflowCarousel({
           return (
             <motion.div
               key={item.id}
-              className="cf__slide"
+              className="cf__slide absolute top-2 left-1/2 w-[var(--cf-card-w)] -ml-[calc(var(--cf-card-w)/2)] [transform-style:preserve-3d] will-change-[transform,opacity]"
               role="group"
               aria-roledescription="slide"
               aria-label={`${idx + 1} of ${total}: ${item.title}`}
@@ -432,24 +448,30 @@ export function CoverflowCarousel({
       </motion.div>
 
       {/* Carousel Controls */}
-      <div className="cf__controls">
+      <div className="cf__controls mt-2 flex items-center justify-center gap-3 sm:gap-4.5">
         <button
           type="button"
-          className="cf__arrow"
+          className="cf__arrow w-10 h-10 sm:w-[54px] sm:h-[54px] rounded-full border-0 grid place-items-center text-[#0b4db5] bg-[#eef8fa] cursor-pointer shadow-[5px_5px_12px_rgba(20,84,120,0.16),-5px_-5px_12px_rgba(255,255,255,0.95)] hover:scale-105 active:shadow-[inset_3px_3px_6px_rgba(20,84,120,0.16),inset_-3px_-3px_6px_rgba(255,255,255,0.95)] transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#f5b82e]"
           onClick={() => step(-1)}
           aria-label="Previous service"
         >
           <PrevArrowIcon />
         </button>
 
-        <div className="cf__track">
-          <span className="cf__hint">360° · drag or swipe to spin</span>
-          <div className="cf__dots">
+        <div className="cf__track flex items-center gap-2.5 sm:gap-3.5 px-3.5 py-2 sm:px-5 sm:py-3 rounded-full bg-[#e6f3f6] shadow-[inset_4px_4px_8px_rgba(20,84,120,0.16),inset_-4px_-4px_8px_rgba(255,255,255,0.95)]">
+          <span className="cf__hint text-xs sm:text-[13px] font-bold text-[#44546a] whitespace-nowrap">
+            360° · drag or swipe to spin
+          </span>
+          <div className="cf__dots flex items-center gap-1.5 sm:gap-2">
             {items.map((item, idx) => (
               <button
                 key={item.id}
                 type="button"
-                className={`cf__dot${idx === normalizedActive ? ' is-on' : ''}`}
+                className={`cf__dot relative h-2 sm:h-2.5 p-0 border-0 rounded-full cursor-pointer overflow-hidden transition-all duration-350 outline-none focus-visible:ring-2 focus-visible:ring-[#f5b82e] ${
+                  idx === normalizedActive
+                    ? 'is-on w-6 sm:w-[38px] bg-[#a9c4ee]'
+                    : 'w-2 sm:w-2.5 bg-[#b5d3da]'
+                }`}
                 onClick={() => goTo(idx)}
                 aria-label={`Show ${item.title}`}
                 aria-current={idx === normalizedActive}
@@ -457,7 +479,7 @@ export function CoverflowCarousel({
                 {idx === normalizedActive && isAutoplaying && (
                   <motion.span
                     key={activeIndex}
-                    className="cf__dot-fill"
+                    className="cf__dot-fill absolute inset-0 bg-[#0b4db5] origin-left"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: interval / 1000, ease: 'linear' }}
@@ -470,7 +492,7 @@ export function CoverflowCarousel({
 
         <button
           type="button"
-          className="cf__arrow"
+          className="cf__arrow w-10 h-10 sm:w-[54px] sm:h-[54px] rounded-full border-0 grid place-items-center text-[#0b4db5] bg-[#eef8fa] cursor-pointer shadow-[5px_5px_12px_rgba(20,84,120,0.16),-5px_-5px_12px_rgba(255,255,255,0.95)] hover:scale-105 active:shadow-[inset_3px_3px_6px_rgba(20,84,120,0.16),inset_-3px_-3px_6px_rgba(255,255,255,0.95)] transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#f5b82e]"
           onClick={() => step(1)}
           aria-label="Next service"
         >
@@ -483,22 +505,42 @@ export function CoverflowCarousel({
 
 export default function TopServices({
   eyebrow = "Our top services",
-  title = <>Our <span className="hl">360°</span> digital strategy covers it all</>,
+  title = <>Our <span className="hl text-[#0b4db5]">360°</span> digital strategy covers it all</>,
   lead = "Websites, apps, AI, ERP, search and geospatial — planned as one strategy for businesses across India. Drag, swipe or use the arrows to explore.",
   showCta = true
 }) {
   return (
-    <section className="sec services" aria-label="Our top services">
-      <div className="services__head">
-        <span className="eyebrow center">{eyebrow}</span>
-        <h2 className="h2">{title}</h2>
-        {lead && <p className="lead">{lead}</p>}
+    <section className="sec services max-w-[1400px] mx-auto w-full px-4 overflow-hidden" aria-label="Our top services">
+      <div className="services__head max-w-[760px] mx-auto mb-7 max-sm:mb-2 text-center flex flex-col items-center gap-4">
+        <Reveal
+          as="span"
+          className="eyebrow center inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef8fa] shadow-[4px_4px_10px_rgba(20,84,120,0.1),-4px_-4px_10px_rgba(255,255,255,0.9)] text-[12px] sm:text-[13px] font-bold text-[#0b4db5] tracking-[0.12em] uppercase"
+        >
+          {eyebrow}
+        </Reveal>
+        <Reveal
+          as="h2"
+          className="h2 m-0 text-[clamp(28px,4vw,50px)] max-sm:text-[28px] font-extrabold leading-[1.12] tracking-[-0.02em] text-[#0e1b2e]"
+        >
+          {title}
+        </Reveal>
+        {lead && (
+          <Reveal
+            as="p"
+            className="lead m-0 text-base sm:text-[17px] leading-[1.7] text-[#44546a]"
+          >
+            {lead}
+          </Reveal>
+        )}
         {showCta && (
-          <div>
-            <Link href="/know-that-what-work-we-do" className="btn btn-neu">
-              View all services <span className="arr">→</span>
+          <Reveal>
+            <Link
+              href="/know-that-what-work-we-do"
+              className="btn btn-neu inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold text-sm sm:text-[15px] text-[#0b4db5] bg-[#eaf6f8] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.9)] hover:text-[#083a8a] transition-all"
+            >
+              <span>View all services</span> <span className="arr text-base">→</span>
             </Link>
-          </div>
+          </Reveal>
         )}
       </div>
 

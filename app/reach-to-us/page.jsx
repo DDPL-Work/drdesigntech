@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import PageHero from "@/components/layout/PageHero";
 import FreeConsultation from "@/components/Home/FreeConsultation";
 import Newsletter from "@/components/Home/Newsletter";
+import { openWhatsApp } from "@/utils/whatsapp";
 
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=" +
@@ -68,6 +69,7 @@ export default function ContactPage() {
           href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={(e) => openWhatsApp("917217052558", "Hi Dr. Design, I would like to discuss a project.", e)}
           className="btn btn-sun"
         >
           <span>WhatsApp us</span> <span className="arr">→</span>
@@ -86,6 +88,7 @@ export default function ContactPage() {
               href={card.href}
               target={card.ext ? "_blank" : undefined}
               rel={card.ext ? "noopener noreferrer" : undefined}
+              onClick={card.t === "WhatsApp" ? (e) => openWhatsApp("917217052558", "Hi Dr. Design, I would like to discuss a project.", e) : undefined}
               className="ct-card neu lift"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}

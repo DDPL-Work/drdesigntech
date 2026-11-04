@@ -1,8 +1,18 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+
+const _l = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: delay * 0.08, duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }
+  })
+};
 
 const seoIcon = '/assets/icons/seo.svg';
 const socialIcon = '/assets/icons/social.svg';
@@ -444,7 +454,7 @@ function ChainDialVisual() {
   return (
     <div
       ref={containerRef}
-      className="cl-dial relative w-[min(560px,100%)] aspect-square mx-auto touch-pan-y select-none cursor-grab active:cursor-grabbing font-['Plus_Jakarta_Sans',sans-serif]"
+      className="cl-dial relative w-[min(560px,100%)] max-sm:w-[280px] aspect-square mx-auto touch-pan-y select-none cursor-grab active:cursor-grabbing font-['Plus_Jakarta_Sans',sans-serif]"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -489,7 +499,7 @@ function ChainDialVisual() {
       <div ref={canvasHolderRef} className="cl-dial__canvas absolute top-[6%] right-[12%] bottom-[6%] left-[12%] pointer-events-none [&>canvas]:w-full [&>canvas]:h-full [&>canvas]:block" />
 
       {/* Drag Hint Pill */}
-      <span className="cl-dial__hint absolute top-[21%] left-1/2 -translate-x-1/2 z-[3] inline-flex items-center gap-1.5 py-[7px] px-3.5 rounded-full bg-[#eef8fa]/85 backdrop-blur-[6px] text-[13px] font-semibold text-[#4a5d70] whitespace-nowrap pointer-events-none shadow-[0_6px_16px_rgba(20,84,120,0.1)]">
+      <span className="cl-dial__hint absolute top-[21%] left-1/2 -translate-x-1/2 z-[3] inline-flex items-center gap-1.5 max-sm:gap-1 py-[7px] px-3.5 max-sm:py-1 max-sm:px-2.5 max-sm:text-[11.5px] rounded-full bg-[#eef8fa]/85 backdrop-blur-[6px] text-[13px] font-semibold text-[#4a5d70] whitespace-nowrap pointer-events-none shadow-[0_6px_16px_rgba(20,84,120,0.1)]">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
           <path d="M3 3v5h5" />
@@ -514,13 +524,13 @@ function ChainDialVisual() {
             }}
           >
             <span
-              className="cl-label__inner inline-flex items-center gap-2.5 max-sm:gap-1.5 py-2 pr-[18px] pl-2 max-sm:py-1.5 max-sm:pr-3 max-sm:pl-1.5 rounded-full bg-[#eef8fa] text-[clamp(12px,1.5vw,15px)] font-bold text-[#0e1b2e] whitespace-nowrap shadow-[10px_12px_24px_rgba(20,84,120,0.15),-8px_-8px_18px_rgba(255,255,255,0.95)] hover:scale-105 transition-transform duration-200"
+              className="cl-label__inner inline-flex items-center gap-2.5 max-sm:gap-1.5 py-2 pr-[18px] pl-2 max-sm:py-1 max-sm:pr-2.5 max-sm:pl-1 rounded-full bg-[#eef8fa] text-[clamp(12px,1.5vw,15px)] max-sm:text-[11.5px] font-bold text-[#0e1b2e] whitespace-nowrap shadow-[10px_12px_24px_rgba(20,84,120,0.15),-8px_-8px_18px_rgba(255,255,255,0.95)] hover:scale-105 transition-transform duration-200"
               style={{
                 animation: `floatBob ${3.6 + idx * 0.4}s ease-in-out infinite`,
                 animationDelay: `${idx * 0.3}s`
               }}
             >
-              <span className="cl-label__icon w-[clamp(30px,4vw,40px)] aspect-square rounded-full grid place-items-center bg-white shadow-[inset_2px_2px_5px_rgba(20,84,120,0.12)]">
+              <span className="cl-label__icon w-[clamp(30px,4vw,40px)] max-sm:w-[26px] max-sm:h-[26px] aspect-square rounded-full grid place-items-center bg-white shadow-[inset_2px_2px_5px_rgba(20,84,120,0.12)]">
                 <img src={item.icon} alt="" className="w-[66%] h-[66%]" draggable="false" />
               </span>
               {item.text}
@@ -534,26 +544,45 @@ function ChainDialVisual() {
 
 export default function EngagePartners() {
   return (
-    <section className="sec px-5 max-sm:px-0" aria-labelledby="eng-title">
+    <section className="sec px-5 max-sm:px-0 overflow-hidden" aria-labelledby="eng-title">
       <div className="eng__panel max-w-[1320px] mx-auto flex flex-wrap items-center gap-10 max-sm:gap-6 p-[clamp(28px,5vw,64px)] max-sm:p-[24px_18px] rounded-[44px] max-sm:rounded-[28px] bg-[#e9f5f7] shadow-[24px_30px_60px_rgba(20,84,120,0.14),-18px_-18px_44px_rgba(255,255,255,0.9)] overflow-hidden">
         {/* Left Copy & Benefits Grid */}
         <div className="eng__copy flex-[1_1_460px] min-w-0 flex flex-col gap-[22px]">
-          <h2
+          <motion.h2
             id="eng-title"
             className="eng__title m-0 font-['Plus_Jakarta_Sans',sans-serif] text-[clamp(32px,4.2vw,54px)] max-sm:text-[30px] leading-[1.1] font-extrabold tracking-[-0.025em] text-[#0e1b2e]"
+            variants={_l}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.4 }}
           >
             Engage with our India{' '}
             <span className="bg-gradient-to-r from-[#1d7f8c] to-[#0b4db5] bg-clip-text text-transparent">
               digital technology partners
             </span>
-          </h2>
-          <p className="eng__lead m-0 text-[17px] leading-[1.75] text-[#44546a] max-w-[600px]">
+          </motion.h2>
+          <motion.p
+            className="eng__lead m-0 text-[17px] leading-[1.75] text-[#44546a] max-w-[600px]"
+            variants={_l}
+            custom={1}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.4 }}
+          >
             Our connected approach combines websites, apps, ERP, search visibility and clear brand communication to attract qualified leads and deliver results you can measure.
-          </p>
+          </motion.p>
 
           <ul className="eng__grid list-none m-0 mt-2 p-0 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] max-sm:grid-cols-1 gap-x-7 gap-y-[22px] max-sm:gap-4">
-            {benefits.map((item) => (
-              <li key={item.title} className="eng__item group flex gap-3.5 items-start">
+            {benefits.map((item, idx) => (
+              <motion.li
+                key={item.title}
+                className="eng__item group flex gap-3.5 items-start"
+                variants={_l}
+                custom={idx + 2}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.3 }}
+              >
                 <span className="eng__icon shrink-0 w-[46px] h-[46px] rounded-full grid place-items-center text-[#1d7f8c] bg-[#eef8fa] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.95)] transition-all duration-300 group-hover:-rotate-8 group-hover:scale-[1.08] group-hover:text-[#0b4db5]">
                   {item.icon}
                 </span>
@@ -561,7 +590,7 @@ export default function EngagePartners() {
                   <strong className="block text-[16px] font-bold text-[#0e1b2e] mb-1">{item.title}</strong>
                   <span className="block text-[14.5px] leading-[1.6] text-[#44546a]">{item.text}</span>
                 </span>
-              </li>
+              </motion.li>
             ))}
           </ul>
         </div>

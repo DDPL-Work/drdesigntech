@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
 import AnimatedNumber from "./AnimatedNumber";
 
 const metaItems = [
@@ -51,29 +52,29 @@ export default function CaseStudyBlackCar() {
   return (
     <div className="cs ex-cs" id="work-black-car">
       <div className="head center text-center flex flex-col items-center gap-2">
-        <span className="eyebrow center self-center inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef8fa] text-[13px] font-bold text-[#0b4db5] shadow-[4px_4px_10px_rgba(20,84,120,0.12),-4px_-4px_10px_rgba(255,255,255,0.9)] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e]">
+        <Reveal as="span" className="eyebrow center self-center inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef8fa] text-[13px] font-bold text-[#0b4db5] shadow-[4px_4px_10px_rgba(20,84,120,0.12),-4px_-4px_10px_rgba(255,255,255,0.9)] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e]">
           Case study · Google Ads + Local SEO · USA
-        </span>
-        <h2 className="h2 m-0 font-sans text-[clamp(28px,3.6vw,44px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
+        </Reveal>
+        <Reveal as="h2" className="h2 m-0 font-sans text-[clamp(28px,3.6vw,44px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
           <span className="hl text-[#0b4db5]">2.95K conversions, 644 calls</span> and +133% organic search growth
-        </h2>
-        <p className="lead m-0 text-base sm:text-[17px] text-[#5b6b80] max-w-[700px] leading-relaxed">
+        </Reveal>
+        <Reveal as="p" className="lead m-0 text-base sm:text-[17px] text-[#5b6b80] max-w-[700px] leading-relaxed">
           A US executive black car & chauffeur service — a dual-engine growth programme of high-intent paid search and local SEO.
-        </p>
+        </Reveal>
       </div>
 
       {/* 4 Metadata Pills */}
-      <div className="ex-meta">
+      <Reveal className="ex-meta">
         {metaItems.map(([label, val]) => (
           <div key={label} className="ex-meta__item neu-s">
             <span>{label}</span>
             <b>{val}</b>
           </div>
         ))}
-      </div>
+      </Reveal>
 
       {/* Main Panel: Before & Implementation Steps */}
-      <div className="cs__panel neu ex-panel">
+      <Reveal className="cs__panel neu ex-panel">
         <div className="ex-before">
           <span className="ex-label ex-label--red">The situation before our intervention</span>
           <ul>
@@ -95,10 +96,10 @@ export default function CaseStudyBlackCar() {
             ))}
           </div>
         </div>
-      </div>
+      </Reveal>
 
       {/* Transformation Card */}
-      <div className="ex-after">
+      <Reveal className="ex-after">
         <span className="ex-label ex-label--green">Transformation · what changed in operations</span>
         <div className="ex-after__grid">
           {afterItems.map((item, idx) => (
@@ -108,10 +109,10 @@ export default function CaseStudyBlackCar() {
             </p>
           ))}
         </div>
-      </div>
+      </Reveal>
 
       {/* Proof & KPIs */}
-      <div className="ex-proof">
+      <Reveal className="ex-proof">
         <span className="ex-label center">Proof & attribution · verified campaign metrics</span>
         <div className="ex-kpis">
           {kpiItems.map((kpi, idx) => (
@@ -144,13 +145,13 @@ export default function CaseStudyBlackCar() {
         <p className="ex-note">
           Data verified from the live Google Ads manager dashboard (25.9K clicks, 2.95K conversions, 644 calls on $47.2K media spend) and Google Search Console performance reporting (601 clicks vs 257 prior period, 37.8K impressions).
         </p>
-      </div>
+      </Reveal>
 
-      <div className="cs__cta" style={{ justifyContent: "center" }}>
+      <Reveal className="cs__cta" style={{ justifyContent: "center" }}>
         <Link href="/reach-to-us" className="btn btn-blue btn-glow">
           <span>Grow my bookings</span> <span className="arr">→</span>
         </Link>
-      </div>
+      </Reveal>
     </div>
   );
 }

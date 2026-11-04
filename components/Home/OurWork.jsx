@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
 import CaseStudyMetaAds from "./CaseStudies/CaseStudyMetaAds";
 import CaseStudyAIMetaGoogleAds from "./CaseStudies/CaseStudyAIMetaGoogleAds";
 import CaseStudyBlackCar from "./CaseStudies/CaseStudyBlackCar";
@@ -12,170 +13,170 @@ import CaseStudyEcommerceSEO from "./CaseStudies/CaseStudyEcommerceSEO";
 import CaseStudyFinanceCourses from "./CaseStudies/CaseStudyFinanceCourses";
 import CaseStudyTravelFunnel from "./CaseStudies/CaseStudyTravelFunnel";
 import CaseStudySportingGoods from "./CaseStudies/CaseStudySportingGoods";
+import CaseStudyLifestyleBrand from "./CaseStudies/CaseStudyLifestyleBrand";
+import CaseStudySweetsBrand from "./CaseStudies/CaseStudySweetsBrand";
 import ReelsAndContent from "./ReelsAndContent";
-
-const slideitImg = '/assets/work/slideit.jpg';
-const traveamerImg = '/assets/work/traveamer.jpg';
-const mugafiImg = '/assets/work/mugafi.jpg';
-const polatGlobalImg = '/assets/work/polat-global.jpg';
-const cedraImg = '/assets/work/cedra.jpg';
-const churchillSquareImg = '/assets/work/churchill-square.jpg';
-const gmsHealingImg = '/assets/work/gms-healing.jpg';
-const subhashIyerImg = '/assets/work/subhash-iyer.jpg';
-const toolWebMvpsImg = '/assets/work/tool-web-mvps.jpg';
-
+const slideitImg = "/assets/work/slideit.jpg";
+const traveamerImg = "/assets/work/traveamer.jpg";
+const mugafiImg = "/assets/work/mugafi.jpg";
+const polatGlobalImg = "/assets/work/polat-global.jpg";
+const cedraImg = "/assets/work/cedra.jpg";
+const churchillSquareImg = "/assets/work/churchill-square.jpg";
+const gmsHealingImg = "/assets/work/gms-healing.jpg";
+const subhashIyerImg = "/assets/work/subhash-iyer.jpg";
+const toolWebMvpsImg = "/assets/work/tool-web-mvps.jpg";
 
 const statusConfigMap = {
-  Live: { c: '#1E9E52', bg: '#DDF5E6' },
-  Deployed: { c: '#0B4DB5', bg: '#E1ECFF' },
-  Completed: { c: '#0B4DB5', bg: '#E1ECFF' },
-  'In progress': { c: '#B07A00', bg: '#FFF3D6' },
+  Live: { c: "#1E9E52", bg: "#DDF5E6" },
+  Deployed: { c: "#0B4DB5", bg: "#E1ECFF" },
+  Completed: { c: "#0B4DB5", bg: "#E1ECFF" },
+  "In progress": { c: "#B07A00", bg: "#FFF3D6" },
 };
 
 // All 9 projects from B3 in design file with their actual extracted images
 const projectsData = [
   {
-    name: 'Slideit',
-    client: 'Private IT sector · Fintech',
-    title: 'Credit-scoring tool & UI/UX design',
+    name: "Slideit",
+    client: "Private IT sector · Fintech",
+    title: "Credit-scoring tool & UI/UX design",
     overview:
-      'An automated financial tool that streamlines data processing to calculate accurate credit scores instantly — plus UI/UX design for Slideit, a buy-now-pay-later app that splits purchases into 3 or 4 interest-free instalments.',
-    stack: ['UI/UX', 'PHP', 'React', 'Tailwind', 'CSS', 'MySQL'],
-    status: 'Live',
-    url: 'https://slideitapp.com/',
-    domain: 'slideitapp.com',
+      "An automated financial tool that streamlines data processing to calculate accurate credit scores instantly — plus UI/UX design for Slideit, a buy-now-pay-later app that splits purchases into 3 or 4 interest-free instalments.",
+    stack: ["UI/UX", "PHP", "React", "Tailwind", "CSS", "MySQL"],
+    status: "Live",
+    url: "https://slideitapp.com/",
+    domain: "slideitapp.com",
     image: slideitImg,
-    sym: 'app',
-    bg: '#2A2560',
-    ring: 'rgba(255,255,255,0.3)',
+    sym: "app",
+    bg: "#2A2560",
+    ring: "rgba(255,255,255,0.3)",
     featured: true,
   },
   {
-    name: 'Traveamer',
-    client: 'Travel tech · SaaS',
-    title: 'Travel platform design & development',
+    name: "Traveamer",
+    client: "Travel tech · SaaS",
+    title: "Travel platform design & development",
     overview:
-      'An automated travel solution that simplifies itinerary management and approval workflows to reduce administrative overhead — designed and developed end to end.',
-    stack: ['UI/UX', 'Design', 'Development', 'Approval workflows'],
-    status: 'Live',
-    url: 'https://traveamer.com/',
-    domain: 'traveamer.com',
+      "An automated travel solution that simplifies itinerary management and approval workflows to reduce administrative overhead — designed and developed end to end.",
+    stack: ["UI/UX", "Design", "Development", "Approval workflows"],
+    status: "Live",
+    url: "https://traveamer.com/",
+    domain: "traveamer.com",
     image: traveamerImg,
-    sym: 'app',
-    bg: '#0B1A45',
-    ring: 'rgba(255,255,255,0.3)',
+    sym: "app",
+    bg: "#0B1A45",
+    ring: "rgba(255,255,255,0.3)",
     featured: true,
   },
   {
-    name: 'Mugafi',
-    client: 'IoT platform',
-    title: 'IoT management platform',
+    name: "Mugafi",
+    client: "AI Screenwriting · IP Incubator",
+    title: "Digital ecosystem for storytellers",
     overview:
-      'A comprehensive platform built to manage IoT devices, automate invoicing, and detect real-time temperature fluctuations.',
-    stack: ['Three.js', 'React', 'Framer Motion'],
-    status: 'Live',
-    url: 'https://mugafi.com/',
-    domain: 'mugafi.com',
+      "An end-to-end digital ecosystem for screenwriters and creators, featuring AI-powered script co-pilots, automated industry formatting, and IP incubation to turn ideas into monetizable media assets.",
+    stack: ["AI Co-Pilot", "Script Automation", "IP Incubator", "React"],
+    status: "Live",
+    url: "https://mugafi.com/",
+    domain: "mugafi.com",
     image: mugafiImg,
-    sym: 'chart',
-    bg: '#2A0B14',
-    ring: 'rgba(255,255,255,0.3)',
+    sym: "app",
+    bg: "#2A0B14",
+    ring: "rgba(255,255,255,0.3)",
     featured: true,
   },
   {
-    name: 'Polat Global Investments',
-    client: 'Real estate · Türkiye',
-    title: 'Property marketplace website',
+    name: "Polat Global Investments",
+    client: "Real estate · Türkiye",
+    title: "Property marketplace website",
     overview:
-      'A responsive property marketplace designed for seamless navigation, offering real-time listing updates — villas and homes in Güllük, Milas and Bodrum.',
-    stack: ['UI/UX', 'Responsive', 'Real-time listings', 'Multilingual'],
-    status: 'Live',
-    url: 'https://polatglobal.com/',
-    domain: 'polatglobal.com',
+      "A responsive property marketplace designed for seamless navigation, offering real-time listing updates — villas and homes in Güllük, Milas and Bodrum.",
+    stack: ["UI/UX", "Responsive", "Real-time listings", "Multilingual"],
+    status: "Live",
+    url: "https://polatglobal.com/",
+    domain: "polatglobal.com",
     image: polatGlobalImg,
-    sym: 'web',
-    bg: '#1C2B33',
-    ring: 'rgba(255,255,255,0.3)',
+    sym: "web",
+    bg: "#1C2B33",
+    ring: "rgba(255,255,255,0.3)",
     featured: true,
   },
   {
-    name: 'Cedra',
-    client: 'Flower e-commerce · Morocco',
-    title: 'Online flower & gift store',
+    name: "Cedra",
+    client: "Flower e-commerce · Morocco",
+    title: "Online flower & gift store",
     overview:
-      'A scalable online store designed for recurring revenue, integrating advanced PHP functionality with a high-conversion user interface.',
-    stack: ['WordPress', 'PHP', 'CSS', 'Bootstrap', 'SQL'],
-    status: 'Live',
-    url: 'https://cedraflower.com/',
-    domain: 'cedraflower.com',
+      "A scalable online store designed for recurring revenue, integrating advanced PHP functionality with a high-conversion user interface.",
+    stack: ["WordPress", "PHP", "CSS", "Bootstrap", "SQL"],
+    status: "Live",
+    url: "https://cedraflower.com/",
+    domain: "cedraflower.com",
     image: cedraImg,
-    sym: 'web',
-    bg: '#7A0F24',
-    ring: 'rgba(255,255,255,0.3)',
+    sym: "web",
+    bg: "#7A0F24",
+    ring: "rgba(255,255,255,0.3)",
     featured: true,
   },
   {
-    name: 'Churchill Square Consulting',
-    client: 'UI/UX design · UK',
-    title: 'Home page & blog page design',
+    name: "Churchill Square Consulting",
+    client: "UI/UX design · UK",
+    title: "Home page & blog page design",
     overview:
-      'UI/UX design of the home page and blog page for Churchill Square Consulting, a UK Insights Discovery training and practitioner accreditation partner — clear messaging, trust badges and simple paths to book a discovery call.',
-    stack: ['UI/UX', 'Home page', 'Blog page'],
-    status: 'Live',
-    url: 'https://churchillsquareconsulting.com/',
-    domain: 'churchillsquareconsulting.com',
+      "UI/UX design of the home page and blog page for Churchill Square Consulting, a UK Insights Discovery training and practitioner accreditation partner — clear messaging, trust badges and simple paths to book a discovery call.",
+    stack: ["UI/UX", "Home page", "Blog page"],
+    status: "Live",
+    url: "https://churchillsquareconsulting.com/",
+    domain: "churchillsquareconsulting.com",
     image: churchillSquareImg,
-    sym: 'web',
-    bg: '#1565C0',
-    ring: 'rgba(255,255,255,0.35)',
+    sym: "web",
+    bg: "#1565C0",
+    ring: "rgba(255,255,255,0.35)",
     featured: true,
   },
   {
-    name: 'Gandharva · GMS Healing Instruments',
-    client: 'E-commerce · Rishikesh',
-    title: 'Sound healing online store',
+    name: "Gandharva · GMS Healing Instruments",
+    client: "E-commerce · Rishikesh",
+    title: "Sound healing online store",
     overview:
-      'A complete e-commerce store for Gandharva, a sound healing and mindful living brand in Tapovan, Rishikesh — singing bowls, gongs, chimes, yoga and meditation essentials, with cart, customer accounts and shipping across India and worldwide.',
-    stack: ['E-commerce', 'Web design', 'Development'],
-    status: 'Live',
-    url: 'https://gmshealinginstrument.com/',
-    domain: 'gmshealinginstrument.com',
+      "A complete e-commerce store for Gandharva, a sound healing and mindful living brand in Tapovan, Rishikesh — singing bowls, gongs, chimes, yoga and meditation essentials, with cart, customer accounts and shipping across India and worldwide.",
+    stack: ["E-commerce", "Web design", "Development"],
+    status: "Live",
+    url: "https://gmshealinginstrument.com/",
+    domain: "gmshealinginstrument.com",
     image: gmsHealingImg,
-    sym: 'web',
-    bg: '#0B4DB5',
-    ring: 'rgba(255,255,255,0.35)',
+    sym: "web",
+    bg: "#0B4DB5",
+    ring: "rgba(255,255,255,0.35)",
     featured: true,
   },
   {
-    name: 'Subhash Iyer',
-    client: 'Author website',
-    title: 'Website & book landing page',
+    name: "Subhash Iyer",
+    client: "Author website",
+    title: "Website & book landing page",
     overview:
-      'Author website and book landing page for Subhash Iyer — a cinematic hero slider showcasing A Seeker’s Lens and Navapura – The City of Nine Gates, with Buy the book journeys, an announcement ticker and blog.',
-    stack: ['Landing page', 'HTML'],
-    status: 'Live',
-    url: 'https://subhashiyer.com/',
-    domain: 'subhashiyer.com',
+      "Author website and book landing page for Subhash Iyer — a cinematic hero slider showcasing A Seeker’s Lens and Navapura – The City of Nine Gates, with Buy the book journeys, an announcement ticker and blog.",
+    stack: ["Landing page", "HTML"],
+    status: "Live",
+    url: "https://subhashiyer.com/",
+    domain: "subhashiyer.com",
     image: subhashIyerImg,
-    sym: 'globe',
-    bg: '#0E1B2E',
-    ring: 'rgba(255,255,255,0.3)',
+    sym: "globe",
+    bg: "#0E1B2E",
+    ring: "rgba(255,255,255,0.3)",
     featured: true,
   },
   {
-    name: 'Tool Web MVPs',
-    client: 'Private IT sector · Security SaaS',
-    title: 'Ad graphics suite',
+    name: "Tool Web MVPs",
+    client: "Private IT sector · Security SaaS",
+    title: "Ad graphics suite",
     overview:
-      'Created a suite of ad graphics with a clean, tech-forward aesthetic, focusing on conveying trust and simplifying complex security messages into clear visual hooks — for Tool Web, an AI-powered MicroSaaS MVP platform.',
-    stack: ['Ad graphics', 'Canva', 'Branding'],
-    status: 'Live',
-    url: 'https://toolwebmvps.com/',
-    domain: 'toolwebmvps.com',
+      "Created a suite of ad graphics with a clean, tech-forward aesthetic, focusing on conveying trust and simplifying complex security messages into clear visual hooks — for Tool Web, an AI-powered MicroSaaS MVP platform.",
+    stack: ["Ad graphics", "Canva", "Branding"],
+    status: "Live",
+    url: "https://toolwebmvps.com/",
+    domain: "toolwebmvps.com",
     image: toolWebMvpsImg,
-    sym: 'chart',
-    bg: '#12407F',
-    ring: 'rgba(255,255,255,0.3)',
+    sym: "chart",
+    bg: "#12407F",
+    ring: "rgba(255,255,255,0.3)",
     featured: true,
   },
 ];
@@ -198,8 +199,12 @@ function StatusBadge({ status }) {
 
 function WorkCard({ project, index, featured = true }) {
   return (
-    <article
-      className="neu lift wk-card group flex flex-col p-3.5 rounded-[28px] bg-[#eaf6f8] text-[#0e1b2e] shadow-[10px_10px_24px_rgba(20,84,120,0.14),-10px_-10px_24px_rgba(255,255,255,0.92)] transition-[transform,box-shadow] duration-300 hover:-translate-y-2 hover:shadow-[14px_18px_32px_rgba(20,84,120,0.2),-14px_-14px_32px_rgba(255,255,255,0.95)]"
+    <Reveal
+      as="article"
+      delay={index * 0.07}
+      className={`neu lift wk-card group flex flex-col p-3.5 rounded-[28px] bg-[#eaf6f8] text-[#0e1b2e] shadow-[10px_10px_24px_rgba(20,84,120,0.14),-10px_-10px_24px_rgba(255,255,255,0.92)] transition-[transform,box-shadow] duration-300 hover:-translate-y-2 hover:shadow-[14px_18px_32px_rgba(20,84,120,0.2),-14px_-14px_32px_rgba(255,255,255,0.95)]${
+        featured ? " wk-card--feat" : ""
+      }`}
     >
       {/* Card Visual / Screenshot / Browser mockup */}
       <div
@@ -238,7 +243,7 @@ function WorkCard({ project, index, featured = true }) {
 
         {/* Project Number */}
         <span className="wk-num absolute left-4 bottom-2.5 sm:bottom-3.5 font-extrabold text-[13px] font-sans tracking-[0.14em] text-white/85">
-          {String(index + 1).padStart(2, '0')}
+          {String(index + 1).padStart(2, "0")}
         </span>
       </div>
 
@@ -300,35 +305,56 @@ function WorkCard({ project, index, featured = true }) {
           )}
         </div>
       </div>
-    </article>
+    </Reveal>
   );
 }
 
 export default function OurWork({ bare = false }) {
   return (
-    <section id="work" className="sec relative w-full py-7 sm:py-10 md:pb-[88px]" aria-label="Our work">
+    <section
+      id="work"
+      className="sec relative w-full overflow-hidden py-7 sm:py-10 md:pb-[88px]"
+      aria-label="Our work"
+    >
       <div className="wrap max-w-[1400px] mx-auto px-4 sm:px-[18px] flex flex-col gap-10">
         {!bare && (
           <div className="head-row flex flex-wrap justify-between items-end gap-5">
             <div className="head flex flex-col gap-2">
-              <span className="eyebrow self-start inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]">
+              <Reveal
+                as="span"
+                className="eyebrow self-start inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]"
+              >
                 Our work
-              </span>
-              <h2 className="h2 m-0 font-sans text-[clamp(30px,4vw,50px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
-                Real clients. <span className="hl text-[#0b4db5]">Live results.</span>
-              </h2>
-              <p className="lead m-0 text-base sm:text-[17px] leading-[1.7] text-[#44546a] max-w-[620px]">
-                A few recent projects — live websites, deployed products and design work for clients in India and abroad.
-              </p>
+              </Reveal>
+              <Reveal
+                as="h2"
+                className="h2 m-0 font-sans text-[clamp(30px,4vw,50px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e]"
+              >
+                Real clients.{" "}
+                <span className="hl text-[#0b4db5]">Live results.</span>
+              </Reveal>
+              <Reveal
+                as="p"
+                className="lead m-0 text-base sm:text-[17px] leading-[1.7] text-[#44546a] max-w-[620px]"
+              >
+                A few recent projects — live websites, deployed products and
+                design work for clients in India and abroad.
+              </Reveal>
             </div>
-            <div>
+            <Reveal>
               <Link
                 href="/reach-to-us"
                 className="btn btn-neu group inline-flex items-center justify-center gap-2.5 min-h-[48px] px-6 rounded-full font-bold text-[15px] no-underline cursor-pointer bg-[#eaf6f8] text-[#0e1b2e] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:text-[#0b4db5] hover:-translate-y-0.5 hover:shadow-[8px_8px_18px_rgba(20,84,120,0.18),-8px_-8px_18px_rgba(255,255,255,0.96)] transition-all duration-200 border-0"
               >
-                Start your project <span className="arr inline-block transition-transform duration-250 group-hover:translate-x-1" aria-hidden="true">→</span>
+                Start your project{" "}
+                <span
+                  className="arr inline-block transition-transform duration-250 group-hover:translate-x-1"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
               </Link>
-            </div>
+            </Reveal>
           </div>
         )}
 
@@ -345,17 +371,23 @@ export default function OurWork({ bare = false }) {
         </div>
 
         {/* 10 Case Studies & Reels Section matching 1:1 with design */}
-        <CaseStudyMetaAds />
-        <CaseStudyAIMetaGoogleAds />
-        <CaseStudyBlackCar />
-        <CaseStudyCoaching />
-        <CaseStudyHairClinic />
-        <CaseStudyPetBrand />
-        <CaseStudyEcommerceSEO />
-        <CaseStudyFinanceCourses />
-        <CaseStudyTravelFunnel />
-        <CaseStudySportingGoods />
-        <ReelsAndContent />
+        {bare && (
+          <>
+            <CaseStudyMetaAds />
+            <CaseStudyAIMetaGoogleAds />
+            <CaseStudyBlackCar />
+            <CaseStudyCoaching />
+            <CaseStudyHairClinic />
+            <CaseStudyPetBrand />
+            <CaseStudyEcommerceSEO />
+            <CaseStudyFinanceCourses />
+            <CaseStudyTravelFunnel />
+            <CaseStudySportingGoods />
+            <CaseStudySweetsBrand />
+            <CaseStudyLifestyleBrand />
+            <ReelsAndContent />
+          </>
+        )}
       </div>
     </section>
   );
