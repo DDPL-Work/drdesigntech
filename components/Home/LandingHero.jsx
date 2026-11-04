@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import Reveal from '@/components/ui/Reveal';
 import { openLeadModal } from '../../utils/events';
 
 const webIcon = '/assets/icons/web.svg';
@@ -25,12 +27,12 @@ const icons = {
 };
 
 const heroChips = [
-  ['web', 'Our website looks outdated', '/#services'],
-  ['erp', 'Operations run on spreadsheets', '/#services'],
-  ['app', 'We need our own app', '/#services'],
-  ['seo', "Customers can't find us online", '/#services'],
-  ['geo', 'We need maps & GIS data', '/#services'],
-  ['ask', 'Not sure yet? Help me choose', '/#contact'],
+  ['web', 'Our website looks outdated', '/reach-to-us?service=web#contact'],
+  ['erp', 'Operations run on spreadsheets', '/reach-to-us?service=erp#contact'],
+  ['app', 'We need our own app', '/reach-to-us?service=app#contact'],
+  ['seo', "Customers can't find us online", '/reach-to-us?service=seo#contact'],
+  ['geo', 'We need maps & GIS data', '/reach-to-us?service=geo#contact'],
+  ['ask', 'Not sure yet? Help me choose', '/reach-to-us?service=ask#contact'],
 ];
 
 const PM = [
@@ -262,16 +264,18 @@ function GlobeVisual() {
 
 function CapabilitiesMarquee() {
   return (
-    <div className="marquee" aria-label="Our capabilities">
-      <div className="marquee__track">
-        {[...capabilities, ...capabilities, ...capabilities, ...capabilities].map((item, idx) => (
-          <span key={idx} className="marquee__item" aria-hidden={idx >= capabilities.length}>
-            {item}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F5B82E" aria-hidden="true">
-              <path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" />
-            </svg>
-          </span>
-        ))}
+    <div className="w-full overflow-hidden">
+      <div className="marquee" aria-label="Our capabilities">
+        <div className="marquee__track">
+          {[...capabilities, ...capabilities, ...capabilities, ...capabilities].map((item, idx) => (
+            <span key={idx} className="marquee__item" aria-hidden={idx >= capabilities.length}>
+              {item}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#F5B82E" aria-hidden="true">
+                <path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" />
+              </svg>
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -281,14 +285,22 @@ const LandingHero = () => {
   return (
     <>
       <section id="top" className="hero relative overflow-hidden">
-        <div className="max-w-[1240px] mx-auto px-6 max-sm:px-[18px] flex flex-wrap items-center gap-10 max-sm:gap-[18px] pt-12 pb-20 max-sm:pb-10">
+        <div className="max-w-[1240px] mx-auto px-6 max-sm:px-[18px] flex flex-wrap items-center gap-10 max-sm:gap-6 pt-12 max-sm:pt-6 pb-20 max-sm:pb-10">
           {/* Left Copy */}
-          <div className="flex-1 basis-[520px] min-w-0 flex flex-col gap-6">
-            <h1 className="eyebrow hero__kicker inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]">
+          <div className="flex-1 basis-[520px] min-w-0 flex flex-col gap-6 order-2 md:order-1">
+            <Reveal
+              as="h1"
+              delay={0}
+              className="eyebrow hero__kicker inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]"
+            >
               Website, App &amp; Digital Marketing Company in Dehradun, India
-            </h1>
+            </Reveal>
 
-            <p className="m-0 font-extrabold text-[clamp(36px,4.8vw,62px)] max-sm:text-[36px] leading-[1.06] tracking-[-0.025em] text-[#0e1b2e]">
+            <Reveal
+              as="p"
+              delay={0.1}
+              className="m-0 font-extrabold text-[clamp(36px,4.8vw,62px)] max-sm:text-[36px] leading-[1.06] tracking-[-0.025em] text-[#0e1b2e]"
+            >
               Build smarter. Scale faster.{' '}
               <span className="relative whitespace-nowrap text-[#0b4db5]">
                 Succeed digitally.
@@ -310,21 +322,25 @@ const LandingHero = () => {
                   />
                 </svg>
               </span>
-            </p>
+            </Reveal>
 
-            <p className="text-[18px] max-w-[600px] text-[#3b4b60] leading-[1.75] m-0">
+            <Reveal
+              as="p"
+              delay={0.2}
+              className="text-[18px] max-w-[600px] text-[#3b4b60] leading-[1.75] m-0"
+            >
               We design high-converting websites, build mobile apps, ERP systems and AI chatbots, and run SEO and paid ads that bring in real enquiries — for startups, SMEs and government bodies across India and abroad.{' '}
               <b className="whitespace-nowrap">6+ years</b>,{' '}
               <b className="whitespace-nowrap">300+ projects</b> delivered.
-            </p>
+            </Reveal>
 
-            <div className="flex flex-col gap-3.5">
+            <Reveal delay={0.3} className="flex flex-col gap-3.5">
               <span className="text-[13px] font-bold text-[#5b6b80] uppercase tracking-wider">
                 What&apos;s holding your business back?
               </span>
               <div className="chips">
                 {heroChips.map(([iconName, text, href]) => (
-                  <a key={text} href={href} className="chip neu-s group">
+                  <Link key={text} href={href} className="chip neu-s group">
                     <span className="ci">
                       <img
                         src={icons[iconName]}
@@ -338,12 +354,12 @@ const LandingHero = () => {
                     <span className="chip__go" aria-hidden="true">
                       →
                     </span>
-                  </a>
+                  </Link>
                 ))}
               </div>
-            </div>
+            </Reveal>
 
-            <div className="flex flex-wrap items-center gap-3.5 max-sm:w-full">
+            <Reveal delay={0.4} className="flex flex-wrap items-center gap-3.5 max-sm:w-full">
               <button
                 type="button"
                 className="btn btn-glow btn-pulse max-sm:w-full"
@@ -355,9 +371,9 @@ const LandingHero = () => {
               <Link href="/know-that-what-work-we-do" className="btn btn-neu max-sm:w-full">
                 Our services
               </Link>
-            </div>
+            </Reveal>
 
-            <div className="trust flex flex-wrap items-center gap-4 text-[13.5px] text-[#5b6b80]">
+            <Reveal delay={0.5} className="trust flex flex-wrap items-center gap-4 text-[13.5px] text-[#5b6b80]">
               <span>
                 <b className="font-bold text-[#0e1b2e]">6+ years</b> in software engineering
               </span>
@@ -367,13 +383,18 @@ const LandingHero = () => {
               <span>
                 <b className="font-bold text-[#f5b82e]">★★★★★</b> Google reviews
               </span>
-            </div>
+            </Reveal>
           </div>
 
-          {/* Right Visual */}
-          <div className="flex-1 basis-[440px] min-w-0 flex justify-center py-5">
+          {/* Right Visual (Top on mobile, right on desktop) */}
+          <motion.div
+            className="flex-1 basis-[440px] min-w-0 flex justify-center py-5 max-sm:py-2 order-1 md:order-2"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
             <GlobeVisual />
-          </div>
+          </motion.div>
         </div>
       </section>
 

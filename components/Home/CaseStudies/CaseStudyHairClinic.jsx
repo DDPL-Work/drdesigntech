@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
 import AnimatedNumber from "./AnimatedNumber";
 
 const metaItems = [
@@ -62,15 +63,15 @@ export default function CaseStudyHairClinic() {
   return (
     <div className="cs ex-cs hr-cs" id="work-hair-clinic">
       <div className="head center text-center flex flex-col items-center gap-2">
-        <span className="eyebrow center self-center inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef8fa] text-[13px] font-bold text-[#0b4db5] shadow-[4px_4px_10px_rgba(20,84,120,0.12),-4px_-4px_10px_rgba(255,255,255,0.9)] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e]">
+        <Reveal as="span" className="eyebrow center self-center inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef8fa] text-[13px] font-bold text-[#0b4db5] shadow-[4px_4px_10px_rgba(20,84,120,0.12),-4px_-4px_10px_rgba(255,255,255,0.9)] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e]">
           Case study · PPC & Google Ads · Healthcare
-        </span>
-        <h2 className="h2 m-0 font-sans text-[clamp(28px,3.6vw,44px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
+        </Reveal>
+        <Reveal as="h2" className="h2 m-0 font-sans text-[clamp(28px,3.6vw,44px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
           <span className="hl text-[#0b4db5]">200+ qualified consults a month</span> for a hair transplant clinic
-        </h2>
-        <p className="lead m-0 text-base sm:text-[17px] text-[#5b6b80] max-w-[700px] leading-relaxed">
+        </Reveal>
+        <Reveal as="p" className="lead m-0 text-base sm:text-[17px] text-[#5b6b80] max-w-[700px] leading-relaxed">
           Clicks are cheap. Booked procedures are the only number that actually pays the surgeons — so we built the account around compliance, high-intent searches and a landing page made to convert.
-        </p>
+        </Reveal>
       </div>
 
       <div className="ex-meta">

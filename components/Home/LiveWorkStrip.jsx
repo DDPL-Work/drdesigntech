@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
 
 const projects = [
   {
@@ -106,12 +107,12 @@ export default function LiveWorkStrip() {
     >
       {/* Header matching design */}
       <div className="fx-strip__head wrap max-w-[1400px] mx-auto px-4 sm:px-[18px] text-center flex flex-col items-center gap-2 mb-[26px]">
-        <span className="eyebrow center self-center inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]">
+        <Reveal as="span" className="eyebrow center self-center inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]">
           Recently launched
-        </span>
-        <h2 className="h2 m-0 font-sans text-[clamp(30px,4vw,50px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
+        </Reveal>
+        <Reveal as="h2" className="h2 m-0 font-sans text-[clamp(30px,4vw,50px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e]">
           Live websites <span className="hl text-[#0b4db5]">built by Dr. Design</span>
-        </h2>
+        </Reveal>
       </div>
 
       {/* 3D Tilted Perspective Stage with dual continuous tracks */}

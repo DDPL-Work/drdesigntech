@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PageHero from '@/components/layout/PageHero';
 import CallToAction from '@/components/Home/CallToAction';
 import Newsletter from '@/components/Home/Newsletter';
+import { openWhatsApp } from '@/utils/whatsapp';
 
 const FAQS_DATA = [
   {
@@ -108,6 +109,7 @@ export default function FaqsPage() {
           href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={(e) => openWhatsApp("917217052558", "Hi Dr. Design, I have a question about your services.", e)}
           className="btn btn-sun"
         >
           <span>Ask on WhatsApp</span> <span className="arr">→</span>
@@ -230,6 +232,7 @@ export default function FaqsPage() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => openWhatsApp("917217052558", "Hi Dr. Design, I have a question about your services.", e)}
                 className="btn btn-blue"
               >
                 WhatsApp {PHONE_NUMBER}

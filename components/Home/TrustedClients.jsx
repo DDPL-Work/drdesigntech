@@ -1,3 +1,7 @@
+'use client';
+
+import Reveal from '@/components/ui/Reveal';
+
 const getClientLogo = (name) => `/assets/clients/${name}.png`;
 
 const clientsRow1 = [
@@ -73,24 +77,24 @@ function LogoRow({ items, reverse = false, speed = 46 }) {
 
 export default function TrustedClients() {
   return (
-    <section className="sec clients" aria-labelledby="clients-title">
+    <section className="sec clients overflow-hidden" aria-labelledby="clients-title">
       <div className="wrap" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
         <div className="head center">
-          <span className="eyebrow center">Our trusted clients</span>
-          <h2 id="clients-title" className="h2">
+          <Reveal as="span" className="eyebrow center">Our trusted clients</Reveal>
+          <Reveal as="h2" id="clients-title" className="h2">
             Trusted by <span className="hl">government bodies</span> and growing brands
-          </h2>
-          <p className="lead">
+          </Reveal>
+          <Reveal as="p" className="lead">
             From Uttarakhand government departments and NHPC to startups and global brands — websites, apps and campaigns across 300+ projects.
-          </p>
+          </Reveal>
         </div>
       </div>
 
-      <div className="logos">
+      <Reveal className="logos" delay={0.1}>
         <LogoRow items={clientsRow1} speed={92} />
         <LogoRow items={clientsRow2} speed={100} reverse />
         <LogoRow items={clientsRow3} speed={84} />
-      </div>
+      </Reveal>
     </section>
   );
 }

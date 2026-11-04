@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Reveal from '@/components/ui/Reveal';
+import { openWhatsApp } from '@/utils/whatsapp';
 
 const webIcon = '/assets/icons/web.svg';
 const appIcon = '/assets/icons/app.svg';
@@ -22,6 +24,32 @@ const needsOptions = [
   { label: 'Geospatial / GIS', icon: geoIcon },
   { label: 'Not sure yet', icon: askIcon }
 ];
+
+const serviceMap = {
+  web: 'Web Development',
+  website: 'Web Development',
+  'web-development': 'Web Development',
+  app: 'Mobile Apps',
+  mobile: 'Mobile Apps',
+  'mobile-apps': 'Mobile Apps',
+  erp: 'ERP / CRM',
+  crm: 'ERP / CRM',
+  'erp-crm': 'ERP / CRM',
+  seo: 'SEO & Ads',
+  ads: 'SEO & Ads',
+  'seo-ads': 'SEO & Ads',
+  social: 'Social Media & Ads',
+  'social-media': 'Social Media & Ads',
+  chat: 'AI Chatbots',
+  chatbot: 'AI Chatbots',
+  'ai-chatbots': 'AI Chatbots',
+  geo: 'Geospatial / GIS',
+  gis: 'Geospatial / GIS',
+  'geospatial-gis': 'Geospatial / GIS',
+  ask: 'Not sure yet',
+  notsure: 'Not sure yet',
+  'not-sure-yet': 'Not sure yet'
+};
 
 const checklistItems = ['30-min strategy call', 'In-depth audit', 'Growth roadmap'];
 
@@ -188,13 +216,13 @@ function GrowthDashboard() {
       </div>
 
       {/* Floating Badge A: SLA Guarantee (Bottom-Left) */}
-      <div className="gd__float gd__float--a neu-s absolute -left-3.5 -bottom-6 flex items-center gap-2.5 p-3 px-4 rounded-[18px] bg-[#eaf6f8] text-[14px] font-bold text-[#0e1b2e] z-[3] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] animate-[floatb_5s_ease-in-out_infinite] select-none">
+      <div className="gd__float gd__float--a neu-s absolute left-0 sm:-left-3.5 -bottom-6 flex items-center gap-2.5 p-3 px-4 rounded-[18px] bg-[#eaf6f8] text-[14px] font-bold text-[#0e1b2e] z-[3] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] animate-[floatb_5s_ease-in-out_infinite] select-none">
         <img src={chatIcon} alt="" className="w-[30px] h-[30px]" />
         Reply within one business day
       </div>
 
       {/* Floating Badge B: Team Availability (Top-Right) */}
-      <div className="gd__float gd__float--b neu-s absolute -right-4 -top-6 flex items-center gap-2.5 p-3 px-4 rounded-[18px] bg-[#eaf6f8] text-[13px] font-bold text-[#0e1b2e] z-[3] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] animate-[float_5s_ease-in-out_infinite] select-none">
+      <div className="gd__float gd__float--b neu-s absolute right-0 sm:-right-4 -top-6 flex items-center gap-2.5 p-3 px-4 rounded-[18px] bg-[#eaf6f8] text-[13px] font-bold text-[#0e1b2e] z-[3] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] animate-[float_5s_ease-in-out_infinite] select-none">
         <span className="gd__avatars flex">
           <i className="w-[30px] h-[30px] rounded-full border-2 border-[#eaf6f8] grid place-items-center text-white font-bold text-[12px] not-italic bg-[#0B4DB5]">
             D
@@ -219,6 +247,44 @@ export default function FreeConsultation() {
   const [selectedNeed, setSelectedNeed] = useState('Web Development');
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    const handleUrlParams = () => {
+      if (typeof window === 'undefined') return;
+
+      const searchParams = new URLSearchParams(window.location.search);
+      const serviceParam = searchParams.get('service') || searchParams.get('need');
+      const hashParam = window.location.hash.replace('#', '').toLowerCase();
+
+      const targetKey = (serviceParam || hashParam || '').toLowerCase();
+
+      if (targetKey && serviceMap[targetKey]) {
+        setSelectedNeed(serviceMap[targetKey]);
+
+        const scrollTarget = () => {
+          const formEl = document.getElementById('consultation-form') || document.getElementById('contact');
+          if (formEl) {
+            formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        };
+
+        scrollTarget();
+        const t1 = setTimeout(scrollTarget, 180);
+        const t2 = setTimeout(scrollTarget, 450);
+        return () => {
+          clearTimeout(t1);
+          clearTimeout(t2);
+        };
+      }
+    };
+
+    const cleanup = handleUrlParams();
+    window.addEventListener('hashchange', handleUrlParams);
+    return () => {
+      if (cleanup) cleanup();
+      window.removeEventListener('hashchange', handleUrlParams);
+    };
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -232,25 +298,30 @@ Service: ${selectedNeed}
 Name: ${name}
 Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${message}` : ''}`;
 
-    window.open(`${WHATSAPP_BASE}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    openWhatsApp('917217052558', text);
     setSubmitted(true);
   };
 
   return (
-    <section id="contact" className="sec contact relative py-14 max-sm:py-8" aria-label="Free consultation">
+    <section
+      id="contact"
+      className="sec contact relative py-14 max-sm:py-8 overflow-hidden"
+      style={{ scrollMarginTop: '110px' }}
+      aria-label="Free consultation"
+    >
       <div className="wrap flex flex-wrap gap-12 max-sm:gap-6">
         {/* Left Column: Side Info & Dashboard */}
         <div className="contact__side flex-[1_1_400px] min-w-0 flex flex-col gap-[22px]">
-          <span className="eyebrow">Free consultation</span>
-          <h2 className="h2 m-0 text-[clamp(30px,3.6vw,48px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e] font-['Plus_Jakarta_Sans',sans-serif]">
+          <Reveal as="span" className="eyebrow">Free consultation</Reveal>
+          <Reveal as="h2" className="h2 m-0 text-[clamp(30px,3.6vw,48px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e] font-['Plus_Jakarta_Sans',sans-serif]">
             Let&apos;s turn your next goal into <span className="text-[#0b4db5]">measurable growth.</span>
-          </h2>
-          <p className="lead m-0 text-[18px] max-sm:text-[16px] leading-[1.7] text-[#44546a]">
+          </Reveal>
+          <Reveal as="p" className="lead m-0 text-[18px] max-sm:text-[16px] leading-[1.7] text-[#44546a]">
             Share your goals with our team. We&apos;ll review where you stand and recommend the most useful next step.
-          </p>
+          </Reveal>
 
           {/* Checklist Feature Badges */}
-          <div className="row flex flex-wrap gap-3 items-center">
+          <Reveal className="row flex flex-wrap gap-3 items-center">
             {checklistItems.map((item) => (
               <span
                 key={item}
@@ -259,17 +330,20 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
                 {item}
               </span>
             ))}
-          </div>
+          </Reveal>
 
           {/* Growth Dashboard Graphic */}
-          <GrowthDashboard />
+          <Reveal>
+            <GrowthDashboard />
+          </Reveal>
 
           {/* Quick Contact Action Buttons */}
-          <div className="row flex flex-wrap gap-3 items-center mt-5 max-sm:mt-0">
+          <Reveal className="row flex flex-wrap gap-3 items-center mt-5 max-sm:mt-0">
             <a
               href={WHATSAPP_BASE}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => openWhatsApp('917217052558', '', e)}
               className="btn btn-neu inline-flex items-center justify-center gap-2.5 min-h-[52px] px-[26px] rounded-full font-['Plus_Jakarta_Sans',sans-serif] font-bold text-[15px] text-[#1E7A43] bg-[#eaf6f8] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:shadow-[10px_12px_24px_rgba(20,84,120,0.18),-8px_-8px_18px_rgba(255,255,255,0.95)] hover:-translate-y-0.5 transition-all duration-200"
             >
               WhatsApp us
@@ -280,11 +354,14 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
             >
               {PHONE_NUMBER}
             </a>
-          </div>
+          </Reveal>
         </div>
 
         {/* Right Column: Lead Form */}
-        <form
+        <Reveal
+          as="form"
+          id="consultation-form"
+          style={{ scrollMarginTop: '110px' }}
           className="form neu flex-[999_1_560px] min-w-0 p-[clamp(22px,4vw,40px)] flex flex-col gap-[22px] rounded-[34px] max-sm:rounded-[26px] bg-[#eaf6f8] shadow-[14px_14px_32px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.92)]"
           onSubmit={handleSubmit}
         >
@@ -384,7 +461,7 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
               </span>
             </button>
           </div>
-        </form>
+        </Reveal>
       </div>
     </section>
   );

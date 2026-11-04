@@ -7,7 +7,7 @@ const servicesList = [
   { name: 'ERP & CRM Solutions', href: '/know-that-what-work-we-do#erp' },
   { name: 'SEO & Google Ads', href: '/know-that-what-work-we-do#seo' },
   { name: 'Social Media & Ads', href: '/know-that-what-work-we-do#social' },
-  { name: 'Digital Transformation', href: '/know-that-what-work-we-do#chat' },
+  { name: 'AI Chatbots & Agents', href: '/know-that-what-work-we-do#chat' },
   { name: 'Geospatial Solutions', href: '/know-that-what-work-we-do#geo' }
 ];
 
@@ -210,7 +210,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="footer__bottom">
+        <div className="footer__bottom max-sm:pb-4">
           <span>© 2026 DR. DESIGN PVT. LTD. All rights reserved.</span>
           <span>Crafted with care in Dehradun, India.</span>
         </div>

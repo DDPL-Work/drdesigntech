@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
 
 const reelsData = [
   { v: "/assets/reels/reel-1.mp4", p: "/assets/reels/poster-1.jpg", t: "Chocolate Almonds", tag: "Product reel · FMCG" },
@@ -134,17 +135,17 @@ export default function ReelsAndContent() {
   };
 
   return (
-    <section className="rl" aria-labelledby="rl-title" ref={containerRef}>
+    <section className="rl overflow-hidden" aria-labelledby="rl-title" ref={containerRef}>
       <div className="head center text-center flex flex-col items-center gap-2">
-        <span className="eyebrow center self-center inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef8fa] text-[13px] font-bold text-[#0b4db5] shadow-[4px_4px_10px_rgba(20,84,120,0.12),-4px_-4px_10px_rgba(255,255,255,0.9)] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e]">
+        <Reveal as="span" className="eyebrow center self-center inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef8fa] text-[13px] font-bold text-[#0b4db5] shadow-[4px_4px_10px_rgba(20,84,120,0.12),-4px_-4px_10px_rgba(255,255,255,0.9)] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e]">
           Reels & content
-        </span>
-        <h2 id="rl-title" className="h2 m-0 font-sans text-[clamp(28px,3.6vw,44px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
+        </Reveal>
+        <Reveal as="h2" id="rl-title" className="h2 m-0 font-sans text-[clamp(28px,3.6vw,44px)] font-extrabold tracking-[-0.02em] text-[#0e1b2e] leading-tight">
           Scroll-stopping <span className="hl text-[#0b4db5]">reels we’ve created</span>
-        </h2>
-        <p className="lead m-0 text-base sm:text-[17px] text-[#5b6b80] max-w-[700px] leading-relaxed">
+        </Reveal>
+        <Reveal as="p" className="lead m-0 text-base sm:text-[17px] text-[#5b6b80] max-w-[700px] leading-relaxed">
           Product reels, explainers, brand films and animations made for Instagram, YouTube Shorts and ads. Drag to explore — tap a reel to hear it.
-        </p>
+        </Reveal>
       </div>
 
       <div
@@ -268,7 +269,7 @@ export default function ReelsAndContent() {
       </div>
 
       {/* Action Buttons */}
-      <div className="row flex flex-wrap justify-center gap-3 mt-4">
+      <Reveal className="row flex flex-wrap justify-center gap-3 mt-4">
         <Link href="/reach-to-us" className="btn btn-blue btn-glow">
           <span>Get reels for my brand</span> <span className="arr">→</span>
         </Link>
@@ -280,7 +281,7 @@ export default function ReelsAndContent() {
         >
           See more on Instagram ↗
         </a>
-      </div>
+      </Reveal>
     </section>
   );
 }

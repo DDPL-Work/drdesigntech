@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import PageHero from '@/components/layout/PageHero';
 import TopServices from '@/components/Home/TopServices';
@@ -7,6 +8,7 @@ import EngagePartners from '@/components/Home/EngagePartners';
 import HowWeWork from '@/components/Home/HowWeWork';
 import CallToAction from '@/components/Home/CallToAction';
 import Newsletter from '@/components/Home/Newsletter';
+import { openWhatsApp } from '@/utils/whatsapp';
 
 const WHATSAPP_URL = 'https://wa.me/917217052558';
 
@@ -140,6 +142,33 @@ const servicesList = [
 ];
 
 export default function ServicesPage() {
+  const scrollToService = useCallback((rawId, smooth = true) => {
+    if (!rawId) return;
+    const cleanId = rawId.replace('#', '').replace('services-', '');
+    const element = document.getElementById(cleanId) || document.getElementById(`services-${cleanId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        scrollToService(hash, true);
+      }
+    };
+
+    // Small delay to ensure DOM and images have mounted
+    const timer = setTimeout(handleHash, 200);
+    window.addEventListener('hashchange', handleHash);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('hashchange', handleHash);
+    };
+  }, [scrollToService]);
+
   return (
     <>
       {/* 1. Page Hero Banner Hf */}
@@ -164,7 +193,18 @@ export default function ServicesPage() {
           {/* Jump Navigation Bar */}
           <nav className="svc-jump" aria-label="Jump to a service">
             {servicesList.map((svc) => (
-              <a key={svc.id} href={`#services-${svc.id}`} className="svc-jump__a neu-s">
+              <a
+                key={svc.id}
+                href={`#${svc.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToService(svc.id, true);
+                  if (typeof window !== 'undefined' && window.history.pushState) {
+                    window.history.pushState(null, '', `#${svc.id}`);
+                  }
+                }}
+                className="svc-jump__a neu-s"
+              >
                 <img src={svc.icon} alt="" width="22" height="22" />
                 {svc.title}
               </a>
@@ -178,9 +218,17 @@ export default function ServicesPage() {
               return (
                 <article
                   key={svc.id}
-                  id={`services-${svc.id}`}
+                  id={svc.id}
+                  data-service-id={svc.id}
                   className={`svc-row${isRev ? ' svc-row--rev' : ''}`}
                 >
+                  {/* Alias anchor for backwards-compatibility with #services-${svc.id} */}
+                  <span
+                    id={`services-${svc.id}`}
+                    className="sr-only"
+                    aria-hidden="true"
+                    style={{ scrollMarginTop: 120 }}
+                  />
                   {/* Media Column */}
                   <div className="svc-row__media neu">
                     <img
@@ -230,6 +278,7 @@ export default function ServicesPage() {
                         href={WHATSAPP_URL}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => openWhatsApp("917217052558", `Hi Dr. Design, I have an enquiry about ${svc.title}.`, e)}
                         className="btn btn-neu"
                       >
                         Ask on WhatsApp

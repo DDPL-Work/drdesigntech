@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const seoIcon = '/assets/icons/seo.svg';
 const socialIcon = '/assets/icons/social.svg';
@@ -24,9 +25,15 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="pb-[70px]" aria-labelledby="nl-title">
+    <section className="pb-[70px] overflow-hidden" aria-labelledby="nl-title">
       <div className="wrap">
-        <div className="relative overflow-hidden isolate flex flex-wrap items-center justify-between gap-x-10 gap-y-5.5 p-7 sm:p-10 md:p-12 rounded-[32px] bg-white shadow-[18px_22px_44px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.9)]">
+        <motion.div
+          className="nl__panel relative overflow-hidden isolate flex flex-wrap items-center justify-between gap-x-10 gap-y-5.5 p-7 sm:p-10 md:p-12 rounded-[32px] bg-white shadow-[18px_22px_44px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.9)]"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           {/* Subtle Radial Gradient Background */}
           <div
             className="absolute inset-0 -z-10 pointer-events-none [background:radial-gradient(40%_80%_at_0%_0%,rgba(91,196,208,0.22),transparent_70%),radial-gradient(40%_90%_at_100%_100%,rgba(245,184,46,0.25),transparent_70%)]"
@@ -133,7 +140,7 @@ const Newsletter = () => {
               </button>
             </form>
           )}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

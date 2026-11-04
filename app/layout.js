@@ -30,14 +30,28 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('error', function(e) {
+                if (e && e.message && /Loading chunk .* failed|Failed to fetch dynamically imported module/i.test(e.message)) {
+                  if (!window.__chunkReloaded) {
+                    window.__chunkReloaded = true;
+                    window.location.reload();
+                  }
+                }
+              });
+            `,
+          }}
         />
       </head>
       <body>
-        <div className="flex flex-col min-h-screen">
+        <div className="site flex flex-col min-h-screen overflow-x-clip">
           <Navbar />
-          <main className="grow flex flex-col">
+          <main className="grow flex flex-col overflow-x-clip">
             {children}
           </main>
           <Footer />

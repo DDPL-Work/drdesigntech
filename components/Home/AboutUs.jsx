@@ -1,5 +1,9 @@
+'use client';
+
 import { useId } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import Reveal from '@/components/ui/Reveal';
 
 const webIcon = '/assets/icons/web.svg';
 const appIcon = '/assets/icons/app.svg';
@@ -308,10 +312,10 @@ export default function AboutUs() {
   const baseId = useId().replace(/:/g, '');
 
   return (
-    <section id="about" className="sec about">
+    <section id="about" className="sec about overflow-hidden">
       <div className="wrap">
         {/* Left Visual: ab-visual */}
-        <div className="ab-visual">
+        <Reveal className="ab-visual">
           <div className="ab-panel neu">
             <div className="ab-dots" aria-hidden="true" />
             <div className="ab-glow" aria-hidden="true" />
@@ -319,7 +323,15 @@ export default function AboutUs() {
             {/* Top 6 service bubbles */}
             <div className="ab-bubbles" aria-hidden="true">
               {bubbles.map(([sym, color], idx) => (
-                <span key={sym} className="ab-bubble" style={{ '--c': color }}>
+                <motion.span
+                  key={sym}
+                  className="ab-bubble"
+                  style={{ '--c': color }}
+                  initial={{ opacity: 0, scale: 0.4, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 + idx * 0.08, type: 'spring', stiffness: 220, damping: 14 }}
+                >
                   <span
                     className="ab-bubble__in"
                     style={{ animationDelay: `${idx * 0.35}s` }}
@@ -332,7 +344,7 @@ export default function AboutUs() {
                       className="w-[30px] h-[30px] object-contain"
                     />
                   </span>
-                </span>
+                </motion.span>
               ))}
             </div>
 
@@ -348,10 +360,14 @@ export default function AboutUs() {
               </svg>
               <span className="ab-pulse" aria-hidden="true" />
 
-              {serviceCards.map((card) => (
-                <div
+              {serviceCards.map((card, idx) => (
+                <motion.div
                   key={card.n}
                   className={`ab-card neu-s${card.off ? ' ab-card--off' : ''}`}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ delay: 0.15 + idx * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <span className="ab-card__icon">
                     <span className="ss-card__ring" />
@@ -378,7 +394,7 @@ export default function AboutUs() {
                   <span className="ab-card__go" aria-hidden="true">
                     →
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -414,23 +430,23 @@ export default function AboutUs() {
             <span className="ab-loc__dot" />
             Dehradun HQ · Delhi
           </div>
-        </div>
+        </Reveal>
 
         {/* Right Copy: about__copy */}
         <div className="about__copy">
-          <span className="eyebrow">About us</span>
-          <h2 className="h2">
+          <Reveal as="span" className="eyebrow">About us</Reveal>
+          <Reveal as="h2" className="h2">
             Bringing together <span className="hl">data, design</span> and digital tools
-          </h2>
-          <p className="lead">
+          </Reveal>
+          <Reveal as="p" className="lead">
             DR. DESIGN PVT. LTD. is a forward-thinking technology and consulting company specializing in IT Services, Digital Transformation and Geospatial Solutions. Founded on a strong foundation of technical expertise and government-backed credibility, we are expanding our services to Startups, SMEs, and growing businesses — helping them leverage cutting-edge tech to build smarter, scale faster, and succeed in the digital age.
-          </p>
-          <p className="lead">
+          </Reveal>
+          <Reveal as="p" className="lead">
             With a highly skilled workforce, deep domain expertise, and a client-centric approach, we bring together data, design, and digital tools to solve complex real-world problems.
-          </p>
+          </Reveal>
 
           {/* 3 Value Cards */}
-          <div className="ab-values">
+          <Reveal className="ab-values">
             {values.map((v) => (
               <div key={v.t} className="ab-value neu-s lift">
                 <span className="ab-value__icon">
@@ -445,17 +461,17 @@ export default function AboutUs() {
                 <span>{v.t}</span>
               </div>
             ))}
-          </div>
+          </Reveal>
 
           {/* Action Row */}
-          <div className="row">
+          <Reveal className="row">
             <Link href="/reach-to-us" className="btn btn-blue">
               Talk to our team <span className="arr" aria-hidden="true">→</span>
             </Link>
             <Link href="/work-we-have-done" className="btn btn-neu">
               See our work
             </Link>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

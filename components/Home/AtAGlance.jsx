@@ -1,6 +1,7 @@
 'use client';
 
 import { useId, useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 
 // Gradient and helper components for SVG icons
 const GoldGrad = ({ id }) => (
@@ -379,7 +380,7 @@ function AnimatedCounter({ to, suffix = '' }) {
 }
 
 // Interactive 3D Stat Card
-function StatCard({ icon, children, tone = 'light', href, fill = 0.7 }) {
+function StatCard({ icon, children, tone = 'light', href, delay = 0, fill = 0.7 }) {
   const [tilt, setTilt] = useState({ rotX: 0, rotY: 0, glareX: 50, glareY: 50 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -404,7 +405,7 @@ function StatCard({ icon, children, tone = 'light', href, fill = 0.7 }) {
     setIsHovered(true);
   };
 
-  const Tag = href ? 'a' : 'div';
+  const Tag = href ? motion.a : motion.div;
 
   return (
     <Tag
@@ -413,6 +414,10 @@ function StatCard({ icon, children, tone = 'light', href, fill = 0.7 }) {
       style={{
         transform: `perspective(900px) rotateX(${tilt.rotX}deg) rotateY(${tilt.rotY}deg)`,
       }}
+      initial={{ opacity: 0, y: 40, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -431,7 +436,12 @@ function StatCard({ icon, children, tone = 'light', href, fill = 0.7 }) {
       </span>
       <div className="ss-card__body">{children}</div>
       <span className="ss-card__bar" aria-hidden="true">
-        <span style={{ transform: `scaleX(${fill})` }} />
+        <motion.span
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: fill }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.6, delay: delay + 0.3, ease: [0.16, 1, 0.3, 1] }}
+        />
       </span>
     </Tag>
   );
@@ -555,7 +565,13 @@ const locationPlaces = [
 
 function OrbitCenterpiece() {
   return (
-    <div className="ss-orbit">
+    <motion.div
+      className="ss-orbit"
+      initial={{ opacity: 0, scale: 0.85 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+    >
       {/* Outer Rotating Ring A */}
       <div className="ss-orbit__ring ss-orbit__ring--a">
         <span />
@@ -619,31 +635,31 @@ function OrbitCenterpiece() {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function AtAGlance() {
   return (
-    <section className="sec ss" aria-label="Dr. Design at a glance">
+    <section className="sec ss overflow-hidden" aria-label="Dr. Design at a glance">
       <div className="max-w-[1240px] mx-auto px-6 max-sm:px-[18px] ss__grid">
         {/* Left Column (Stats 1-3) */}
         <div className="ss__col">
-          <StatCard icon={<TrophyIcon />} fill={0.55}>
+          <StatCard icon={<TrophyIcon />} delay={0} fill={0.55}>
             <div className="ss-num">
-              <AnimatedCounter to={5} suffix="+" /> <small>years</small>
+              <AnimatedCounter to={6} suffix="+" /> <small>years</small>
             </div>
             <div className="ss-label">In software engineering</div>
           </StatCard>
 
-          <StatCard icon={<ProjectsIcon />} fill={0.9}>
+          <StatCard icon={<ProjectsIcon />} delay={0.1} fill={0.9}>
             <div className="ss-num">
               <AnimatedCounter to={300} suffix="+" />
             </div>
             <div className="ss-label">Projects successfully completed</div>
           </StatCard>
 
-          <StatCard icon={<DigitalApproachIcon />} fill={1}>
+          <StatCard icon={<DigitalApproachIcon />} delay={0.2} fill={1}>
             <div className="ss-num">
               <AnimatedCounter to={360} suffix="°" />
             </div>
@@ -656,19 +672,19 @@ export default function AtAGlance() {
 
         {/* Right Column (Stats 4-6) */}
         <div className="ss__col">
-          <StatCard icon={<HQIcon />} fill={0.8}>
+          <StatCard icon={<HQIcon />} delay={0} fill={0.8}>
             <div className="ss-num ss-num--text">HQ in Dehradun</div>
             <div className="ss-label">Offices in Delhi &amp; Dehradun</div>
           </StatCard>
 
-          <StatCard icon={<SupportIcon />} fill={0.86}>
+          <StatCard icon={<SupportIcon />} delay={0.1} fill={0.86}>
             <div className="ss-num">
               <AnimatedCounter to={6} /> <small>days</small>
             </div>
             <div className="ss-label">Support every week, Mon–Sat · 10 AM–6 PM</div>
           </StatCard>
 
-          <StatCard icon={<GrowthPlanIcon />} tone="sun" href="/#contact" fill={1}>
+          <StatCard icon={<GrowthPlanIcon />} tone="sun" href="/#contact" delay={0.2} fill={1}>
             <div className="ss-num ss-num--cta">Free growth plan</div>
             <div className="ss-label ss-label--cta">
               Reply within one business day <span className="ss-arrow">→</span>

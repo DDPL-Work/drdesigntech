@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { openWhatsApp } from '@/utils/whatsapp';
 
 const INITIAL_BOT_MSG = {
   from: "bot",
@@ -10,16 +11,19 @@ const INITIAL_BOT_MSG = {
 };
 
 const SERVICES_CARDS = [
-  { n: "Websites", d: "Next.js, React, WordPress & custom web apps", price: "From ₹25k", href: "/know-that-what-work-we-do" },
-  { n: "Mobile Apps", d: "Flutter, React Native for iOS & Android", price: "From ₹45k", href: "/know-that-what-work-we-do" },
-  { n: "AI Chatbots", d: "Custom trained 24/7 web & WhatsApp bots", price: "From ₹15k", href: "/know-that-what-work-we-do" },
-  { n: "SEO & Ads", d: "Google Ads, Meta Ads & rank-1 SEO growth", price: "From ₹18k/mo", href: "/know-that-what-work-we-do" },
+  { n: "Websites", d: "Next.js, React, WordPress & custom web apps", price: "From ₹25k", href: "/know-that-what-work-we-do#web" },
+  { n: "Mobile Apps", d: "Flutter, React Native for iOS & Android", price: "From ₹45k", href: "/know-that-what-work-we-do#app" },
+  { n: "AI Chatbots", d: "Custom trained 24/7 web & WhatsApp bots", price: "From ₹15k", href: "/know-that-what-work-we-do#chat" },
+  { n: "ERP & CRM", d: "Custom ERP/CRM software built around workflow", price: "Custom", href: "/know-that-what-work-we-do#erp" },
+  { n: "SEO & Ads", d: "Google Ads, Meta Ads & rank-1 SEO growth", price: "From ₹18k/mo", href: "/know-that-what-work-we-do#seo" },
+  { n: "Social Media", d: "Instagram, Meta & LinkedIn growth campaigns", price: "From ₹15k/mo", href: "/know-that-what-work-we-do#social" },
+  { n: "GIS & Maps", d: "GIS mapping, digitisation & remote sensing", price: "Custom", href: "/know-that-what-work-we-do#geo" },
 ];
 
 const WORK_CARDS = [
   { n: "Slideit", d: "Fintech buy-now-pay-later credit tool", price: "Live", href: "/work-we-have-done" },
   { n: "Traveamer", d: "Travel management platform & SaaS", price: "Live", href: "/work-we-have-done" },
-  { n: "Mugafi", d: "IoT device tracking & billing automation", price: "Live", href: "/work-we-have-done" },
+  { n: "Mugafi", d: "AI screenwriting & IP ecosystem", price: "Live", href: "/work-we-have-done" },
   { n: "Rejoy Tours", d: "Meta Ads 1,420+ leads & 5.4x ROAS", price: "Case Study", href: "/work-we-have-done" },
 ];
 
@@ -46,6 +50,59 @@ export default function Chatbot() {
 
   const msgsEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Listen to external open event (e.g. from mobile bottom bar)
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener("dd-chat-open", handleOpen);
+    return () => window.removeEventListener("dd-chat-open", handleOpen);
+  }, []);
+
+  // Lock background scrolling on mobile screen when chatbot is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const isMobileView = () => window.innerWidth <= 640;
+
+    let originalBodyOverflow = "";
+    let originalHtmlOverflow = "";
+    let isLocked = false;
+
+    const lockScroll = () => {
+      if (isLocked) return;
+      originalBodyOverflow = document.body.style.overflow;
+      originalHtmlOverflow = document.documentElement.style.overflow;
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      isLocked = true;
+    };
+
+    const unlockScroll = () => {
+      if (!isLocked) return;
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      isLocked = false;
+    };
+
+    if (isMobileView()) {
+      lockScroll();
+    }
+
+    const handleResize = () => {
+      if (isMobileView()) {
+        lockScroll();
+      } else {
+        unlockScroll();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      unlockScroll();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isOpen]);
 
   // Auto-scroll on new messages
   useEffect(() => {
@@ -115,6 +172,7 @@ export default function Chatbot() {
         text: `Thank you, ${data.name?.split(" ")[0] || "there"}! ✅ Here’s a summary of your inquiry. Click below to deliver it directly to our team on WhatsApp or Email:`,
         lead: data,
         waUrl,
+        summaryText: summary,
         mailUrl,
         chips: ["Our services", "See our work"]
       },
@@ -234,7 +292,7 @@ export default function Chatbot() {
       {showNudge && !isOpen && (
         <button
           type="button"
-          className="cb-nudge"
+          className="cb-nudge max-sm:hidden"
           onClick={() => setIsOpen(true)}
         >
           <span
@@ -256,7 +314,7 @@ export default function Chatbot() {
       {/* Floating Launch FAB */}
       <button
         type="button"
-        className={`cb-launch ${isOpen ? "is-open" : ""}`}
+        className={`cb-launch max-sm:hidden ${isOpen ? "is-open" : ""}`}
         aria-label={isOpen ? "Close chat" : "Chat with us"}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
@@ -299,7 +357,16 @@ export default function Chatbot() {
 
       {/* Chat Window Panel */}
       {isOpen && (
-        <div className="cb" role="dialog" aria-label="Dr. Design AI Assistant">
+        <div
+          className="cb max-sm:fixed max-sm:inset-0 max-sm:w-full max-sm:h-[100dvh] max-sm:rounded-none max-sm:z-[120] overscroll-contain"
+          role="dialog"
+          aria-label="Dr. Design AI Assistant"
+          onTouchMove={(e) => {
+            if (window.innerWidth <= 640 && !e.target.closest('.cb-msgs')) {
+              if (e.cancelable) e.preventDefault();
+            }
+          }}
+        >
           {/* Header */}
           <div className="cb-head">
             <div className="cb-head__ava">
@@ -338,7 +405,7 @@ export default function Chatbot() {
           </div>
 
           {/* Messages */}
-          <div className="cb-msgs">
+          <div className="cb-msgs overscroll-contain">
             {messages.map((m, idx) => (
               <div
                 key={idx}
@@ -367,6 +434,21 @@ export default function Chatbot() {
                           <span>{card.price}</span>
                         </Link>
                       ))}
+                    </div>
+                  )}
+
+                  {/* Standalone WhatsApp Action */}
+                  {m.waUrl && !m.lead && (
+                    <div style={{ marginTop: 10 }}>
+                      <a
+                        href={m.waUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => openWhatsApp("917217052558", "Hi Dr. Design, I have an enquiry.", e)}
+                        className="cb-lead__wa inline-block"
+                      >
+                        Chat on WhatsApp →
+                      </a>
                     </div>
                   )}
 
@@ -404,6 +486,11 @@ export default function Chatbot() {
                         href={m.waUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => {
+                          const urlObj = new URL(m.waUrl, "https://wa.me");
+                          const text = urlObj.searchParams.get("text") || "";
+                          openWhatsApp("917217052558", text, e);
+                        }}
                         className="cb-lead__wa"
                       >
                         Send on WhatsApp →
@@ -459,6 +546,7 @@ export default function Chatbot() {
             <input
               ref={inputRef}
               type="text"
+              className="!text-[16px]"
               placeholder={leadState ? "Type your answer..." : "Ask a question..."}
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
@@ -481,6 +569,7 @@ export default function Chatbot() {
               href="https://wa.me/917217052558"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => openWhatsApp("917217052558", "", e)}
             >
               chat with a person on WhatsApp
             </a>
