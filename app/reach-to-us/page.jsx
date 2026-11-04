@@ -7,10 +7,7 @@ import Newsletter from "@/components/Home/Newsletter";
 import { openWhatsApp } from "@/utils/whatsapp";
 
 const MAPS_URL =
-  "https://www.google.com/maps/search/?api=1&query=" +
-  encodeURIComponent(
-    "11 East Canal Road, Near Survey Chowk, Dehradun 248001"
-  );
+  "https://maps.app.goo.gl/CLuEKcrimRnkSibNA";
 const WHATSAPP_URL =
   "https://wa.me/917217052558?text=Hi%20Dr.%20Design%2C%20I%20would%20like%20to%20discuss%20a%20project.";
 const PHONE_NUMBER = "+91 7217052558";
@@ -116,6 +113,68 @@ export default function ContactPage() {
 
       {/* Interactive Free Consultation Section */}
       <FreeConsultation />
+
+      {/* Office Map Location Section */}
+      <section className="sec pt-0 pb-12 sm:pb-16" aria-label="Our office location">
+        <div className="wrap max-w-[1320px] mx-auto px-4 sm:px-6">
+          <div className="p-4 sm:p-7 md:p-8 rounded-[28px] sm:rounded-[36px] bg-[#eaf6f8] shadow-[14px_18px_36px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.95)] border border-[#d8eaee]">
+            {/* Map Header */}
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-5 sm:mb-6">
+              <div className="flex flex-col gap-1.5">
+                <span className="inline-flex items-center gap-2 text-xs sm:text-[13px] font-bold text-[#0b4db5] uppercase tracking-wider">
+                  <span className="w-2 h-2 rounded-full bg-[#f5b82e] shadow-[0_0_0_3px_rgba(245,184,46,0.3)]" />
+                  Our Location
+                </span>
+                <h3 className="m-0 text-xl sm:text-2xl md:text-3xl font-extrabold text-[#0e1b2e]">
+                  Visit our office in Dehradun
+                </h3>
+                <p className="m-0 text-xs sm:text-sm md:text-base text-[#44546a]">
+                  Near Survey Chowk, 11 East Canal Road, Dehradun, Uttarakhand 248001
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <a
+                  href={MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-blue inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all"
+                >
+                  <span>Open in Google Maps</span>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 17L17 7M7 7h10v10" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Embedded Google Map */}
+            <div className="w-full overflow-hidden rounded-[20px] sm:rounded-[24px] shadow-inner border border-[#cbe1e6] bg-[#cfe5ea]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3188.2066983845975!2d78.05019947512162!3d30.328168405073182!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390929004980aa17%3A0x63e945299375e7cf!2sDr.%20Design%20Pvt.%20Ltd.!5e1!3m2!1sen!2sin!4v1793796260145!5m2!1sen!2sin"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Dr. Design Pvt. Ltd. on Google Maps"
+                className="w-full h-[320px] sm:h-[420px] md:h-[480px] block"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Newsletter */}
       <Newsletter />

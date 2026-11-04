@@ -123,11 +123,17 @@ export default function Footer() {
                   <path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" />
                   <circle cx="12" cy="9" r="2.5" />
                 </svg>
-                <span>
+                <a
+                  href="https://www.google.com/maps/place/Dr.+Design+Pvt.+Ltd./@30.3281684,78.0501995,17z/data=!3m1!4b1!4m6!3m5!1s0x390929004980aa17:0x63e945299375e7cf!8m2!3d30.3281684!4d78.0527744"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#0b4db5] transition-colors"
+                  aria-label="View Dr. Design Pvt. Ltd. on Google Maps"
+                >
                   Near Survey Chowk, 11 East Canal Road, Dehradun, Uttarakhand, 248001.
                   <br />
                   <small>Offices in Dehradun (HQ) &amp; Delhi</small>
-                </span>
+                </a>
               </li>
 
               <li>
