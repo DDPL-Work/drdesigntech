@@ -148,7 +148,7 @@ export default function CaseStudyBlackCar() {
       </Reveal>
 
       <Reveal className="cs__cta" style={{ justifyContent: "center" }}>
-        <Link href="/reach-to-us" className="btn btn-blue btn-glow">
+        <Link href="/reach-to-us?service=seo#contact" className="btn btn-blue btn-glow">
           <span>Grow my bookings</span> <span className="arr">→</span>
         </Link>
       </Reveal>

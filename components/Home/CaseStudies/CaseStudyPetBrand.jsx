@@ -275,7 +275,7 @@ export default function CaseStudyPetBrand() {
       </div>
 
       <div className="cs__cta" style={{ justifyContent: "center" }}>
-        <Link href="/reach-to-us" className="btn btn-blue btn-glow">
+        <Link href="/reach-to-us?service=seo#contact" className="btn btn-blue btn-glow">
           <span>Scale my store’s ROAS</span> <span className="arr">→</span>
         </Link>
       </div>

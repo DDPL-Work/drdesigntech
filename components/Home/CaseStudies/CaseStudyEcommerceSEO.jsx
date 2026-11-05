@@ -189,7 +189,7 @@ export default function CaseStudyEcommerceSEO() {
       </div>
 
       <div className="cs__cta" style={{ justifyContent: "center" }}>
-        <Link href="/reach-to-us" className="btn btn-blue btn-glow">
+        <Link href="/reach-to-us?service=seo#contact" className="btn btn-blue btn-glow">
           <span>Grow my organic traffic</span> <span className="arr">→</span>
         </Link>
       </div>
