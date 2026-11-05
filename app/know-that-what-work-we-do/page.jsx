@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState, useRef } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import PageHero from '@/components/layout/PageHero';
 import TopServices from '@/components/Home/TopServices';
 import EngagePartners from '@/components/Home/EngagePartners';
@@ -141,6 +142,136 @@ const servicesList = [
   }
 ];
 
+function ServiceCardRow({ svc, idx, isRev }) {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setImgLoaded(true);
+    }
+  }, []);
+
+  return (
+    <motion.article
+      id={svc.id}
+      data-service-id={svc.id}
+      className={`svc-row${isRev ? ' svc-row--rev' : ''}`}
+      initial={{ opacity: 0, y: 36 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Alias anchor for backwards-compatibility with #services-${svc.id} */}
+      <span
+        id={`services-${svc.id}`}
+        className="sr-only"
+        aria-hidden="true"
+        style={{ scrollMarginTop: 120 }}
+      />
+
+      {/* Media Column with Skeleton Shimmer Loading Animation */}
+      <motion.div
+        className="svc-row__media neu relative overflow-hidden"
+        initial={{ opacity: 0, scale: 0.95, x: isRev ? 24 : -24 }}
+        whileInView={{ opacity: 1, scale: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.12 }}
+        transition={{ duration: 0.65, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {/* Shimmer skeleton loader while image is loading */}
+        {!imgLoaded && (
+          <div
+            className="svc-row__skeleton"
+            aria-hidden="true"
+          />
+        )}
+
+        <img
+          ref={imgRef}
+          src={svc.pageImage || svc.image}
+          alt={`${svc.title} by Dr. Design`}
+          loading="lazy"
+          onLoad={() => setImgLoaded(true)}
+          className={`transition-opacity duration-500 ease-out relative z-[1] ${
+            imgLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
+        {!(svc.pageImage || svc.bakedQuote) && (
+          <motion.span
+            className="svc-row__quote z-[2]"
+            initial={{ opacity: 0, scale: 0.85, y: -6 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.25 }}
+          >
+            “{svc.quote}”
+          </motion.span>
+        )}
+
+        <motion.span
+          className="svc-row__icon z-[2]"
+          initial={{ scale: 0, rotate: -25 }}
+          whileInView={{ scale: 1, rotate: 0 }}
+          viewport={{ once: true }}
+          transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.2 }}
+        >
+          <img src={svc.icon} alt="" />
+        </motion.span>
+      </motion.div>
+
+      {/* Copy Column with Staggered Entrance Animation */}
+      <motion.div
+        className="svc-row__copy"
+        initial={{ opacity: 0, x: isRev ? -24 : 24 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.12 }}
+        transition={{ duration: 0.65, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <span className="eyebrow self-start">
+          {String(idx + 1).padStart(2, '0')} · Service
+        </span>
+        <h2
+          className="h2 m-0 font-sans font-extrabold text-[#0e1b2e] leading-tight"
+          style={{ fontSize: 'clamp(26px, 3vw, 38px)' }}
+        >
+          {svc.title}
+        </h2>
+        <p className="lead m-0 text-base sm:text-[17px] leading-[1.7] text-[#44546a]">
+          {svc.description}
+        </p>
+
+        <ul className="svc-pts">
+          {svc.pts.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
+
+        <div className="svc-tools">
+          {svc.tools.map((tool) => (
+            <span key={tool}>{tool}</span>
+          ))}
+        </div>
+
+        <div className="row flex flex-wrap items-center" style={{ gap: 12 }}>
+          <Link href={`/reach-to-us?service=${svc.id}#contact`} className="btn btn-blue">
+            <span>Get a free plan</span> <span className="arr" aria-hidden="true">→</span>
+          </Link>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => openWhatsApp("917217052558", `Hi Dr. Design, I have an enquiry about ${svc.title}.`, e)}
+            className="btn btn-neu"
+          >
+            Ask on WhatsApp
+          </a>
+        </div>
+      </motion.div>
+    </motion.article>
+  );
+}
+
 export default function ServicesPage() {
   const scrollToService = useCallback((rawId, smooth = true) => {
     if (!rawId) return;
@@ -191,7 +322,14 @@ export default function ServicesPage() {
           <h2 id="services-detail-heading" className="sr-only">Our Core Services Breakdown</h2>
 
           {/* Jump Navigation Bar */}
-          <nav className="svc-jump" aria-label="Jump to a service">
+          <motion.nav
+            className="svc-jump"
+            aria-label="Jump to a service"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
             {servicesList.map((svc) => (
               <a
                 key={svc.id}
@@ -209,85 +347,18 @@ export default function ServicesPage() {
                 {svc.title}
               </a>
             ))}
-          </nav>
+          </motion.nav>
 
-          {/* List of 7 Detailed Service Rows */}
+          {/* List of 7 Detailed Service Rows with Entrance & Loading Animations */}
           <div className="svc-list">
-            {servicesList.map((svc, idx) => {
-              const isRev = idx % 2 === 1;
-              return (
-                <article
-                  key={svc.id}
-                  id={svc.id}
-                  data-service-id={svc.id}
-                  className={`svc-row${isRev ? ' svc-row--rev' : ''}`}
-                >
-                  {/* Alias anchor for backwards-compatibility with #services-${svc.id} */}
-                  <span
-                    id={`services-${svc.id}`}
-                    className="sr-only"
-                    aria-hidden="true"
-                    style={{ scrollMarginTop: 120 }}
-                  />
-                  {/* Media Column */}
-                  <div className="svc-row__media neu">
-                    <img
-                      src={svc.pageImage || svc.image}
-                      alt={`${svc.title} by Dr. Design`}
-                      loading="lazy"
-                    />
-                    {!(svc.pageImage || svc.bakedQuote) && (
-                      <span className="svc-row__quote">
-                        “{svc.quote}”
-                      </span>
-                    )}
-                    <span className="svc-row__icon">
-                      <img src={svc.icon} alt="" />
-                    </span>
-                  </div>
-
-                  {/* Copy Column */}
-                  <div className="svc-row__copy">
-                    <span className="eyebrow self-start">
-                      {String(idx + 1).padStart(2, '0')} · Service
-                    </span>
-                    <h2
-                      className="h2 m-0 font-sans font-extrabold text-[#0e1b2e] leading-tight"
-                      style={{ fontSize: 'clamp(26px, 3vw, 38px)' }}
-                    >
-                      {svc.title}
-                    </h2>
-                    <p className="lead m-0 text-base sm:text-[17px] leading-[1.7] text-[#44546a]">
-                      {svc.description}
-                    </p>
-                    <ul className="svc-pts">
-                      {svc.pts.map((point) => (
-                        <li key={point}>{point}</li>
-                      ))}
-                    </ul>
-                    <div className="svc-tools">
-                      {svc.tools.map((tool) => (
-                        <span key={tool}>{tool}</span>
-                      ))}
-                    </div>
-                    <div className="row flex flex-wrap items-center" style={{ gap: 12 }}>
-                      <Link href={`/reach-to-us?service=${svc.id}#contact`} className="btn btn-blue">
-                        <span>Get a free plan</span> <span className="arr" aria-hidden="true">→</span>
-                      </Link>
-                      <a
-                        href={WHATSAPP_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => openWhatsApp("917217052558", `Hi Dr. Design, I have an enquiry about ${svc.title}.`, e)}
-                        className="btn btn-neu"
-                      >
-                        Ask on WhatsApp
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+            {servicesList.map((svc, idx) => (
+              <ServiceCardRow
+                key={svc.id}
+                svc={svc}
+                idx={idx}
+                isRev={idx % 2 === 1}
+              />
+            ))}
           </div>
         </div>
       </section>

@@ -7847,6 +7847,31 @@ h6,
   object-fit: cover;
   border-radius: 20px;
 }
+@keyframes shimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.svc-row__skeleton {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border-radius: 20px;
+  background: linear-gradient(
+    90deg,
+    #d9ebf0 0%,
+    #f4fbfd 50%,
+    #d9ebf0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.6s ease-in-out infinite;
+  z-index: 1;
+}
 .svc-row__quote {
   position: absolute;
   left: 26px;
