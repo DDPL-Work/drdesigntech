@@ -180,7 +180,7 @@ export default function ServicesPage() {
         intro="Websites, mobile apps, AI chatbots, ERP, search marketing and geospatial solutions — planned as one strategy for businesses across India."
         icons={['web', 'app', 'chat', 'erp', 'seo', 'social', 'ads', 'geo']}
       >
-        <Link href="/reach-to-us" className="btn btn-sun">
+        <Link href="/reach-to-us#contact" className="btn btn-sun">
           <span>Get a free plan</span> <span className="arr" aria-hidden="true">→</span>
         </Link>
       </PageHero>
@@ -271,7 +271,7 @@ export default function ServicesPage() {
                       ))}
                     </div>
                     <div className="row flex flex-wrap items-center" style={{ gap: 12 }}>
-                      <Link href="/reach-to-us" className="btn btn-blue">
+                      <Link href={`/reach-to-us?service=${svc.id}#contact`} className="btn btn-blue">
                         <span>Get a free plan</span> <span className="arr" aria-hidden="true">→</span>
                       </Link>
                       <a
