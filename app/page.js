@@ -18,7 +18,7 @@ import ReelsAndContent from "@/components/Home/ReelsAndContent";
 export const metadata = {
   title: "Website Design, App Development & Digital Marketing Agency | Dr. Design Technology",
   description:
-    "Dr. Design Technology (DDPL) is an ISO-certified IT services firm in Dehradun & Delhi offering custom web design, mobile app development, SEO, performance marketing, AI chatbots, and GIS solutions across India.",
+    "Dr. Design Technology (DDPL) is an IT services firm in Dehradun & Delhi offering custom web design, mobile app development, SEO, performance marketing, AI chatbots, and GIS solutions across India.",
   alternates: {
     canonical: "/",
   },
