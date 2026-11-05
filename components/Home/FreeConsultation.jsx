@@ -259,7 +259,9 @@ export default function FreeConsultation() {
 
       if (targetKey && serviceMap[targetKey]) {
         setSelectedNeed(serviceMap[targetKey]);
+      }
 
+      if ((targetKey && serviceMap[targetKey]) || hashParam === 'contact' || hashParam === 'consultation-form') {
         const scrollTarget = () => {
           const formEl = document.getElementById('consultation-form') || document.getElementById('contact');
           if (formEl) {
@@ -279,9 +281,11 @@ export default function FreeConsultation() {
 
     const cleanup = handleUrlParams();
     window.addEventListener('hashchange', handleUrlParams);
+    window.addEventListener('popstate', handleUrlParams);
     return () => {
       if (cleanup) cleanup();
       window.removeEventListener('hashchange', handleUrlParams);
+      window.removeEventListener('popstate', handleUrlParams);
     };
   }, []);
 
