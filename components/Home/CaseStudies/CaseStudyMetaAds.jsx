@@ -140,7 +140,7 @@ export default function CaseStudyMetaAds() {
           </figure>
 
           <div className="cs__cta">
-            <Link href="/reach-to-us" className="btn btn-blue btn-glow">
+            <Link href="/reach-to-us?service=social#contact" className="btn btn-blue btn-glow">
               <span>Get leads like this</span> <span className="arr">→</span>
             </Link>
           </div>

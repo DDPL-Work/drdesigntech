@@ -270,7 +270,7 @@ export default function ReelsAndContent() {
 
       {/* Action Buttons */}
       <Reveal className="row flex flex-wrap justify-center gap-3 mt-4">
-        <Link href="/reach-to-us" className="btn btn-blue btn-glow">
+        <Link href="/reach-to-us?service=social#contact" className="btn btn-blue btn-glow">
           <span>Get reels for my brand</span> <span className="arr">→</span>
         </Link>
         <a

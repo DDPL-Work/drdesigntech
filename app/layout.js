@@ -5,9 +5,55 @@ import Navbar from "@/components/layout/Navbar/Navbar";
 import { Toaster } from "sonner";
 
 export const metadata = {
-  title: "Dr. Design Technology — IT Services, Digital Transformation & Geospatial Solutions",
+  metadataBase: new URL("https://drdesigntech.com"),
+  title: {
+    default: "Dr. Design Technology - Website Design, App Development & Digital Marketing Agency",
+    template: "%s | Dr. Design Technology",
+  },
   description:
-    "DR.DESIGN TECH is a premier technology firm specializing in custom IT Services, GIS, and Digital Transformation.",
+    "Dr. Design Technology (DDPL) is an ISO-certified IT services firm in Dehradun & Delhi offering custom web design, mobile app development, SEO, performance marketing, AI chatbots, and GIS solutions across India.",
+  keywords: [
+    "website design company dehradun",
+    "mobile app development company",
+    "digital marketing agency dehradun",
+    "web development services india",
+    "custom software development",
+    "seo services india",
+    "erp crm development",
+    "ai chatbots",
+    "gis geospatial solutions",
+    "dr design technology",
+    "ddpl",
+  ],
+  authors: [{ name: "Dr. Design Technology", url: "https://drdesigntech.com" }],
+  creator: "Dr. Design Technology",
+  publisher: "Dr. Design Technology",
+  openGraph: {
+    title: "Dr. Design Technology - Website Design, App Development & Digital Marketing Agency",
+    description:
+      "Empowering businesses with custom web design, iOS/Android mobile apps, enterprise ERPs, and data-driven digital marketing.",
+    url: "https://drdesigntech.com",
+    siteName: "Dr. Design Technology",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dr. Design Technology - Website Design, App Development & Digital Marketing Agency",
+    description:
+      "Custom web development, mobile apps, enterprise ERPs, and performance marketing.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
