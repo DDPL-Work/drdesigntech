@@ -8234,3 +8234,29 @@ body.nav-open .fx-top {
     background: #fff !important;
   }
 }
+
+.crs-glance {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+.crs-glance div {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 18px -14px rgba(14, 27, 46, 0.35);
+}
+.crs-glance b {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink, #0e1b2e);
+}
+.crs-glance span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5b6b80;
+}

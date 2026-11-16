@@ -176,21 +176,29 @@ export default function CaseStudyEcommerceSEO() {
       {/* Proof */}
       <div className="co-proof">
         <span className="ex-label center">Proof · Google Search Console</span>
-        <figure className="cs__proof co-proof__map">
-          <img
-            src="/assets/work/ecommerce-seo-search-console.jpg"
-            alt="Search Console comparison: 33.8K clicks and 1.44M impressions in the last 6 months vs 3.02K and 108K in the previous 6 months"
-            loading="lazy"
-          />
-          <figcaption>
-            Search Console comparison: 33.8K clicks and 1.44M impressions in the last 6 months vs 3.02K and 108K in the previous 6 months
-          </figcaption>
-        </figure>
+        <div className="co-proof__pair">
+          <figure className="cs__proof">
+            <img
+              src="/assets/work/ecommerce-seo-search-console.jpg"
+              alt="Search Console comparison: 33.8K clicks and 1.44M impressions in the last 6 months vs 3.02K and 108K in the previous 6 months"
+              loading="lazy"
+            />
+            <figcaption>Search Console · last 6 months vs previous 6 months</figcaption>
+          </figure>
+          <figure className="cs__proof">
+            <img
+              src="/assets/work/ecommerce-seo-search-console-3m.jpg"
+              alt="Search Console last 3 months: 20.3K clicks, 923K impressions, 2.2% CTR, 12.3 average position"
+              loading="lazy"
+            />
+            <figcaption>Search Console · last 3 months: 20.3K clicks, 923K impressions</figcaption>
+          </figure>
+        </div>
       </div>
 
       <div className="cs__cta" style={{ justifyContent: "center" }}>
         <Link href="/reach-to-us?service=seo#contact" className="btn btn-blue btn-glow">
-          <span>Grow my organic traffic</span> <span className="arr">→</span>
+          <span>Grow your organic traffic</span> <span className="arr">→</span>
         </Link>
       </div>
     </div>

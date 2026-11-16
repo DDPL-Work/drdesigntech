@@ -15,6 +15,7 @@ import CaseStudyTravelFunnel from "./CaseStudies/CaseStudyTravelFunnel";
 import CaseStudySportingGoods from "./CaseStudies/CaseStudySportingGoods";
 import CaseStudyLifestyleBrand from "./CaseStudies/CaseStudyLifestyleBrand";
 import CaseStudySweetsBrand from "./CaseStudies/CaseStudySweetsBrand";
+import CaseStudyCourseLeads from "./CaseStudies/CaseStudyCourseLeads";
 import ReelsAndContent from "./ReelsAndContent";
 const slideitImg = "/assets/work/slideit.jpg";
 const traveamerImg = "/assets/work/traveamer.jpg";
@@ -25,6 +26,8 @@ const churchillSquareImg = "/assets/work/churchill-square.jpg";
 const gmsHealingImg = "/assets/work/gms-healing.jpg";
 const subhashIyerImg = "/assets/work/subhash-iyer.jpg";
 const toolWebMvpsImg = "/assets/work/tool-web-mvps.jpg";
+const implementalImg = "/assets/work/implemental.jpg";
+const herbiqrootsImg = "/assets/work/herbiqroots.jpg";
 
 const statusConfigMap = {
   Live: { c: "#1E9E52", bg: "#DDF5E6" },
@@ -177,6 +180,38 @@ const projectsData = [
     sym: "chart",
     bg: "#12407F",
     ring: "rgba(255,255,255,0.3)",
+    featured: true,
+  },
+  {
+    name: "Implemental",
+    client: "Industrial tools e-commerce · Chandigarh",
+    title: "Shopify store design & development",
+    overview:
+      "Complete design and development of a Shopify store for industrial and hardware tools — 2,400+ products from 40+ brands like Bosch, DEWALT and Taparia, with GST invoicing, bulk pricing for trade buyers and pan-India delivery.",
+    stack: ["Shopify", "UI/UX", "E-commerce", "2,400+ products"],
+    status: "Live",
+    url: "https://implemental.in/",
+    domain: "implemental.in",
+    image: implementalImg,
+    sym: "web",
+    bg: "#0E1B2E",
+    ring: "rgba(245,184,46,0.45)",
+    featured: true,
+  },
+  {
+    name: "Herbiqroots",
+    client: "Herbal hair & skin care · D2C",
+    title: "Shopify UI/UX redesign",
+    overview:
+      "UI and UX redesign of the Herbiqroots Shopify store — “Nature’s Science. Everyday Essentials.” — for herbal hair oil, shampoo, wooden combs and handmade soaps, with clearer product pages and a smoother path to checkout.",
+    stack: ["Shopify", "UI/UX redesign", "D2C"],
+    status: "Live",
+    url: "https://www.herbiqroots.com/",
+    domain: "herbiqroots.com",
+    image: herbiqrootsImg,
+    sym: "social",
+    bg: "#1E6B3A",
+    ring: "rgba(255,255,255,0.35)",
     featured: true,
   },
 ];
@@ -385,6 +420,7 @@ export default function OurWork({ bare = false }) {
             <CaseStudySportingGoods />
             <CaseStudySweetsBrand />
             <CaseStudyLifestyleBrand />
+            <CaseStudyCourseLeads />
             <ReelsAndContent />
           </>
         )}
