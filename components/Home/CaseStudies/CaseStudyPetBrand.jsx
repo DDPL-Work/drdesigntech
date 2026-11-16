@@ -6,39 +6,38 @@ import Reveal from "@/components/ui/Reveal";
 import AnimatedNumber from "./AnimatedNumber";
 
 const metaItems = [
-  ["Sector", "Pet accessories & care"],
-  ["Market", "Australia (Shopify)"],
-  ["Platforms", "Google Ads (PMax & Shopping) + Meta Ads"],
-  ["Engagement", "Growth Retainer · scaling profitably"],
+  ["Sector", "Pet accessories · Shopify store"],
+  ["Market", "Australia"],
+  ["Services", "Google Ads + Meta Ads"],
+  ["Started", "February 2026"],
 ];
 
 const topKpis = [
-  { to: 346.5, prefix: "$", suffix: "K", decimals: 1, label: "total online revenue (4 months)" },
-  { to: 5.12, suffix: "x", decimals: 2, label: "blended ROAS across all channels" },
-  { to: 2.34, suffix: "K", decimals: 2, label: "total purchases tracked" },
-  { to: 40, prefix: "+", suffix: "%", label: "Shopping CTR uplift in 3 weeks" },
+  { to: 346, prefix: "$", suffix: "K", label: "total revenue generated" },
+  { to: 5.12, suffix: "x", decimals: 2, label: "blended ROAS" },
+  { to: 2343, label: "total purchases" },
+  { to: 67.6, prefix: "$", suffix: "K", decimals: 1, label: "total ad spend" },
 ];
 
 const titleComparisons = [
-  ["“Deluxe Dog Collar”", "“Heavy-Duty Reflective Dog Collar with Quick-Release Buckle · Padded Neoprene”"],
-  ["“Puppy Harness Set”", "“No-Pull Breathable Mesh Dog Harness with Leash for Small Dogs”"],
-  ["“Pet Dematting Comb”", "“2-in-1 Undercoat Deshedding Tool for Shedding Dogs & Cats”"],
+  ["Dog Harness", "No-Pull Dog Harness for Medium Breeds, Reflective, Adjustable Chest Strap"],
+  ["Cat Collar", "Breakaway Cat Collar with Bell, Soft Nylon, Adjustable 8-12 Inch"],
 ];
 
 const scalingSteps = [
-  ["Category Isolation", "Collars & harnesses separated from grooming and apparel so budget flows to the actual bestsellers."],
-  ["Margin Tiering", "Products split by gross margin so high-margin SKUs can bid higher without sacrificing overall account profitability."],
-  ["Asset Group Relevance", "Every asset group built with category-specific copy and lifestyle images matching the landing collection."],
-  ["Signals & Audience Lists", "Customer lists segmented by 30/60/90-day purchasers fed into Performance Max as audience signals."],
+  ["High-margin hero products", "The top 20% of SKUs that drive 60% of revenue — largest budget allocation and target ROAS bidding set to 500%."],
+  ["Mid-range repeat-purchase accessories", "Replacement leads, grooming refills and seasonal bandanas — small orders, but strong customer lifetime value."],
+  ["Seasonal & trending products", "Time-sensitive budgets that scale up for Christmas, EOFY sales and National Pet Day, then pull back off-peak."],
+  ["New product launches", "Dedicated testing budget with lower ROAS expectations for 14 days, then graduated into the right campaign."],
 ];
 
 const googleRows = [
-  ["$251,032.48", "Total revenue"],
+  ["$251,091.85", "Total revenue"],
   ["1,380", "Purchases"],
-  ["6.89x", "Conversion value / cost"],
-  ["$36,448", "Ad spend"],
-  ["$181.91", "Avg. order value"],
-  ["$26.41", "Cost per purchase"],
+  ["6.89x", "ROAS"],
+  ["$36,400", "Ad spend"],
+  ["$181.95", "Avg. order value"],
+  ["$26.38", "Cost per purchase"],
 ];
 
 const metaRows = [
@@ -52,18 +51,25 @@ const metaRows = [
 
 const metaAdSets = [
   {
-    n: "Retargeting · DPA & website visitors",
-    tag: "Highest ROAS",
+    n: "Retargeting",
+    tag: "Top performer",
     roas: 7.72,
-    p: 261,
-    rev: "$26,708",
-    d: "Dynamic ads to past 30-day visitors and add-to-carts with testimonial overlays.",
+    p: 48,
+    rev: "$4,817",
+    d: "Dynamic product retargeting of items viewed in the last 30 days, with “frequently bought together” cross-sell creative.",
   },
   {
-    n: "Lookalike 1% · top purchasers",
-    roas: 3.53,
-    p: 108,
-    rev: "$9,408",
+    n: "Warm audience retargeting",
+    roas: 3.69,
+    p: 107,
+    rev: "$12,641",
+    d: "Social engagers and site visitors, reached with social-proof creative — reviews and customer photos.",
+  },
+  {
+    n: "Lookalike audiences",
+    roas: 3.07,
+    p: 106,
+    rev: "$9,208",
     d: "Seeded from the highest-LTV customers (3+ repeat orders) instead of all purchasers.",
   },
   {
@@ -209,7 +215,7 @@ export default function CaseStudyPetBrand() {
           <figure className="cs__proof">
             <img
               src="/assets/work/pet-brand-google-ads.jpg"
-              alt="Google Ads dashboard: $251K purchase value, 1.38K purchases, 6.89 conversion value per cost"
+              alt="Google Ads dashboard: $251K purchase value, 1.38K purchases, 6.89 conversion value per cost, $36.4K cost"
               loading="lazy"
             />
             <figcaption>Google Ads · 1 Jan – 30 Apr 2026</figcaption>
@@ -276,7 +282,7 @@ export default function CaseStudyPetBrand() {
 
       <div className="cs__cta" style={{ justifyContent: "center" }}>
         <Link href="/reach-to-us?service=seo#contact" className="btn btn-blue btn-glow">
-          <span>Scale my store’s ROAS</span> <span className="arr">→</span>
+          <span>Scale your store’s ROAS</span> <span className="arr">→</span>
         </Link>
       </div>
     </div>

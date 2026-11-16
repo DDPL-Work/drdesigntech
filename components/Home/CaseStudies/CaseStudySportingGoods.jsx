@@ -193,7 +193,7 @@ export default function CaseStudySportingGoods() {
 
       <div className="cs__cta" style={{ justifyContent: "center" }}>
         <Link href="/reach-to-us?service=seo#contact" className="btn btn-blue btn-glow">
-          <span>Grow my store’s ROAS</span> <span className="arr">→</span>
+          <span>Grow your store’s ROAS</span> <span className="arr">→</span>
         </Link>
       </div>
     </div>

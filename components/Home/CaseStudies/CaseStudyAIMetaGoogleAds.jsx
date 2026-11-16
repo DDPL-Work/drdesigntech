@@ -197,7 +197,7 @@ export default function CaseStudyAIMetaGoogleAds() {
 
       <Reveal className="cs__cta flex justify-center mt-6 sm:mt-8 w-full">
         <Link href="/reach-to-us?service=seo#contact" className="btn btn-blue btn-glow w-full max-w-[320px] sm:w-auto text-center justify-center">
-          <span>Plan my lead campaign</span> <span className="arr">→</span>
+          <span>Plan your lead campaign</span> <span className="arr">→</span>
         </Link>
       </Reveal>
     </div>

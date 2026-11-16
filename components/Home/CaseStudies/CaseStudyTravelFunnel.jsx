@@ -220,7 +220,7 @@ export default function CaseStudyTravelFunnel() {
 
       <div className="cs__cta" style={{ justifyContent: "center" }}>
         <Link href="/reach-to-us?service=seo#contact" className="btn btn-blue btn-glow">
-          <span>Build my travel funnel</span> <span className="arr">→</span>
+          <span>Build your travel funnel</span> <span className="arr">→</span>
         </Link>
       </div>
     </div>

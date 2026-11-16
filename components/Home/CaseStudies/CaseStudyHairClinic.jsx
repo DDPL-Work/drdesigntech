@@ -164,11 +164,11 @@ export default function CaseStudyHairClinic() {
         <figure className="cs__proof ex-shot">
           <img
             src="/assets/work/hair-clinic-google-ads.jpg"
-            alt="Google Ads dashboard: 232.32 conversions, 20.11% conversion rate, $29.11 cost per conversion"
+            alt="Google Ads dashboard: 232.32 conversions, 20.11% conversion rate, $29.11 cost per conversion, 4.23% CTR"
             loading="lazy"
           />
           <figcaption>
-            Live Google Ads reporting: 232.32 conversions, 20.11% conversion rate, $29.11 cost per conversion, 4.23% CTR. Clinic details hidden for privacy.
+            Live Google Ads reporting from 1 Mar 2026: 232 conversions at a 20.11% conversion rate, $29.11 cost per conversion and 4.23% CTR. Account details hidden for client privacy.
           </figcaption>
         </figure>
       </div>

@@ -9,6 +9,7 @@ import CallToAction from "@/components/Home/CallToAction";
 import Newsletter from "@/components/Home/Newsletter";
 import CaseStudySweetsBrand from "@/components/Home/CaseStudies/CaseStudySweetsBrand";
 import CaseStudyLifestyleBrand from "@/components/Home/CaseStudies/CaseStudyLifestyleBrand";
+import CaseStudyCourseLeads from "@/components/Home/CaseStudies/CaseStudyCourseLeads";
 import CaseStudySportingGoods from "@/components/Home/CaseStudies/CaseStudySportingGoods";
 import CaseStudyTravelFunnel from "@/components/Home/CaseStudies/CaseStudyTravelFunnel";
 import CaseStudyFinanceCourses from "@/components/Home/CaseStudies/CaseStudyFinanceCourses";

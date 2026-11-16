@@ -1,61 +1,35 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useInView, animate } from "framer-motion";
 
 export default function AnimatedNumber({
   to,
-  from = 0,
   prefix = "",
   suffix = "",
   decimals = 0,
-  duration = 1600,
+  duration = 1.6,
 }) {
-  const [count, setCount] = useState(from);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
-    let animId;
-    const durationMs = duration < 100 ? duration * 1000 : duration;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          const start = performance.now();
-          const step = (now) => {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / durationMs, 1);
-            // Cubic bezier ease-out curve matching design
-            const ease = 1 - Math.pow(1 - progress, 3);
-            setCount(ease * (to - from) + from);
-
-            if (progress < 1) {
-              animId = requestAnimationFrame(step);
-            } else {
-              setCount(to);
-            }
-          };
-          animId = requestAnimationFrame(step);
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      observer.disconnect();
-      if (animId) cancelAnimationFrame(animId);
-    };
-  }, [to, from, duration, hasAnimated]);
+    if (!isInView) return;
+    const target = typeof to === "number" ? to : parseFloat(to) || 0;
+    const dur = duration > 10 ? duration / 1000 : (duration || 1.6);
+    const controls = animate(0, target, {
+      duration: dur,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (latest) => setValue(latest),
+    });
+    return () => controls.stop();
+  }, [isInView, to, duration]);
 
   return (
     <span ref={ref}>
       {prefix}
-      {count.toLocaleString("en-IN", {
+      {value.toLocaleString("en-IN", {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
       })}
@@ -63,4 +37,3 @@ export default function AnimatedNumber({
     </span>
   );
 }
-

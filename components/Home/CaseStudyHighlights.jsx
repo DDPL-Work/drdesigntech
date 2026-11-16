@@ -121,7 +121,7 @@ export default function CaseStudyHighlights() {
               href="/work-we-have-done"
               className="btn btn-blue btn-glow group inline-flex items-center justify-center gap-2 px-7 min-h-[50px] rounded-full font-bold text-[15px] text-white"
             >
-              <span>See all 12 case studies</span>{" "}
+              <span>See all 13 case studies</span>{" "}
               <span
                 className="arr transition-transform duration-250 group-hover:translate-x-1"
                 aria-hidden="true"
