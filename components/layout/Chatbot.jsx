@@ -370,7 +370,7 @@ export default function Chatbot() {
           {/* Header */}
           <div className="cb-head">
             <div className="cb-head__ava">
-              <img src="/assets/bot-avatar.png" alt="Dr. Design" />
+              <img src="/assets/bot-avatar.png" alt="Dr. Design" loading="lazy" decoding="async" />
               <i aria-hidden="true" />
             </div>
             <div className="cb-head__t">
@@ -413,7 +413,7 @@ export default function Chatbot() {
               >
                 {m.from === "bot" && (
                   <div className="cb-ava">
-                    <img src="/assets/bot-avatar.png" alt="" />
+                    <img src="/assets/bot-avatar.png" alt="" loading="lazy" decoding="async" />
                   </div>
                 )}
                 <div className="cb-bubble">
@@ -523,7 +523,7 @@ export default function Chatbot() {
             {isTyping && (
               <div className="cb-msg cb-msg--bot">
                 <div className="cb-ava">
-                  <img src="/assets/bot-avatar.png" alt="" />
+                  <img src="/assets/bot-avatar.png" alt="" loading="lazy" decoding="async" />
                 </div>
                 <div className="cb-bubble cb-typing">
                   <i />

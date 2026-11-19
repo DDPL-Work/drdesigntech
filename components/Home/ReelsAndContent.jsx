@@ -196,12 +196,12 @@ export default function ReelsAndContent() {
               <div className="rl__phone">
                 <video
                   ref={(el) => (videoRefs.current[idx] = el)}
-                  src={item.v}
+                  src={inView && absOffset <= 1.5 ? item.v : undefined}
                   poster={item.p}
                   playsInline
                   muted={isMuted}
                   loop
-                  preload={absOffset <= 1.5 ? "auto" : "metadata"}
+                  preload={inView && isActive ? "auto" : "none"}
                   draggable={false}
                 />
                 {isActive && (

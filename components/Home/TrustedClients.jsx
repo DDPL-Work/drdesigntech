@@ -65,6 +65,8 @@ function LogoRow({ items, reverse = false, speed = 46 }) {
             <img
               src={getClientLogo(id)}
               alt={idx < items.length ? name : ''}
+              width={160}
+              height={60}
               loading="lazy"
               draggable="false"
             />

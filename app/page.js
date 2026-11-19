@@ -1,19 +1,21 @@
+import dynamic from "next/dynamic";
 import LandingHero from "@/components/Home/LandingHero";
 import AtAGlance from "@/components/Home/AtAGlance";
 import TrustedClients from "@/components/Home/TrustedClients";
 import AboutUs from "@/components/Home/AboutUs";
 import TopServices from "@/components/Home/TopServices";
 import HowWeWork from "@/components/Home/HowWeWork";
-import EngagePartners from "@/components/Home/EngagePartners";
 import LiveWorkStrip from "@/components/Home/LiveWorkStrip";
-import OurWork from "@/components/Home/OurWork";
-import CaseStudyHighlights from "@/components/Home/CaseStudyHighlights";
-import FreeConsultation from "@/components/Home/FreeConsultation";
-import GoogleReviews from "@/components/Home/GoogleReviews";
-import Faqs from "@/components/Home/Faqs";
-import CallToAction from "@/components/Home/CallToAction";
-import Newsletter from "@/components/Home/Newsletter";
-import ReelsAndContent from "@/components/Home/ReelsAndContent";
+
+const EngagePartners = dynamic(() => import("@/components/Home/EngagePartners"));
+const OurWork = dynamic(() => import("@/components/Home/OurWork"));
+const CaseStudyHighlights = dynamic(() => import("@/components/Home/CaseStudyHighlights"));
+const ReelsAndContent = dynamic(() => import("@/components/Home/ReelsAndContent"));
+const FreeConsultation = dynamic(() => import("@/components/Home/FreeConsultation"));
+const GoogleReviews = dynamic(() => import("@/components/Home/GoogleReviews"));
+const Faqs = dynamic(() => import("@/components/Home/Faqs"));
+const CallToAction = dynamic(() => import("@/components/Home/CallToAction"));
+const Newsletter = dynamic(() => import("@/components/Home/Newsletter"));
 
 export const metadata = {
   title: "Website Design, App Development & Digital Marketing Agency | Dr. Design Technology",

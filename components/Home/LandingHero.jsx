@@ -87,8 +87,10 @@ function GlobeVisual() {
 
   useEffect(() => {
     let animId;
+    let isVisible = true;
 
     const onFrame = () => {
+      if (!isVisible) return;
       if (!dragRef.current) {
         velYRef.current *= 0.94;
         rotYRef.current += velYRef.current + 0.25;
@@ -124,8 +126,23 @@ function GlobeVisual() {
       animId = requestAnimationFrame(onFrame);
     };
 
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(onFrame);
+      }
+    });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
     animId = requestAnimationFrame(onFrame);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(animId);
+    };
   }, []);
 
   const handlePointerDown = (e) => {
@@ -248,7 +265,7 @@ function GlobeVisual() {
                 <div className="spinr40">
                   <span className="pill neu-s">
                     <span className="ci">
-                      <img src={icons[m.sym]} alt="" width={20} height={20} className="w-5 h-5 object-contain pointer-events-none" />
+                      <img src={icons[m.sym]} alt="" width={20} height={20} loading="lazy" decoding="async" className="w-5 h-5 object-contain pointer-events-none" />
                     </span>
                     {m.label}
                   </span>
@@ -288,17 +305,13 @@ const LandingHero = () => {
         <div className="max-w-[1240px] mx-auto px-6 max-sm:px-[18px] flex flex-wrap items-center gap-10 max-sm:gap-6 pt-12 max-sm:pt-6 pb-20 max-sm:pb-10">
           {/* Left Copy */}
           <div className="flex-1 basis-[520px] min-w-0 flex flex-col gap-6 order-2 md:order-1">
-            <Reveal
-              as="h1"
-              delay={0}
+            <h1
               className="eyebrow hero__kicker inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#eef8fa] shadow-[5px_5px_12px_rgba(20,84,120,0.13),-5px_-5px_12px_rgba(255,255,255,0.95)] text-[13px] font-bold text-[#0b4db5] before:content-[''] before:w-2 before:h-2 before:rounded-full before:bg-[#f5b82e] before:shadow-[0_0_0_4px_rgba(245,184,46,0.25)]"
             >
               Website, App &amp; Digital Marketing Company in Dehradun, India
-            </Reveal>
+            </h1>
 
-            <Reveal
-              as="p"
-              delay={0.1}
+            <p
               className="m-0 font-extrabold text-[clamp(36px,4.8vw,62px)] max-sm:text-[36px] leading-[1.06] tracking-[-0.025em] text-[#0e1b2e]"
             >
               Build smarter. Scale faster.{' '}
@@ -322,17 +335,15 @@ const LandingHero = () => {
                   />
                 </svg>
               </span>
-            </Reveal>
+            </p>
 
-            <Reveal
-              as="p"
-              delay={0.2}
+            <p
               className="text-[18px] max-w-[600px] text-[#3b4b60] leading-[1.75] m-0"
             >
               We design high-converting websites, build mobile apps, ERP systems and AI chatbots, and run SEO and paid ads that bring in real enquiries — for startups, SMEs and government bodies across India and abroad.{' '}
               <b className="whitespace-nowrap">6+ years</b>,{' '}
               <b className="whitespace-nowrap">300+ projects</b> delivered.
-            </Reveal>
+            </p>
 
             <Reveal delay={0.3} className="flex flex-col gap-3.5">
               <span className="text-[13px] font-bold text-[#5b6b80] uppercase tracking-wider">
@@ -347,6 +358,8 @@ const LandingHero = () => {
                         alt=""
                         width={22}
                         height={22}
+                        loading="lazy"
+                        decoding="async"
                         className="w-[22px] h-[22px] object-contain pointer-events-none"
                       />
                     </span>

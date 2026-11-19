@@ -83,6 +83,8 @@ export default function PageHero({
                       aria-hidden="true"
                       width={26}
                       height={26}
+                      loading="lazy"
+                      decoding="async"
                       className="sym"
                       draggable="false"
                     />
@@ -97,6 +99,8 @@ export default function PageHero({
                 aria-hidden="true"
                 width={120}
                 height={120}
+                loading="lazy"
+                decoding="async"
                 className="sym"
                 draggable="false"
               />

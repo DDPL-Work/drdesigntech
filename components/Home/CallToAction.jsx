@@ -166,7 +166,7 @@ const CallToAction = () => {
                   }}
                 >
                   <span className="w-[58px] h-[58px] rounded-full grid place-items-center bg-white/95 shadow-[0_12px_24px_-8px_rgba(0,0,0,0.4)] [animation:spinr_30s_linear_infinite]">
-                    <img src={iconSrc} alt={name} className="w-7 h-7" />
+                    <img src={iconSrc} alt={name} loading="lazy" decoding="async" className="w-7 h-7" />
                   </span>
                 </span>
               ))}
@@ -177,13 +177,15 @@ const CallToAction = () => {
               <img
                 src={globeIcon}
                 alt="Globe"
+                loading="lazy"
+                decoding="async"
                 className="w-[150px] h-[150px] [filter:drop-shadow(0_24px_24px_rgba(0,0,0,0.4))]"
               />
             </div>
 
             {/* Floating Security Badge */}
             <div className="absolute -left-7.5 bottom-1.5 flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-white text-[#0e1b2e] shadow-[0_16px_30px_-12px_rgba(0,0,0,0.45)] animate-[floatBob_4.5s_ease-in-out_infinite_reverse]">
-              <img src={shieldIcon} alt="Shield" className="w-[26px] h-[26px] shrink-0" />
+              <img src={shieldIcon} alt="Shield" loading="lazy" decoding="async" className="w-[26px] h-[26px] shrink-0" />
               <span className="flex flex-col text-[13px] leading-tight text-left">
                 <b className="font-bold text-[#0e1b2e]">Trusted by</b>
                 <small className="text-[11.5px] text-[#5b6b80] font-semibold">

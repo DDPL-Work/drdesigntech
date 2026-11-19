@@ -1,8 +1,18 @@
 import "./globals.css";
-import FloatingActions from "@/components/layout/FloatingActions";
+import dynamic from "next/dynamic";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import Footer from "@/components/layout/Footer/Footer";
 import Navbar from "@/components/layout/Navbar/Navbar";
 import { Toaster } from "sonner";
+
+const FloatingActions = dynamic(() => import("@/components/layout/FloatingActions"));
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-plus-jakarta",
+});
 
 export const metadata = {
   metadataBase: new URL("https://drdesigntech.com"),
@@ -71,14 +81,13 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={plusJakartaSans.variable}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -94,7 +103,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body>
+      <body className={plusJakartaSans.className}>
         <div className="site flex flex-col min-h-screen overflow-x-clip">
           <Navbar />
           <main className="grow flex flex-col overflow-x-clip">
