@@ -242,7 +242,7 @@ function ServiceCard({ item, isActive, distance, reduceMotion }) {
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       >
-        <img src={item.icon} alt="" draggable="false" className="w-[58%] h-[58%] object-contain" />
+        <img src={item.icon} alt="" draggable="false" loading="lazy" decoding="async" className="w-[58%] h-[58%] object-contain" />
       </motion.div>
 
       <div className="cf-card__body pt-4 sm:pt-5.5 pb-2 px-1 sm:px-2 md:px-3 flex flex-col gap-2 sm:gap-2.5">

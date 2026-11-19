@@ -384,8 +384,8 @@ function ChainDialVisual() {
   const containerRef = useRef(null);
   const canvasHolderRef = useRef(null);
   const dialControllerRef = useRef(null);
+  const ticksRef = useRef(null);
 
-  const [yawDeg, setYawDeg] = useState(0);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -393,30 +393,46 @@ function ChainDialVisual() {
     if (!holder) return;
 
     let controller;
-    try {
-      controller = initChainLinkDial(holder, { reduceMotion: false });
-      dialControllerRef.current = controller;
+    let observer;
 
-      controller.onFrame((state) => {
-        setYawDeg(((state.yaw * 180) / Math.PI) * 0.35);
-      });
+    const startWebGL = () => {
+      if (controller) return;
+      try {
+        controller = initChainLinkDial(holder, { reduceMotion: false });
+        dialControllerRef.current = controller;
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          controller.setRunning(entry.isIntersecting);
-        },
-        { threshold: 0 }
-      );
-      observer.observe(holder);
+        controller.onFrame((state) => {
+          const deg = ((state.yaw * 180) / Math.PI) * 0.35;
+          if (ticksRef.current) {
+            ticksRef.current.style.transform = `rotate(${deg}deg)`;
+          }
+        });
+      } catch (err) {
+        console.warn('ChainLinkDial: WebGL initialization failed', err);
+      }
+    };
 
-      return () => {
-        observer.disconnect();
-        controller.dispose();
-        dialControllerRef.current = null;
-      };
-    } catch (err) {
-      console.warn('ChainLinkDial: WebGL initialization failed', err);
-    }
+    observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!controller) {
+            startWebGL();
+          } else {
+            controller.setRunning(true);
+          }
+        } else if (controller) {
+          controller.setRunning(false);
+        }
+      },
+      { rootMargin: '200px 0px' }
+    );
+    observer.observe(holder);
+
+    return () => {
+      observer.disconnect();
+      controller?.dispose();
+      dialControllerRef.current = null;
+    };
   }, []);
 
   const handlePointerDown = (e) => {
@@ -468,9 +484,9 @@ function ChainDialVisual() {
 
       {/* Rotating Dial Compass Ticks */}
       <svg
-        className="cl-dial__ticks absolute inset-[4%] w-[92%] h-[92%] pointer-events-none transition-transform duration-75"
+        ref={ticksRef}
+        className="cl-dial__ticks absolute inset-[4%] w-[92%] h-[92%] pointer-events-none"
         viewBox="0 0 200 200"
-        style={{ transform: `rotate(${yawDeg}deg)` }}
         aria-hidden="true"
       >
         {Array.from({ length: 72 }, (_, g) => {
@@ -531,7 +547,7 @@ function ChainDialVisual() {
               }}
             >
               <span className="cl-label__icon w-[clamp(30px,4vw,40px)] max-sm:w-[26px] max-sm:h-[26px] aspect-square rounded-full grid place-items-center bg-white shadow-[inset_2px_2px_5px_rgba(20,84,120,0.12)]">
-                <img src={item.icon} alt="" className="w-[66%] h-[66%]" draggable="false" />
+                <img src={item.icon} alt="" loading="lazy" decoding="async" className="w-[66%] h-[66%]" draggable="false" />
               </span>
               {item.text}
             </span>

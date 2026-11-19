@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build --webpack && powershell -Command \"if (Test-Path dist) { Remove-Item -Recurse -Force dist }; Copy-Item -Recurse -Force out dist; Remove-Item -Recurse -Force out\"",
+    "build": "next build --webpack && powershell -Command \"if (Test-Path dist) { Remove-Item -Recurse -Force dist }; Copy-Item -Recurse -Force out dist; Copy-Item -Force .htaccess dist\\.htaccess; Remove-Item -Recurse -Force out\"",
     "start": "next start",
     "lint": "eslint"
   },

@@ -265,6 +265,8 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
                     alt=""
                     width={22}
                     height={22}
+                    loading="lazy"
+                    decoding="async"
                     className="block drop-shadow-[0_8px_8px_rgba(11,77,181,0.18)]"
                   />
                 </span>
@@ -274,7 +276,7 @@ Service: ${selectedService}${note ? `\nDetails: ${note}` : ""}`;
 
           {/* Central Floating Globe */}
           <div className="absolute left-1/2 top-[40%] -ml-[55px] -mt-[55px] drop-shadow-[0_18px_18px_rgba(0,0,0,0.4)] max-[760px]:hidden">
-            <img src={globeSvg} alt="" width={110} height={110} className="block" />
+            <img src={globeSvg} alt="" width={110} height={110} loading="lazy" decoding="async" className="block" />
           </div>
 
           {/* Art Bottom Copy */}

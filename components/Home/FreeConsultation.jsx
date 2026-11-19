@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import Reveal from '@/components/ui/Reveal';
 import { openWhatsApp } from '@/utils/whatsapp';
 
@@ -57,7 +58,7 @@ const WHATSAPP_BASE = 'https://wa.me/917217052558';
 const PHONE_NUMBER = '+91 7217052558';
 const PHONE_HREF = 'tel:+917217052558';
 
-// Growth Dashboard Constants
+// Growth Dashboard Constants (1:1 with Design)
 const Bp = [
   [0, 78],
   [1, 70],
@@ -79,52 +80,60 @@ const kpiData = [
   { title: 'Traffic', icon: chartIcon, color: '#7AA9FF', spark: 'M0 18 L8 12 L16 13 L24 6 L32 5' }
 ];
 
+const easeCurve = [0.16, 1, 0.3, 1];
+
 function GrowthDashboard() {
   return (
-    <div className="gd neu relative p-3.5 mb-7 rounded-[28px] bg-[#eaf6f8] shadow-[14px_14px_32px_rgba(20,84,120,0.14),-12px_-12px_28px_rgba(255,255,255,0.92)] max-sm:hidden">
+    <div className="gd neu">
       {/* Dark Glossy Terminal Screen */}
-      <div className="gd__screen relative rounded-[20px] p-[22px] text-white bg-[radial-gradient(120%_90%_at_100%_0%,#183a6e,#0e1b2e_55%)] flex flex-col gap-4 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
+      <div className="gd__screen">
         {/* Header */}
-        <div className="gd__head flex justify-between items-center font-bold">
-          <span className="text-[14px] text-white/90">Your growth dashboard</span>
-          <span className="gd__live inline-flex items-center gap-1.5 text-[13px] text-[#9fe3ea] py-1 px-2.5 rounded-full bg-[#9fe3ea]/10 font-semibold">
-            <span className="live w-2 h-2 rounded-full bg-[#25aa5a] animate-[blink_1.4s_infinite]" />
+        <div className="gd__head">
+          <span className="ph">Your growth dashboard</span>
+          <span className="gd__live">
+            <span className="live" />
             Live
           </span>
         </div>
 
-        {/* 3 KPI Cards */}
-        <div className="gd__kpis grid grid-cols-3 gap-2.5">
-          {kpiData.map((kpi) => (
-            <div
+        {/* 3 KPI Cards with Staggered Entrance Animations */}
+        <div className="gd__kpis">
+          {kpiData.map((kpi, idx) => (
+            <motion.div
               key={kpi.title}
-              className="gd__kpi grid grid-cols-[auto_1fr] grid-rows-[auto_auto] gap-x-2 gap-y-1.5 items-center p-2.5 rounded-[14px] bg-white/[0.06] border border-white/[0.08]"
+              className="gd__kpi"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 + idx * 0.12, duration: 0.6, ease: easeCurve }}
             >
-              <span className="gd__kpi-ic w-[30px] h-[30px] rounded-[9px] grid place-items-center bg-white shadow-sm">
-                <img src={kpi.icon} alt="" className="w-5 h-5 select-none" draggable="false" />
+              <span className="gd__kpi-ic">
+                <img src={kpi.icon} alt="" width={18} height={18} loading="lazy" decoding="async" className="select-none" draggable="false" />
               </span>
-              <span className="gd__kpi-t text-[12.5px] font-bold text-[#dce8fa] flex justify-between items-center">
-                {kpi.title}
-                <b style={{ color: kpi.color }} className="ml-1 font-bold">
-                  ↑
-                </b>
+              <span className="gd__kpi-t">
+                <span>{kpi.title}</span>
+                <b style={{ color: kpi.color, marginLeft: 2 }}>↑</b>
               </span>
-              <svg viewBox="0 0 32 20" className="gd__spark col-span-2 w-full h-[22px]" aria-hidden="true">
-                <path
+              <svg viewBox="0 0 32 20" className="gd__spark" aria-hidden="true">
+                <motion.path
                   d={kpi.spark}
                   fill="none"
                   stroke={kpi.color}
                   strokeWidth="2.4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 + idx * 0.12, duration: 1.2, ease: easeCurve }}
                 />
               </svg>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* Chart Visualization */}
-        <div className="gd__chart relative h-[170px]">
+        {/* Chart Visualization with Staggered Drawing Animations */}
+        <div className="gd__chart">
           <svg
             viewBox={`0 0 ${chartWidth} ${chartHeight + 18}`}
             preserveAspectRatio="none"
@@ -147,9 +156,9 @@ function GrowthDashboard() {
               <line key={y} x1="0" x2={chartWidth} y1={y} y2={y} stroke="#ffffff" strokeOpacity="0.07" />
             ))}
 
-            {/* Month Vertical Volume Bars */}
+            {/* Month Vertical Volume Bars animating scaleY from bottom */}
             {Bp.map(([t, e]) => (
-              <rect
+              <motion.rect
                 key={t}
                 x={getX(t) - 9}
                 width="18"
@@ -158,20 +167,36 @@ function GrowthDashboard() {
                 height={chartHeight - e}
                 fill={t === 5 ? '#F5B82E' : t >= 3 ? '#1A5FD0' : '#2A4466'}
                 fillOpacity={t === 5 ? 0.35 : 0.45}
+                style={{ transformBox: 'fill-box', transformOrigin: 'bottom' }}
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 + t * 0.08, duration: 0.9, ease: easeCurve }}
               />
             ))}
 
-            {/* Area Fill */}
-            <path d={areaPath} fill="url(#gdArea)" />
+            {/* Area Fill fade in */}
+            <motion.path
+              d={areaPath}
+              fill="url(#gdArea)"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 1, duration: 0.8 }}
+            />
 
-            {/* Growth Line */}
-            <path
+            {/* Growth Line stroke drawing */}
+            <motion.path
               d={linePath}
               fill="none"
               stroke="url(#gdLine)"
               strokeWidth="3.4"
               strokeLinecap="round"
               strokeLinejoin="round"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 1.6, ease: easeCurve }}
             />
 
             {/* Data Dots */}
@@ -182,7 +207,7 @@ function GrowthDashboard() {
             {/* Month 6 Peak Active Indicator Dot with Ping */}
             <circle cx={getX(5)} cy={18} r="5" fill="#F5B82E" />
             <circle
-              className="gd__ping animate-[ssPing_1.8s_ease-out_infinite]"
+              className="gd__ping"
               cx={getX(5)}
               cy={18}
               r="5"
@@ -207,36 +232,36 @@ function GrowthDashboard() {
             </text>
           </svg>
 
-          {/* Floating Pill Tip */}
-          <span className="gd__tip absolute right-0 -top-1.5 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full bg-white text-[#0e1b2e] text-[12px] font-bold shadow-[0_10px_20px_rgba(0,0,0,0.25)] select-none">
-            <img src={chartIcon} alt="" className="w-4 h-4" />
+          {/* Floating Pill Tip with spring scale-in */}
+          <motion.span
+            className="gd__tip"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 2.1, type: 'spring', stiffness: 260, damping: 16 }}
+          >
+            <img src={chartIcon} alt="" width={16} height={16} loading="lazy" decoding="async" />
             Growing every month
-          </span>
+          </motion.span>
         </div>
       </div>
 
       {/* Floating Badge A: SLA Guarantee (Bottom-Left) */}
-      <div className="gd__float gd__float--a neu-s absolute left-0 sm:-left-3.5 -bottom-6 flex items-center gap-2.5 p-3 px-4 rounded-[18px] bg-[#eaf6f8] text-[14px] font-bold text-[#0e1b2e] z-[3] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] animate-[floatb_5s_ease-in-out_infinite] select-none">
-        <img src={chatIcon} alt="" className="w-[30px] h-[30px]" />
+      <div className="gd__float gd__float--a neu-s floatb">
+        <img src={chatIcon} alt="" width={30} height={30} loading="lazy" decoding="async" />
         Reply within one business day
       </div>
 
       {/* Floating Badge B: Team Availability (Top-Right) */}
-      <div className="gd__float gd__float--b neu-s absolute right-0 sm:-right-4 -top-6 flex items-center gap-2.5 p-3 px-4 rounded-[18px] bg-[#eaf6f8] text-[13px] font-bold text-[#0e1b2e] z-[3] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] animate-[float_5s_ease-in-out_infinite] select-none">
-        <span className="gd__avatars flex">
-          <i className="w-[30px] h-[30px] rounded-full border-2 border-[#eaf6f8] grid place-items-center text-white font-bold text-[12px] not-italic bg-[#0B4DB5]">
-            D
-          </i>
-          <i className="w-[30px] h-[30px] -ml-2 rounded-full border-2 border-[#eaf6f8] grid place-items-center text-white font-bold text-[12px] not-italic bg-[#2A8693]">
-            D
-          </i>
-          <i className="w-[30px] h-[30px] -ml-2 rounded-full border-2 border-[#eaf6f8] grid place-items-center text-[#0E1B2E] font-bold text-[12px] not-italic bg-[#F5B82E]">
-            T
-          </i>
+      <div className="gd__float gd__float--b neu-s float">
+        <span className="gd__avatars">
+          <i style={{ background: '#0B4DB5' }}>D</i>
+          <i style={{ background: '#2A8693' }}>D</i>
+          <i style={{ background: '#F5B82E', color: '#0E1B2E' }}>T</i>
         </span>
         <span>
-          <b className="block text-[13px] font-bold text-[#0e1b2e]">Talk to an expert</b>
-          <small className="block font-semibold text-[11.5px] text-[#44546a]">Mon–Sat · 10 AM–6 PM</small>
+          <b>Talk to an expert</b>
+          <small>Mon–Sat · 10 AM–6 PM</small>
         </span>
       </div>
     </div>
@@ -318,7 +343,7 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
         <div className="contact__side flex-[1_1_400px] min-w-0 flex flex-col gap-[22px]">
           <Reveal as="span" className="eyebrow">Free consultation</Reveal>
           <Reveal as="h2" className="h2 m-0 text-[clamp(30px,3.6vw,48px)] leading-[1.12] font-extrabold tracking-[-0.02em] text-[#0e1b2e] font-['Plus_Jakarta_Sans',sans-serif]">
-            Let&apos;s turn your next goal into <span className="text-[#0b4db5]">measurable growth.</span>
+            Let&apos;s turn your next goal into <span className="hl text-[#0b4db5]">measurable growth.</span>
           </Reveal>
           <Reveal as="p" className="lead m-0 text-[18px] max-sm:text-[16px] leading-[1.7] text-[#44546a]">
             Share your goals with our team. We&apos;ll review where you stand and recommend the most useful next step.
@@ -329,7 +354,7 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
             {checklistItems.map((item) => (
               <span
                 key={item}
-                className="tick-pill neu-s inline-flex items-center gap-2 py-2.5 px-4 rounded-full font-semibold text-[14px] text-[#0e1b2e] bg-[#eaf6f8] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] before:content-['✓'] before:text-[#0b4db5] before:font-extrabold"
+                className="tick-pill neu-s"
               >
                 {item}
               </span>
@@ -359,6 +384,49 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
               {PHONE_NUMBER}
             </a>
           </Reveal>
+
+          {/* Social Pills matching 1:1 with design */}
+          <Reveal style={{ marginTop: 18 }}>
+            <div className="soc-pills">
+              <a
+                href="https://www.instagram.com/drdesigntechnology/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="soc-pill neu-s soc-pill--instagram"
+                aria-label="Dr. Design on Instagram"
+              >
+                <span className="soc-pill__ic">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                </span>
+                <span>
+                  <b>Instagram</b>
+                  <small>@drdesigntechnology</small>
+                </span>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/drdesignpvtltd/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="soc-pill neu-s soc-pill--linkedin"
+                aria-label="Dr. Design on LinkedIn"
+              >
+                <span className="soc-pill__ic">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="3" />
+                    <path d="M8 10.5V17M8 7.2v.1M12 17v-6.5M12 13.2a2.7 2.7 0 0 1 5 0V17" />
+                  </svg>
+                </span>
+                <span>
+                  <b>LinkedIn</b>
+                  <small>Dr. Design Pvt. Ltd.</small>
+                </span>
+              </a>
+            </div>
+          </Reveal>
         </div>
 
         {/* Right Column: Lead Form */}
@@ -383,13 +451,13 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
                     type="button"
                     className={`need neu-s flex flex-col items-center justify-center gap-2 min-h-[104px] p-3 py-3.5 rounded-[20px] border-2 cursor-pointer transition-all duration-250 font-['Plus_Jakarta_Sans',sans-serif] font-semibold text-[14px] leading-snug text-center ${
                       isActive
-                        ? 'border-[#f5b82e] text-[#0b4db5] ring-2 ring-[#0b4db5] ring-offset-2 ring-offset-[#eaf6f8] bg-[#eaf6f8] shadow-[inset_4px_4px_8px_rgba(20,84,120,0.12),inset_-4px_-4px_8px_#ffffff]'
+                        ? 'on border-[#f5b82e] text-[#0b4db5] ring-2 ring-[#0b4db5] ring-offset-2 ring-offset-[#eaf6f8] bg-[#eaf6f8] shadow-[inset_4px_4px_8px_rgba(20,84,120,0.12),inset_-4px_-4px_8px_#ffffff]'
                         : 'border-transparent text-[#0e1b2e] bg-[#eaf6f8] shadow-[6px_6px_14px_rgba(20,84,120,0.14),-6px_-6px_14px_rgba(255,255,255,0.92)] hover:-translate-y-0.5'
                     }`}
                     aria-pressed={isActive}
                     onClick={() => setSelectedNeed(opt.label)}
                   >
-                    <img src={opt.icon} alt="" className="w-[34px] h-[34px] select-none" draggable="false" />
+                    <img src={opt.icon} alt="" loading="lazy" decoding="async" className="w-[34px] h-[34px] select-none" draggable="false" />
                     {opt.label}
                   </button>
                 );
@@ -448,16 +516,20 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
 
           {/* WhatsApp Success Notice */}
           {submitted && (
-            <div className="sent p-[14px_16px] rounded-[14px] bg-[#ddf5e6] text-[#14532d] font-bold text-[14px] animate-in fade-in slide-in-from-top-2">
+            <motion.div
+              className="sent p-[14px_16px] rounded-[14px] bg-[#ddf5e6] text-[#14532d] font-bold text-[14px]"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
               Thanks! Press send in WhatsApp — our team replies within one business day.
-            </div>
+            </motion.div>
           )}
 
           {/* Submit Button */}
           <div>
             <button
               type="submit"
-              className="btn btn-blue shine group inline-flex items-center justify-center gap-2.5 min-h-[56px] px-[34px] rounded-full font-['Plus_Jakarta_Sans',sans-serif] font-bold text-[16px] text-white bg-[#0b4db5] shadow-[0_14px_26px_-12px_rgba(11,77,181,0.8),inset_0_1px_rgba(255,255,255,0.25)] hover:bg-[#083a88] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer max-sm:w-full"
+              className="btn btn-blue btn-glow group inline-flex items-center justify-center gap-2.5 min-h-[56px] px-[34px] rounded-full font-['Plus_Jakarta_Sans',sans-serif] font-bold text-[16px] text-white bg-[#0b4db5] shadow-[0_14px_26px_-12px_rgba(11,77,181,0.8),inset_0_1px_rgba(255,255,255,0.25)] hover:bg-[#083a88] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer max-sm:w-full"
             >
               Get my free plan{' '}
               <span className="arr transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
@@ -470,4 +542,3 @@ Phone: ${phone}${email ? `\nEmail: ${email}` : ''}${message ? `\nMessage: ${mess
     </section>
   );
 }
-

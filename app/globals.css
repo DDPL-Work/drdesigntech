@@ -9,8 +9,8 @@
   --color-brand-dark: #083a8a;
   --color-teal: #5bb8c2;
   --color-sun: #f5b82e;
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-jakarta: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-plus-jakarta), "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-jakarta: var(--font-plus-jakarta), "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 @property --ga {
@@ -8257,6 +8257,265 @@ body.nav-open .fx-top {
   display: block;
   margin-top: 2px;
   font-size: 12px;
+  font-weight: 600;
+  color: #5b6b80;
+}
+
+/* ==========================================================================
+   Growth Dashboard & Social Pills (1:1 with Design)
+   ========================================================================== */
+.gd {
+  position: relative;
+  padding: 14px;
+  margin-bottom: 30px;
+}
+.gd__screen {
+  position: relative;
+  border-radius: 20px;
+  padding: 22px;
+  color: #fff;
+  background: radial-gradient(120% 90% at 100% 0%, #183a6e, #0e1b2e 55%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+.gd__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+.gd__head .ph {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+.gd__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #9fe3ea;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(159, 227, 234, 0.1);
+  font-weight: 600;
+}
+.gd__live .live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #25aa5a;
+  display: inline-block;
+  animation: blink 1.4s infinite;
+}
+.gd__kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.gd__kpi {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 6px 8px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-width: 0;
+  box-sizing: border-box;
+}
+.gd__kpi-ic {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+.gd__kpi-ic img {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.gd__kpi-t {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #dce8fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 0;
+  white-space: nowrap;
+}
+.gd__kpi-t b {
+  font-size: 12px;
+  font-weight: 700;
+}
+.gd__spark {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 22px;
+  display: block;
+}
+.gd__chart {
+  position: relative;
+  height: 170px;
+}
+.gd__ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ssPing 1.8s ease-out infinite;
+}
+.gd__tip {
+  position: absolute;
+  right: 0;
+  top: -6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: #0e1b2e;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  user-select: none;
+}
+.gd__float {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #0e1b2e;
+  z-index: 3;
+  user-select: none;
+}
+.gd__float--a {
+  left: -14px;
+  bottom: -24px;
+}
+.gd__float--b {
+  right: -16px;
+  top: -26px;
+  font-size: 13px;
+}
+.gd__avatars {
+  display: flex;
+}
+.gd__avatars i {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  border: 2.5px solid #eaf6f8;
+  margin-left: -8px;
+  font-style: normal;
+}
+.gd__avatars i:first-child {
+  margin-left: 0;
+}
+
+@media (max-width: 900px) {
+  .gd__float--a {
+    left: 0;
+  }
+  .gd__float--b {
+    right: 0;
+  }
+}
+@media (max-width: 640px) {
+  .contact .gd {
+    display: none;
+  }
+}
+@media (max-width: 560px) {
+  .gd__kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+  .gd__kpi {
+    padding: 6px 6px;
+    gap: 4px 4px;
+    border-radius: 10px;
+  }
+  .gd__kpi-ic {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+  }
+  .gd__kpi-ic img {
+    width: 13px;
+    height: 13px;
+  }
+  .gd__kpi-t {
+    font-size: 10px;
+  }
+  .gd__kpi-t b {
+    font-size: 9.5px;
+  }
+}
+
+/* Social Pills */
+.soc-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.soc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px 10px 10px;
+  border-radius: 999px;
+  color: #0e1b2e;
+  text-decoration: none;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.soc-pill:hover {
+  transform: translateY(-2px);
+}
+.soc-pill__ic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  flex: none;
+}
+.soc-pill--instagram .soc-pill__ic {
+  background: linear-gradient(45deg, #f58529, #dd2a7b 50%, #8134af);
+}
+.soc-pill--linkedin .soc-pill__ic {
+  background: #0a66c2;
+}
+.soc-pill span:last-child {
+  display: flex;
+  flex-direction: column;
+}
+.soc-pill b {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0e1b2e;
+  line-height: 1.2;
+}
+.soc-pill small {
+  font-size: 11.5px;
   font-weight: 600;
   color: #5b6b80;
 }

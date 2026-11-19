@@ -66,7 +66,7 @@ const Newsletter = () => {
             className="hidden lg:grid absolute -z-10 w-14 h-14 rounded-[18px] place-items-center bg-[#eef8fa] shadow-[6px_8px_16px_rgba(20,84,120,0.14)] opacity-90 right-[22px] top-[18px] animate-[floatBob_4.5s_ease-in-out_infinite_reverse]"
             aria-hidden="true"
           >
-            <img src={seoIcon} alt="SEO" className="w-[30px] h-[30px]" />
+            <img src={seoIcon} alt="SEO" loading="lazy" decoding="async" className="w-[30px] h-[30px]" />
           </span>
 
           {/* 2: Social */}
@@ -74,7 +74,7 @@ const Newsletter = () => {
             className="hidden lg:grid absolute -z-10 w-14 h-14 rounded-[18px] place-items-center bg-[#eef8fa] shadow-[6px_8px_16px_rgba(20,84,120,0.14)] opacity-90 left-[38%] bottom-3.5 animate-[floatBob_5s_ease-in-out_infinite]"
             aria-hidden="true"
           >
-            <img src={socialIcon} alt="Social" className="w-[30px] h-[30px]" />
+            <img src={socialIcon} alt="Social" loading="lazy" decoding="async" className="w-[30px] h-[30px]" />
           </span>
 
           {/* 3: Ads */}
@@ -82,7 +82,7 @@ const Newsletter = () => {
             className="hidden lg:grid absolute -z-10 w-14 h-14 rounded-[18px] place-items-center bg-[#eef8fa] shadow-[6px_8px_16px_rgba(20,84,120,0.14)] opacity-90 right-[34%] bottom-2.5 animate-[floatBob_4.2s_ease-in-out_infinite_reverse]"
             aria-hidden="true"
           >
-            <img src={adsIcon} alt="Ads" className="w-[30px] h-[30px]" />
+            <img src={adsIcon} alt="Ads" loading="lazy" decoding="async" className="w-[30px] h-[30px]" />
           </span>
 
           {/* Copy Side */}

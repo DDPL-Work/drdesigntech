@@ -60,7 +60,7 @@ export default function CaseStudyMetaAds() {
           </div>
 
           <div className="cs__client">
-            <img src="/assets/clients/rejoy-tours.png" alt="Rejoy Tours" />
+            <img src="/assets/clients/rejoy-tours.png" alt="Rejoy Tours" loading="lazy" decoding="async" />
             <div>
               <b>Rejoy Tours</b>
               <small>Travel agency · International & domestic tours</small>

@@ -99,7 +99,7 @@ const StarRating = () => {
   }, []);
 
   return (
-    <span ref={ref} className="rv-stars inline-flex gap-0.5" aria-label="5 out of 5 stars">
+    <span ref={ref} role="img" className="rv-stars inline-flex gap-0.5" aria-label="5 out of 5 stars">
       {[0, 1, 2, 3, 4].map((t) => (
         <svg
           key={t}

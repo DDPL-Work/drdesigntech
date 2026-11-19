@@ -151,7 +151,7 @@ export function Brand({ dark = false }) {
   return (
     <Link href="/" className="brand">
       <span className="brand__logo">
-        <img src={logoImg} alt="Dr. Design Pvt. Ltd. logo" />
+        <img src={logoImg} alt="Dr. Design Pvt. Ltd. logo" width={38} height={38} fetchPriority="high" />
       </span>
       <span className="brand__name">
         <b style={dark ? { color: '#fff' } : undefined}>DR. DESIGN</b>

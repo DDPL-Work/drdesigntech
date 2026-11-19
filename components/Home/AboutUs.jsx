@@ -341,6 +341,8 @@ export default function AboutUs() {
                       alt=""
                       width={30}
                       height={30}
+                      loading="lazy"
+                      decoding="async"
                       className="w-[30px] h-[30px] object-contain"
                     />
                   </span>
@@ -455,6 +457,8 @@ export default function AboutUs() {
                     alt=""
                     width={30}
                     height={30}
+                    loading="lazy"
+                    decoding="async"
                     className="w-[30px] h-[30px] object-contain"
                   />
                 </span>

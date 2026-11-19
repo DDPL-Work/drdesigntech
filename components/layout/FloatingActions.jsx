@@ -1,13 +1,15 @@
 'use client';
 
+import dynamic from "next/dynamic";
 import { useState, useEffect } from 'react';
 import { openLeadModal } from "@/utils/events";
 import { openWhatsApp, DEFAULT_WHATSAPP_PHONE, isMobileDevice } from "@/utils/whatsapp";
-import LeadModal from "./LeadModal";
 import ScrollProgress from "./ScrollProgress";
 import BackToTop from "./BackToTop";
-import LiveToasts from "./LiveToasts";
-import Chatbot from "./Chatbot";
+
+const LeadModal = dynamic(() => import("./LeadModal"), { ssr: false });
+const LiveToasts = dynamic(() => import("./LiveToasts"), { ssr: false });
+const Chatbot = dynamic(() => import("./Chatbot"), { ssr: false });
 
 export default function FloatingActions() {
   const [isMobile, setIsMobile] = useState(false);
